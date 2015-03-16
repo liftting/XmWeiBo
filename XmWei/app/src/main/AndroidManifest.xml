@@ -8,9 +8,7 @@
         android:icon="@drawable/ic_launcher"
         android:theme="@style/AppTheme">
 
-        <activity
-            android:name=".ui.activity.XmSplashAct"
-            android:theme="@style/ActionBar">
+        <activity android:name=".ui.activity.XmSplashAct">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,9 +18,7 @@
 
         </activity>
 
-        <activity
-            android:name=".ui.activity.XmMainAct"
-            android:theme="@style/ActionBar">
+        <activity android:name=".ui.activity.XmMainAct">
 
 
         </activity>
