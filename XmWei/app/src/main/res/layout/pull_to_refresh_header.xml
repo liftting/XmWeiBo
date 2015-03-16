@@ -23,7 +23,7 @@
         <ImageView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:background="?listview_item_refresh_animation"
+            android:background="@drawable/refresh_dark"
             android:id="@+id/pull_to_refresh_image"
             android:visibility="visible" />
 

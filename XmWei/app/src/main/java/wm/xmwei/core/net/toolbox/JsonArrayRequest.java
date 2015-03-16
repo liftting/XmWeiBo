@@ -16,16 +16,15 @@
 
 package wm.xmwei.core.net.toolbox;
 
-import com.android.volley.NetworkResponse;
-import com.android.volley.ParseError;
-import com.android.volley.Response;
-import com.android.volley.Response.ErrorListener;
-import com.android.volley.Response.Listener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.UnsupportedEncodingException;
+
+import wm.xmwei.core.net.NetworkResponse;
+import wm.xmwei.core.net.ParseError;
+import wm.xmwei.core.net.Response;
 
 /**
  * A request for retrieving a {@link org.json.JSONArray} response body at a given URL.
@@ -38,7 +37,7 @@ public class JsonArrayRequest extends JsonRequest<JSONArray> {
      * @param listener Listener to receive the JSON response
      * @param errorListener Error listener, or null to ignore errors.
      */
-    public JsonArrayRequest(String url, Listener<JSONArray> listener, ErrorListener errorListener) {
+    public JsonArrayRequest(String url, Response.Listener<JSONArray> listener, Response.ErrorListener errorListener) {
         super(Method.GET, url, null, listener, errorListener);
     }
 

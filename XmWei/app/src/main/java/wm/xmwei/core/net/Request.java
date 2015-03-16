@@ -23,7 +23,7 @@ import android.os.Looper;
 import android.os.SystemClock;
 import android.text.TextUtils;
 
-import com.android.volley.VolleyLog.MarkerLog;
+import wm.xmwei.core.net.VolleyLog.MarkerLog;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -226,7 +226,7 @@ public abstract class Request<T> implements Comparable<Request<T>> {
                     @Override
                     public void run() {
                         mEventLog.add(tag, threadId);
-                        mEventLog.finish(this.toString());
+                        mEventLog.finish(((Object)this).toString());
                     }
                 });
                 return;

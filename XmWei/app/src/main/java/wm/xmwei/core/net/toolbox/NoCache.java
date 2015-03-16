@@ -16,7 +16,8 @@
 
 package wm.xmwei.core.net.toolbox;
 
-import com.android.volley.Cache;
+
+import wm.xmwei.core.net.Cache;
 
 /**
  * A cache that doesn't.

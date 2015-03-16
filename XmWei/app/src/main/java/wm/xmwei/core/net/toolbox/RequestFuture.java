@@ -16,14 +16,14 @@
 
 package wm.xmwei.core.net.toolbox;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import wm.xmwei.core.net.Request;
+import wm.xmwei.core.net.Response;
+import wm.xmwei.core.net.VolleyError;
 
 /**
  * A Future that represents a Volley request.
@@ -108,9 +108,9 @@ public class RequestFuture<T> implements Future<T>, Response.Listener<T>,
         }
 
         if (timeoutMs == null) {
-            wait(0);
+            ((Object)this).wait(0);
         } else if (timeoutMs > 0) {
-            wait(timeoutMs);
+            ((Object)this).wait(timeoutMs);
         }
 
         if (mException != null) {
@@ -141,13 +141,13 @@ public class RequestFuture<T> implements Future<T>, Response.Listener<T>,
     public synchronized void onResponse(T response) {
         mResultReceived = true;
         mResult = response;
-        notifyAll();
+        ((Object)this).notifyAll();
     }
 
     @Override
     public synchronized void onErrorResponse(VolleyError error) {
         mException = error;
-        notifyAll();
+        ((Object)this).notifyAll();
     }
 }
 

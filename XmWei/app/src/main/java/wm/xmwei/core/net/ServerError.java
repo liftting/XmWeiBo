@@ -16,8 +16,6 @@
 
 package wm.xmwei.core.net;
 
-import com.android.volley.NetworkResponse;
-import com.android.volley.VolleyError;
 
 /**
  * Indicates that the error responded with an error response.

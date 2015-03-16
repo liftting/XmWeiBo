@@ -16,13 +16,14 @@
 
 package wm.xmwei.core.net.toolbox;
 
-import com.android.volley.Cache;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.Response;
 
 import android.os.Handler;
 import android.os.Looper;
+
+import wm.xmwei.core.net.Cache;
+import wm.xmwei.core.net.NetworkResponse;
+import wm.xmwei.core.net.Request;
+import wm.xmwei.core.net.Response;
 
 /**
  * A synthetic request used for clearing the cache.
