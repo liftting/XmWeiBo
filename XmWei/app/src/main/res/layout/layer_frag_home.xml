@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/wm.xmwei"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dip"
+        android:id="@+id/rly_indicator_container">
+
+        <wm.xmwei.ui.view.indicator.PageSlidingIndicator
+            android:id="@+id/v_comment_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="#5f5f5f"
+            android:textSize="14sp"
+            app:indicatorHeight="2dip"
+            app:tabPaddingLeftRight="12dp"
+            app:isChangeTextSizeBig="true"
+            app:underlineColor="@color/actionbar_color" />
+
+        <TextView
+            android:id="@+id/tv_home_conver_griditem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/palevioletred"
+            android:textSize="16sp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp" />
+
+    </RelativeLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/v_comment_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rly_indicator_container" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rly_gridview_container"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_tip_item"
+            android:layout_width="match_parent"
+            android:layout_height="45dip"
+            android:text="this is text item"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:textColor="@color/black" />
+
+        <wm.xmwei.ui.view.dynagridview.DynamicGridView
+            android:id="@+id/v_drag_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tv_tip_item"
+            android:numColumns="3" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

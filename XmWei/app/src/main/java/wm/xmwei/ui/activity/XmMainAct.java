@@ -18,6 +18,8 @@ import android.widget.ListView;
 
 import wm.xmwei.R;
 import wm.xmwei.ui.fragment.XmCommentsFragment;
+import wm.xmwei.ui.fragment.XmHomeFragment;
+import wm.xmwei.ui.fragment.base.XmBaseFragment;
 import wm.xmwei.ui.view.ldrawer.ActionBarDrawerToggle;
 import wm.xmwei.ui.view.ldrawer.DrawerArrowDrawable;
 
@@ -31,6 +33,8 @@ public class XmMainAct extends BaseActivity {
 
     private View mDrawerMenu;
     private FrameLayout mContentContainer;
+
+    private XmBaseFragment mCurrentShowFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,13 +78,22 @@ public class XmMainAct extends BaseActivity {
     }
 
     private void initFragments() {
-        Fragment comments = getCommentsTimeLineFragment();
+        Fragment comments = getCommentsFragment();
+
+        Fragment homeFrag = getHomeFragment();
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//        if (!comments.isAdded()) {
+//            fragmentTransaction
+//                    .add(R.id.fly_content_container, comments, XmCommentsFragment.class.getName());
+//        }
+
         if (!comments.isAdded()) {
             fragmentTransaction
-                    .add(R.id.fly_content_container, comments, XmCommentsFragment.class.getName());
+                    .add(R.id.fly_content_container, homeFrag, XmHomeFragment.class.getName());
         }
+
+        mCurrentShowFragment = (XmBaseFragment) homeFrag;
 
         if (!fragmentTransaction.isEmpty()) {
             fragmentTransaction.commit();
@@ -89,7 +102,17 @@ public class XmMainAct extends BaseActivity {
 
     }
 
-    public XmCommentsFragment getCommentsTimeLineFragment() {
+    public XmHomeFragment getHomeFragment() {
+        XmHomeFragment fragment = ((XmHomeFragment) getSupportFragmentManager()
+                .findFragmentByTag(
+                        XmHomeFragment.class.getName()));
+        if (fragment == null) {
+            fragment = XmHomeFragment.newInstance(null);
+        }
+        return fragment;
+    }
+
+    public XmCommentsFragment getCommentsFragment() {
         XmCommentsFragment fragment = ((XmCommentsFragment) getSupportFragmentManager()
                 .findFragmentByTag(
                         XmCommentsFragment.class.getName()));
@@ -122,4 +145,15 @@ public class XmMainAct extends BaseActivity {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
+
+    @Override
+    public void onBackPressed() {
+
+        boolean isHandle = mCurrentShowFragment.handleBackPressed();
+        if (!isHandle) {
+            super.onBackPressed();
+        }
+
+    }
+
 }

@@ -39,4 +39,13 @@ public class XmBaseFragment extends FixedOnActivityResultBugFragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(false);
     }
+
+    /**
+     * 处理返回事件
+     * @return
+     */
+    public boolean handleBackPressed() {
+        return false;
+    }
+
 }
