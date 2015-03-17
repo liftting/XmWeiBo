@@ -24,6 +24,7 @@ import java.util.List;
 import wm.xmwei.R;
 import wm.xmwei.XmApplication;
 import wm.xmwei.ui.fragment.base.XmBaseFragment;
+import wm.xmwei.ui.fragment.base.XmHomeBaseFragment;
 import wm.xmwei.ui.view.dynagridview.BaseDynamicGridAdapter;
 import wm.xmwei.ui.view.dynagridview.DynamicGridView;
 import wm.xmwei.ui.view.indicator.PageSlidingIndicator;
@@ -45,7 +46,7 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
     private GridItemAdapter mGridItemAdapter;
     private List<String> mItemDatas = new ArrayList<String>();
 
-    private SparseArray<Fragment> mHomeChildFragments = new SparseArray<Fragment>();
+    private List<Fragment> mHomeChildFragments = new ArrayList<Fragment>();
     private boolean isBuildCategory = false;
 
     public static XmHomeFragment newInstance(Bundle bundle) {
@@ -76,15 +77,35 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
 
         initView(mainView);
 
+        buildHomeFragments();
+
         return mainView;
     }
 
     private void initView(View mainView) {
+
+        mHomeViewPager = (ViewPager) mainView.findViewById(R.id.v_home_pager);
+        mHomePageIndicator = (PageSlidingIndicator) mainView.findViewById(R.id.v_home_indicator);
+
         mRlyDragContainer = (RelativeLayout) mainView.findViewById(R.id.rly_gridview_container);
         mDragGridView = (DynamicGridView) mainView.findViewById(R.id.v_drag_gridview);
         mTvConvertItem = (TextView) mainView.findViewById(R.id.tv_home_conver_griditem);
 
+
         mTvConvertItem.setOnClickListener(this);
+    }
+
+    private void buildHomeFragments() {
+        mHomeChildFragments.add(createFragment(0));
+        mHomeChildFragments.add(createFragment(1));
+        mHomeChildFragments.add(createFragment(2));
+        mHomeChildFragments.add(createFragment(3));
+    }
+
+    private XmHomeBaseFragment createFragment(int type){
+        Bundle oneBundle = new Bundle();
+        oneBundle.putInt("home_fragment_key", type);
+        return XmHomeBaseFragment.newInstance(oneBundle);
     }
 
     // 分类数据构建
