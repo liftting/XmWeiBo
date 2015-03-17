@@ -23,6 +23,8 @@ import java.util.List;
 
 import wm.xmwei.R;
 import wm.xmwei.XmApplication;
+import wm.xmwei.ui.adapter.XmCommentsPagerAdapter;
+import wm.xmwei.ui.adapter.XmHomeFragmentAdapter;
 import wm.xmwei.ui.fragment.base.XmBaseFragment;
 import wm.xmwei.ui.fragment.base.XmHomeBaseFragment;
 import wm.xmwei.ui.view.dynagridview.BaseDynamicGridAdapter;
@@ -47,6 +49,7 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
     private List<String> mItemDatas = new ArrayList<String>();
 
     private List<Fragment> mHomeChildFragments = new ArrayList<Fragment>();
+    private List<String> mTagFragments = new ArrayList<String>();
     private boolean isBuildCategory = false;
 
     public static XmHomeFragment newInstance(Bundle bundle) {
@@ -100,9 +103,25 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
         mHomeChildFragments.add(createFragment(1));
         mHomeChildFragments.add(createFragment(2));
         mHomeChildFragments.add(createFragment(3));
+
+        mTagFragments.add(createTag(0));
+        mTagFragments.add(createTag(1));
+        mTagFragments.add(createTag(2));
+        mTagFragments.add(createTag(3));
+
+
+        String[] title = new String[]{"one", "two", "three", "four"};
+
+        mHomeViewPager.setAdapter(new XmHomeFragmentAdapter(getChildFragmentManager(), mHomeChildFragments, mTagFragments, title));
+        mHomePageIndicator.setViewPager(mHomeViewPager);
+
     }
 
-    private XmHomeBaseFragment createFragment(int type){
+    private String createTag(int type) {
+        return XmHomeBaseFragment.class.getName() + "_" + type;
+    }
+
+    private XmHomeBaseFragment createFragment(int type) {
         Bundle oneBundle = new Bundle();
         oneBundle.putInt("home_fragment_key", type);
         return XmHomeBaseFragment.newInstance(oneBundle);

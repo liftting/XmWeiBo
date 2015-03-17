@@ -12,17 +12,19 @@ public class XmHomeFragmentAdapter extends XmFragmentPagerAdapter {
 
     private List<Fragment> mFragmentList;
     private List<String> mTagList;
+    private String[] mTitle;
 
-    public XmHomeFragmentAdapter(FragmentManager fm, List<Fragment> dataList, List<String> tagList) {
+    public XmHomeFragmentAdapter(FragmentManager fm, List<Fragment> dataList, List<String> tagList, String[] title) {
         super(fm);
 
         mTagList = tagList;
         mFragmentList = dataList;
+        mTitle = title;
     }
 
     @Override
     protected String getTag(int position) {
-        return null;
+        return mTagList.get(position);
     }
 
     @Override
@@ -32,6 +34,11 @@ public class XmHomeFragmentAdapter extends XmFragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return mFragmentList.size();
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return mTitle[position];
     }
 }
