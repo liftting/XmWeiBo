@@ -6,13 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import wm.xmwei.R;
-import wm.xmwei.ui.fragment.base.BaseFragment;
+import wm.xmwei.ui.fragment.base.XmBaseFragment;
 
 /**
  *
  *
  */
-public class XmMenuFragment extends BaseFragment {
+public class XmMenuFragment extends XmBaseFragment {
 
 
     public static XmMenuFragment newInstance() {

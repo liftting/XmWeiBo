@@ -335,4 +335,11 @@
     <color name="link_pressed_background_color_light">#33B5E5</color>
     <color name="link_pressed_background_color_dark">#ff454545</color>
 
+
+    <!-- indicator -->
+    <color name="v_title_bg">#e63b53</color>
+    <color name="v_title_black_color">#333333</color>
+    <color name="tabblack">#5f5f5f</color>
+    <color name="background_tab_pressed">#6633B5E5</color>
+
 </resources>

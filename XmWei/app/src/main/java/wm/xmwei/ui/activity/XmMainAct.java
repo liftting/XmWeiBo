@@ -6,14 +6,18 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import wm.xmwei.R;
+import wm.xmwei.ui.fragment.XmCommentsFragment;
 import wm.xmwei.ui.view.ldrawer.ActionBarDrawerToggle;
 import wm.xmwei.ui.view.ldrawer.DrawerArrowDrawable;
 
@@ -26,6 +30,7 @@ public class XmMainAct extends BaseActivity {
     private boolean drawerArrowColor;
 
     private View mDrawerMenu;
+    private FrameLayout mContentContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +41,7 @@ public class XmMainAct extends BaseActivity {
         ab.setHomeButtonEnabled(true);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mContentContainer = (FrameLayout) findViewById(R.id.fly_content_container);
 
         mDrawerMenu = findViewById(R.id.navigation_drawer);
 
@@ -47,8 +53,8 @@ public class XmMainAct extends BaseActivity {
             }
         };
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-            drawerArrow, R.string.drawer_open,
-            R.string.drawer_close) {
+                drawerArrow, R.string.drawer_open,
+                R.string.drawer_close) {
 
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
@@ -63,6 +69,34 @@ public class XmMainAct extends BaseActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
+        initFragments();
+
+    }
+
+    private void initFragments() {
+        Fragment comments = getCommentsTimeLineFragment();
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        if (!comments.isAdded()) {
+            fragmentTransaction
+                    .add(R.id.fly_content_container, comments, XmCommentsFragment.class.getName());
+        }
+
+        if (!fragmentTransaction.isEmpty()) {
+            fragmentTransaction.commit();
+            getSupportFragmentManager().executePendingTransactions();
+        }
+
+    }
+
+    public XmCommentsFragment getCommentsTimeLineFragment() {
+        XmCommentsFragment fragment = ((XmCommentsFragment) getSupportFragmentManager()
+                .findFragmentByTag(
+                        XmCommentsFragment.class.getName()));
+        if (fragment == null) {
+            fragment = XmCommentsFragment.newInstance(null);
+        }
+        return fragment;
     }
 
     @Override
