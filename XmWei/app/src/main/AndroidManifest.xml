@@ -11,10 +11,19 @@
         <activity android:name=".ui.activity.XmSplashAct">
 
 
-
         </activity>
 
         <activity android:name=".ui.activity.XmMainAct">
+
+
+        </activity>
+
+        <activity android:name=".ui.activity.login.UserBingActivity">
+
+
+        </activity>
+
+        <activity android:name=".ui.activity.login.OAuthActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

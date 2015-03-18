@@ -1,6 +1,10 @@
 package wm.xmwei.ui.fragment;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -173,6 +177,17 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+//        try {
+//            PackageInfo packageInfo = mContext.getPackageManager()
+//                    .getPackageInfo("wm.xmwei", PackageManager.GET_SIGNATURES);
+//
+//            for (Signature signature : packageInfo.signatures) {
+//                System.out.print(signature.toCharsString());
+//            }
+//
+//        } catch (PackageManager.NameNotFoundException e) {
+//            e.printStackTrace();
+//        }
         if (!isBuildCategory) {
             buildCategoryData();
             isBuildCategory = true;

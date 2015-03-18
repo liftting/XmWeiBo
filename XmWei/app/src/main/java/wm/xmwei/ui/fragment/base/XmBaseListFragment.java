@@ -45,13 +45,13 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        mPullToRefreshListView.setOnRefreshListener(listViewOnRefreshListener);
-        mPullToRefreshListView.setOnLastItemVisibleListener(listViewOnLastItemVisibleListener);
-        mPullToRefreshListView.setOnScrollListener(listViewOnScrollListener);
-        mPullToRefreshListView.setOnItemClickListener(listViewOnItemClickListener);
-        mPullToRefreshListView.setOnPullEventListener(getPullEventListener());
-
-        createDataListAdapter();
+//        mPullToRefreshListView.setOnRefreshListener(listViewOnRefreshListener);
+//        mPullToRefreshListView.setOnLastItemVisibleListener(listViewOnLastItemVisibleListener);
+//        mPullToRefreshListView.setOnScrollListener(listViewOnScrollListener);
+//        mPullToRefreshListView.setOnItemClickListener(listViewOnItemClickListener);
+//        mPullToRefreshListView.setOnPullEventListener(getPullEventListener());
+//
+//        createDataListAdapter();
 
     }
 

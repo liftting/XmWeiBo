@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import wm.xmwei.R;
+import wm.xmwei.bean.DataListDomain;
 
 /**
  * this is home item fragment
@@ -46,6 +48,21 @@ public class XmHomeBaseFragment extends XmBaseListFragment {
         initView(containerView);
         initData();
         return containerView;
+    }
+
+    @Override
+    protected void createDataListAdapter() {
+
+    }
+
+    @Override
+    public DataListDomain getDataList() {
+        return null;
+    }
+
+    @Override
+    protected void onItemClick(AdapterView parent, View view, int position, long id) {
+
     }
 
     private void initView(View containView) {
