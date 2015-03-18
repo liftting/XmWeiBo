@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -24,16 +25,18 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.sina.weibo.sdk.exception.WeiboException;
-
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
 import wm.xmwei.R;
 import wm.xmwei.XmApplication;
+import wm.xmwei.bean.UserBingDomain;
+import wm.xmwei.bean.UserDomain;
 import wm.xmwei.core.debug.AppLogger;
 import wm.xmwei.core.lib.support.XmAsyncTask;
+import wm.xmwei.core.lib.support.error.WeiboException;
+import wm.xmwei.dao.login.OAuthDao;
 import wm.xmwei.ui.activity.BaseActivity;
 import wm.xmwei.ui.activity.XmMainAct;
 import wm.xmwei.util.URLHelper;
@@ -80,7 +83,7 @@ public class OAuthActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.actionbar_menu_oauthactivity, menu);
         refreshItem = menu.findItem(R.id.menu_refresh); // 添加选项actionBar
-
+        refresh();
         return true;
     }
 
@@ -150,7 +153,9 @@ public class OAuthActivity extends BaseActivity {
 
             // 这里如果成功，会进行回调到，我们在web配置的回调url
             if (url.startsWith(URLHelper.DIRECT_URL)) {
-                Toast.makeText(XmApplication.getInstance(), "授权成功了", Toast.LENGTH_SHORT).show();
+                handleRedirectUrl(view, url);
+                view.stopLoading();
+                return;
             }
             super.onPageStarted(view, url, favicon);
         }
@@ -167,6 +172,90 @@ public class OAuthActivity extends BaseActivity {
         }
 
 
+    }
+
+    private void handleRedirectUrl(WebView view, String url) {
+        Bundle values = Utility.parseUrl(url);
+        String error = values.getString("error");
+        String error_code = values.getString("error_code");
+
+        Intent intent = new Intent();
+        intent.putExtras(values);
+
+        if (error == null && error_code == null) {
+
+            String access_token = values.getString("access_token");
+            String expires_time = values.getString("expires_in");
+            setResult(RESULT_OK, intent);
+            new OAuthTask(this).execute(access_token, expires_time);
+        } else {
+            Toast.makeText(OAuthActivity.this, getString(R.string.you_cancel_login),
+                    Toast.LENGTH_SHORT).show();
+//            finish();
+        }
+    }
+
+    private static class OAuthTask extends AsyncTask<String, String, String> {
+
+        private WeiboException e;
+        private WeakReference<OAuthActivity> oAuthActivityWeakReference;
+
+        private OAuthTask(OAuthActivity activity) {
+            oAuthActivityWeakReference = new WeakReference<OAuthActivity>(activity);
+        }
+
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String token = params[0];
+            long expiresInSeconds = Long.valueOf(params[1]);
+
+            try {
+                UserDomain user = new OAuthDao(token).getOAuthUserInfo();
+                UserBingDomain account = new UserBingDomain();
+                account.setAccess_token(token);
+                account.setExpires_time(System.currentTimeMillis() + expiresInSeconds * 1000);
+                account.setInfo(user);
+
+                return "UserBingDomain";
+
+            } catch (WeiboException e) {
+                AppLogger.e(e.getError());
+                this.e = e;
+                cancel(true);
+                return null;
+            }
+        }
+
+        @Override
+        protected void onCancelled(String dbResult) {
+            super.onCancelled(dbResult);
+            OAuthActivity activity = oAuthActivityWeakReference.get();
+            if (activity == null) {
+                return;
+            }
+
+            if (e != null) {
+                Toast.makeText(activity, e.getError(), Toast.LENGTH_SHORT).show();
+            }
+            activity.webView.loadUrl(activity.getWeiboOAuthUrl());
+        }
+
+        @Override
+        protected void onPostExecute(String dbResult) {
+            OAuthActivity activity = oAuthActivityWeakReference.get();
+            if (activity == null) {
+                return;
+            }
+
+            Toast.makeText(activity, "dbResult",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
 
