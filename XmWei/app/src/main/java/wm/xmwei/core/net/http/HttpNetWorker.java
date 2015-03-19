@@ -24,7 +24,7 @@ import wm.xmwei.XmApplication;
 import wm.xmwei.core.debug.AppLogger;
 import wm.xmwei.core.lib.support.error.ErrorCode;
 import wm.xmwei.core.lib.support.error.XmWeiboException;
-import wm.xmwei.util.Utility;
+import wm.xmwei.util.XmUtils;
 
 /**
  *
@@ -68,7 +68,7 @@ public class HttpNetWorker {
         try {
 
             StringBuilder urlBuilder = new StringBuilder(urlStr);
-            urlBuilder.append("?").append(Utility.encodeUrl(param));
+            urlBuilder.append("?").append(XmUtils.encodeUrl(param));
             URL url = new URL(urlBuilder.toString());
 
             AppLogger.d("get request" + url);
@@ -125,7 +125,7 @@ public class HttpNetWorker {
             uRLConnection.connect();
 
             DataOutputStream out = new DataOutputStream(uRLConnection.getOutputStream());
-            out.write(Utility.encodeUrl(param).getBytes());
+            out.write(XmUtils.encodeUrl(param).getBytes());
             out.flush();
             out.close();
             return handleResponse(uRLConnection);
@@ -231,8 +231,8 @@ public class HttpNetWorker {
             e.printStackTrace();
             throw new XmWeiboException(errorStr, e);
         } finally {
-            Utility.closeSilently(is);
-            Utility.closeSilently(buffer);
+            XmUtils.closeSilently(is);
+            XmUtils.closeSilently(buffer);
             urlConnection.disconnect();
             globalContext = null;
         }
@@ -267,8 +267,8 @@ public class HttpNetWorker {
             e.printStackTrace();
             throw new XmWeiboException(errorStr, e);
         } finally {
-            Utility.closeSilently(is);
-            Utility.closeSilently(buffer);
+            XmUtils.closeSilently(is);
+            XmUtils.closeSilently(buffer);
             urlConnection.disconnect();
         }
     }

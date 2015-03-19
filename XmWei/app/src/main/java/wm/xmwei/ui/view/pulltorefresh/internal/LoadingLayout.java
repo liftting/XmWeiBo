@@ -38,7 +38,7 @@ import android.widget.TextView;
 import wm.xmwei.R;
 import wm.xmwei.ui.view.pulltorefresh.ILoadingLayout;
 import wm.xmwei.ui.view.pulltorefresh.PullToRefreshBase;
-import wm.xmwei.util.Utility;
+import wm.xmwei.util.XmUtils;
 
 
 @SuppressLint("ViewConstructor")
@@ -196,10 +196,10 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
     public final int getContentSize() {
         switch (mScrollDirection) {
             case HORIZONTAL:
-                return mInnerLayout.getWidth() > 0 ? mInnerLayout.getWidth() : Utility.dip2px(49);
+                return mInnerLayout.getWidth() > 0 ? mInnerLayout.getWidth() : XmUtils.dip2px(49);
             case VERTICAL:
             default:
-                return mInnerLayout.getHeight() > 0 ? mInnerLayout.getHeight() : Utility.dip2px(49);
+                return mInnerLayout.getHeight() > 0 ? mInnerLayout.getHeight() : XmUtils.dip2px(49);
         }
     }
 

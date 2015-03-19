@@ -16,7 +16,7 @@ public class URLHelper {
 
     public static final String APP_SECRET = "f2737bff457d320350892c1d761dcc51";
 
-    public static final String DIRECT_URL = Utility
+    public static final String DIRECT_URL = XmUtils
             .rot47("9EEADi^^2A:]H6:3@]4@>^@2FE9a^5672F=E]9E>=");
 
 

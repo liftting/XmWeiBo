@@ -3,21 +3,43 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/host_background">
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ly_user_bing"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="绑定"
-        android:id="@+id/btn_bing_user"
-        android:textSize="18sp"
+        android:background="@color/white"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:gravity="center">
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="bing"
+            android:id="@+id/btn_bing_user"
+            android:textSize="18sp"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_corner_btn" />
+
+    </LinearLayout>
 
     <ListView
         android:id="@+id/v_user_bing_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/btn_bing_user"></ListView>
+        android:layout_above="@+id/ly_user_bing"></ListView>
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/editText"
+        android:layout_above="@+id/ly_user_bing"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="84dp" />
 </RelativeLayout>
+

@@ -20,7 +20,7 @@ import wm.xmwei.core.lib.support.XmAsyncTask;
 /**
  * Created by wm on 15-3-16.
  */
-public class Utility {
+public class XmUtils {
 
     public static int dip2px(int dipValue) {
         float reSize = XmApplication.getInstance().getResources().getDisplayMetrics().density;

@@ -11,7 +11,7 @@ import wm.xmwei.bean.DataListDomain;
 import wm.xmwei.ui.fragment.base.XmBaseListFragment;
 
 /**
- * Created by wm on 15-3-17.
+ * Created by
  */
 public class XmCommentsToMeFragment extends XmBaseListFragment {
 
@@ -37,7 +37,11 @@ public class XmCommentsToMeFragment extends XmBaseListFragment {
 
     @Override
     protected void createDataListAdapter() {
-
+//        CommentListAdapter adapter = new CommentListAdapter(this,
+//                getList().getItemList(),
+//                getListView(), true, false);
+//        mBaseDataAdapter = adapter;
+//        mPullToRefreshListView.setAdapter(timeLineAdapter);
     }
 
     @Override

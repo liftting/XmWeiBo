@@ -32,7 +32,7 @@ import wm.xmwei.core.lib.support.error.XmWeiboException;
 import wm.xmwei.dao.login.OAuthDao;
 import wm.xmwei.ui.activity.BaseActivity;
 import wm.xmwei.util.URLHelper;
-import wm.xmwei.util.Utility;
+import wm.xmwei.util.XmUtils;
 
 /**
  * 网页的认证
@@ -126,7 +126,7 @@ public class OAuthActivity extends BaseActivity {
         parameters.put("response_type", "token");
         parameters.put("redirect_uri", URLHelper.DIRECT_URL);
         parameters.put("display", "mobile");
-        return URLHelper.URL_OAUTH2_ACCESS_AUTHORIZE + "?" + Utility.encodeUrl(parameters)
+        return URLHelper.URL_OAUTH2_ACCESS_AUTHORIZE + "?" + XmUtils.encodeUrl(parameters)
                 + "&scope=friendships_groups_read,friendships_groups_write";
     }
 
@@ -168,7 +168,7 @@ public class OAuthActivity extends BaseActivity {
     }
 
     private void handleRedirectUrl(WebView view, String url) {
-        Bundle values = Utility.parseUrl(url);
+        Bundle values = XmUtils.parseUrl(url);
         String error = values.getString("error");
         String error_code = values.getString("error_code");
 
