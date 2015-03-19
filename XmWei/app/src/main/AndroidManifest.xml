@@ -23,7 +23,7 @@
 
         </activity>
 
-        <activity android:name=".ui.activity.login.UserBingActivity">
+        <activity android:name=".ui.activity.login.XmUserBingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
