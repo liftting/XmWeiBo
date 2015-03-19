@@ -25,6 +25,8 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.sina.weibo.sdk.auth.WeiboAuth;
+
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
@@ -76,6 +78,7 @@ public class OAuthActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         webView.clearCache(true);
+
     }
 
     // 创建选项菜单时，回调操作
