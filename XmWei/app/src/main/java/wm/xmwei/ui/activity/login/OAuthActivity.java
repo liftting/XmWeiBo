@@ -2,16 +2,11 @@ package wm.xmwei.ui.activity.login;
 
 
 import android.app.ActionBar;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,22 +20,17 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.sina.weibo.sdk.auth.WeiboAuth;
-
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
 import wm.xmwei.R;
-import wm.xmwei.XmApplication;
 import wm.xmwei.bean.UserBingDomain;
 import wm.xmwei.bean.UserDomain;
 import wm.xmwei.core.debug.AppLogger;
-import wm.xmwei.core.lib.support.XmAsyncTask;
-import wm.xmwei.core.lib.support.error.WeiboException;
+import wm.xmwei.core.lib.support.error.XmWeiboException;
 import wm.xmwei.dao.login.OAuthDao;
 import wm.xmwei.ui.activity.BaseActivity;
-import wm.xmwei.ui.activity.XmMainAct;
 import wm.xmwei.util.URLHelper;
 import wm.xmwei.util.Utility;
 
@@ -200,7 +190,7 @@ public class OAuthActivity extends BaseActivity {
 
     private static class OAuthTask extends AsyncTask<String, String, String> {
 
-        private WeiboException e;
+        private XmWeiboException e;
         private WeakReference<OAuthActivity> oAuthActivityWeakReference;
 
         private OAuthTask(OAuthActivity activity) {
@@ -227,7 +217,7 @@ public class OAuthActivity extends BaseActivity {
 
                 return "UserBingDomain";
 
-            } catch (WeiboException e) {
+            } catch (XmWeiboException e) {
                 AppLogger.e(e.getError());
                 this.e = e;
                 cancel(true);

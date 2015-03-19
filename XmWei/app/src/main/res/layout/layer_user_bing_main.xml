@@ -11,6 +11,13 @@
         android:text="绑定"
         android:id="@+id/btn_bing_user"
         android:textSize="18sp"
-        android:layout_centerInParent="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <ListView
+        android:id="@+id/v_user_bing_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_bing_user"></ListView>
 
 </RelativeLayout>

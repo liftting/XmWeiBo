@@ -12,8 +12,7 @@ import java.util.Map;
 
 import wm.xmwei.bean.UserDomain;
 import wm.xmwei.core.debug.AppLogger;
-import wm.xmwei.core.lib.support.error.WeiboException;
-import wm.xmwei.core.net.Network;
+import wm.xmwei.core.lib.support.error.XmWeiboException;
 import wm.xmwei.core.net.http.HttpMethod;
 import wm.xmwei.core.net.http.NetWorker;
 import wm.xmwei.util.URLHelper;
@@ -30,7 +29,7 @@ public class OAuthDao {
         this.access_token = access_token;
     }
 
-    public UserDomain getOAuthUserInfo() throws WeiboException {
+    public UserDomain getOAuthUserInfo() throws XmWeiboException {
 
         String uidJson = getOAuthUserUIDJsonData();
         String uid = "";
@@ -59,7 +58,7 @@ public class OAuthDao {
         return user;
     }
 
-    private String getOAuthUserUIDJsonData() throws WeiboException {
+    private String getOAuthUserUIDJsonData() throws XmWeiboException {
         String url = URLHelper.UID;
         Map<String, String> map = new HashMap<String, String>();
         map.put("access_token", access_token);

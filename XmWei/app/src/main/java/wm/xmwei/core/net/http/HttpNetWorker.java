@@ -23,7 +23,7 @@ import wm.xmwei.R;
 import wm.xmwei.XmApplication;
 import wm.xmwei.core.debug.AppLogger;
 import wm.xmwei.core.lib.support.error.ErrorCode;
-import wm.xmwei.core.lib.support.error.WeiboException;
+import wm.xmwei.core.lib.support.error.XmWeiboException;
 import wm.xmwei.util.Utility;
 
 /**
@@ -39,7 +39,7 @@ public class HttpNetWorker {
     private static final int UPLOAD_READ_TIMEOUT = 5 * 60 * 1000;
 
     public static String executeNormalTask(HttpMethod httpMethod, String url, Map<String, String> param)
-            throws WeiboException {
+            throws XmWeiboException {
         switch (httpMethod) {
             case Post:
                 return doPost(url, param);
@@ -60,7 +60,7 @@ public class HttpNetWorker {
         }
     }
 
-    public static String doGet(String urlStr, Map<String, String> param) throws WeiboException {
+    public static String doGet(String urlStr, Map<String, String> param) throws XmWeiboException {
         XmApplication globalContext = XmApplication.getInstance();
         String errorStr = globalContext.getString(R.string.timeout);
         globalContext = null;
@@ -94,11 +94,11 @@ public class HttpNetWorker {
             return handleResponse(urlConnection);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new WeiboException(errorStr, e);
+            throw new XmWeiboException(errorStr, e);
         }
     }
 
-    public static String doPost(String urlAddress, Map<String, String> param) throws WeiboException {
+    public static String doPost(String urlAddress, Map<String, String> param) throws XmWeiboException {
         XmApplication globalContext = XmApplication.getInstance();
         String errorStr = globalContext.getString(R.string.timeout);
         globalContext = null;
@@ -131,7 +131,7 @@ public class HttpNetWorker {
             return handleResponse(uRLConnection);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new WeiboException(errorStr, e);
+            throw new XmWeiboException(errorStr, e);
         }
     }
 
@@ -140,9 +140,9 @@ public class HttpNetWorker {
      *
      * @param httpURLConnection
      * @return
-     * @throws WeiboException
+     * @throws wm.xmwei.core.lib.support.error.XmWeiboException
      */
-    private static String handleResponse(HttpURLConnection httpURLConnection) throws WeiboException {
+    private static String handleResponse(HttpURLConnection httpURLConnection) throws XmWeiboException {
         XmApplication globalContext = XmApplication.getInstance();
         String errorStr = globalContext.getString(R.string.timeout);
         globalContext = null;
@@ -152,7 +152,7 @@ public class HttpNetWorker {
         } catch (IOException e) {
             e.printStackTrace();
             httpURLConnection.disconnect();
-            throw new WeiboException(errorStr, e);
+            throw new XmWeiboException(errorStr, e);
         }
 
         if (status != HttpURLConnection.HTTP_OK) {
@@ -167,9 +167,9 @@ public class HttpNetWorker {
      *
      * @param urlConnection
      * @return
-     * @throws WeiboException
+     * @throws wm.xmwei.core.lib.support.error.XmWeiboException
      */
-    private static String handleError(HttpURLConnection urlConnection) throws WeiboException {
+    private static String handleError(HttpURLConnection urlConnection) throws XmWeiboException {
 
         String result = readError(urlConnection);
         String err = null;
@@ -182,7 +182,7 @@ public class HttpNetWorker {
                 err = json.getString("error");
             }
             errCode = json.getInt("error_code");
-            WeiboException exception = new WeiboException();
+            XmWeiboException exception = new XmWeiboException();
             exception.setError_code(errCode);
             exception.setOriError(err);
 
@@ -198,7 +198,7 @@ public class HttpNetWorker {
         return result;
     }
 
-    private static String readError(HttpURLConnection urlConnection) throws WeiboException {
+    private static String readError(HttpURLConnection urlConnection) throws XmWeiboException {
         InputStream is = null;
         BufferedReader buffer = null;
         XmApplication globalContext = XmApplication.getInstance();
@@ -209,7 +209,7 @@ public class HttpNetWorker {
 
             if (is == null) {
                 errorStr = globalContext.getString(R.string.unknown_sina_network_error);
-                throw new WeiboException(errorStr);
+                throw new XmWeiboException(errorStr);
             }
 
             String content_encode = urlConnection.getContentEncoding();
@@ -229,7 +229,7 @@ public class HttpNetWorker {
             return strBuilder.toString();
         } catch (IOException e) {
             e.printStackTrace();
-            throw new WeiboException(errorStr, e);
+            throw new XmWeiboException(errorStr, e);
         } finally {
             Utility.closeSilently(is);
             Utility.closeSilently(buffer);
@@ -239,7 +239,7 @@ public class HttpNetWorker {
     }
 
 
-    private static String parseResult(HttpURLConnection urlConnection) throws WeiboException {
+    private static String parseResult(HttpURLConnection urlConnection) throws XmWeiboException {
         InputStream is = null;
         BufferedReader buffer = null;
         XmApplication globalContext = XmApplication.getInstance();
@@ -265,7 +265,7 @@ public class HttpNetWorker {
             return strBuilder.toString();
         } catch (IOException e) {
             e.printStackTrace();
-            throw new WeiboException(errorStr, e);
+            throw new XmWeiboException(errorStr, e);
         } finally {
             Utility.closeSilently(is);
             Utility.closeSilently(buffer);

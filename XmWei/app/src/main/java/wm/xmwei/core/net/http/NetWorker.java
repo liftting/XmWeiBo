@@ -2,7 +2,7 @@ package wm.xmwei.core.net.http;
 
 import java.util.Map;
 
-import wm.xmwei.core.lib.support.error.WeiboException;
+import wm.xmwei.core.lib.support.error.XmWeiboException;
 
 /**
  *
@@ -20,7 +20,7 @@ public class NetWorker {
     }
 
     public String executeNormalTask(HttpMethod httpMethod, String url, Map<String, String> param)
-            throws WeiboException {
+            throws XmWeiboException {
         return HttpNetWorker.executeNormalTask(httpMethod, url, param);
     }
 
