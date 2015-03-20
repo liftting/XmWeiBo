@@ -21,7 +21,7 @@ import wm.xmwei.core.data.Constants;
 import wm.xmwei.datadao.dbway.DbUserBingTask;
 import wm.xmwei.core.debug.AppLogger;
 import wm.xmwei.core.lib.support.error.XmWeiboException;
-import wm.xmwei.datadao.netway.OAuthDao;
+import wm.xmwei.datadao.netway.login.NetOAuthDao;
 import wm.xmwei.ui.activity.BaseActivity;
 
 /**
@@ -163,7 +163,7 @@ public class XmSoLoginActivity extends BaseActivity {
 
             String token = mAccessToken.getToken();
             long expiresInSeconds = mAccessToken.getExpiresTime();
-            UserDomain user = new OAuthDao(token).getOAuthUserInfo();
+            UserDomain user = new NetOAuthDao(token).getOAuthUserInfo();
             UserBingDomain bingDomain = new UserBingDomain();
             bingDomain.setAccess_token(token);
             bingDomain.setExpires_time(System.currentTimeMillis() + expiresInSeconds * 1000);

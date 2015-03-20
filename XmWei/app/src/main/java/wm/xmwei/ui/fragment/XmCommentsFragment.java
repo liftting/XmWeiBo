@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import wm.xmwei.R;
+import wm.xmwei.XmApplication;
+import wm.xmwei.bean.UserBingDomain;
 import wm.xmwei.ui.adapter.XmCommentsPagerAdapter;
 import wm.xmwei.ui.fragment.base.XmBaseFragment;
 import wm.xmwei.ui.view.indicator.PageSlidingIndicator;
@@ -95,7 +97,10 @@ public class XmCommentsFragment extends XmBaseFragment {
                 = ((XmCommentsToMeFragment) getChildFragmentManager().findFragmentByTag(
                 XmCommentsToMeFragment.class.getName()));
         if (fragment == null) {
-            fragment = XmCommentsToMeFragment.newInstance(null);
+
+            UserBingDomain bingDomain = XmApplication.getInstance().getUserBingDomain();
+
+            fragment = XmCommentsToMeFragment.newInstance(bingDomain);
         }
 
         return fragment;

@@ -1,4 +1,4 @@
-package wm.xmwei.datadao.netway;
+package wm.xmwei.datadao.netway.login;
 
 
 import com.google.gson.Gson;
@@ -20,11 +20,11 @@ import wm.xmwei.util.URLHelper;
 /**
  *
  */
-public class OAuthDao {
+public class NetOAuthDao {
 
     private String access_token;
 
-    public OAuthDao(String access_token) {
+    public NetOAuthDao(String access_token) {
 
         this.access_token = access_token;
     }

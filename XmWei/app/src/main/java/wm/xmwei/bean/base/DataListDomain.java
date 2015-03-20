@@ -3,9 +3,10 @@ package wm.xmwei.bean.base;
 import java.util.List;
 
 /**
- * this is data list bean
+ * this is data list bean ,封装了，因为loaderManager加载机制需要，
+ * 每一个数据项提供统一的接口 DataItemDomain
  */
-public abstract class DataListDomain<T extends DataItemDomain> {
+public abstract class DataListDomain<T extends DataItemDomain, K> {
 
     protected int total_number = 0;
     protected String previous_cursor = "0";
@@ -40,6 +41,8 @@ public abstract class DataListDomain<T extends DataItemDomain> {
     public void setNext_cursor(String next_cursor) {
         this.next_cursor = next_cursor;
     }
+
+    public abstract void addNewData(K newValue);
 
 
 }

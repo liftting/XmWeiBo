@@ -32,14 +32,5 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/ly_user_bing"></ListView>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/editText"
-        android:layout_above="@+id/ly_user_bing"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="84dp" />
 </RelativeLayout>
 

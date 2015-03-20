@@ -65,6 +65,11 @@ public class XmHomeBaseFragment extends XmBaseListFragment {
 
     }
 
+    @Override
+    protected void onNewDataLoaderSuccessCallback(DataListDomain newValue, Bundle loaderArgs) {
+
+    }
+
     private void initView(View containView) {
         mTvInfo = (TextView) containView.findViewById(R.id.tv_home_info);
     }

@@ -17,6 +17,9 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import wm.xmwei.R;
+import wm.xmwei.XmApplication;
+import wm.xmwei.bean.UserBingDomain;
+import wm.xmwei.core.data.Constants;
 import wm.xmwei.ui.fragment.XmCommentsFragment;
 import wm.xmwei.ui.fragment.XmHomeFragment;
 import wm.xmwei.ui.fragment.base.XmBaseFragment;
@@ -35,6 +38,16 @@ public class XmMainAct extends BaseActivity {
     private FrameLayout mContentContainer;
 
     private XmBaseFragment mCurrentShowFragment;
+
+    public static Intent newIntent() {
+        return new Intent(XmApplication.getInstance(), XmMainAct.class);
+    }
+
+    public static Intent newIntent(UserBingDomain accountBean) {
+        Intent intent = newIntent();
+        intent.putExtra(Constants.USER_BING_EXTRA, accountBean);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,20 +93,16 @@ public class XmMainAct extends BaseActivity {
     private void initFragments() {
         Fragment comments = getCommentsFragment();
 
-        Fragment homeFrag = getHomeFragment();
+//        Fragment homeFrag = getHomeFragment();
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//        if (!comments.isAdded()) {
-//            fragmentTransaction
-//                    .add(R.id.fly_content_container, comments, XmCommentsFragment.class.getName());
-//        }
-
         if (!comments.isAdded()) {
             fragmentTransaction
-                    .add(R.id.fly_content_container, homeFrag, XmHomeFragment.class.getName());
+                    .add(R.id.fly_content_container, comments, XmCommentsFragment.class.getName());
         }
 
-        mCurrentShowFragment = (XmBaseFragment) homeFrag;
+
+        mCurrentShowFragment = (XmBaseFragment) comments;
 
         if (!fragmentTransaction.isEmpty()) {
             fragmentTransaction.commit();

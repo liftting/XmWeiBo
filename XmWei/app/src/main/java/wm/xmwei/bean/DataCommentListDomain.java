@@ -8,13 +8,14 @@ import android.text.TextUtils;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import wm.xmwei.bean.base.DataListDomain;
 
 /**
  * Created by wm on 15-3-20.
  */
-public class DataCommentListDomain extends DataListDomain<DataCommentDomain> implements Parcelable {
+public class DataCommentListDomain extends DataListDomain<DataCommentDomain, DataCommentListDomain> implements Parcelable {
 
     private List<DataCommentDomain> comments = new ArrayList<DataCommentDomain>();
 
@@ -68,6 +69,32 @@ public class DataCommentListDomain extends DataListDomain<DataCommentDomain> imp
     @Override
     public List<DataCommentDomain> getItemList() {
         return getComments();
+    }
+
+    @Override
+    public void addNewData(DataCommentListDomain newValue) {
+        if (newValue == null || newValue.getSize() == 0) {
+            return;
+        }
+        this.getItemList().addAll(0, newValue.getItemList());
+        this.setTotal_number(newValue.getTotal_number());
+
+        //remove duplicate null flag, [x,y,null,null,z....]
+        List<DataCommentDomain> msgList = getItemList();
+        ListIterator<DataCommentDomain> listIterator = msgList.listIterator();
+
+        boolean isLastItemNull = false;
+        while (listIterator.hasNext()) {
+            DataCommentDomain msg = listIterator.next();
+            if (msg == null || msg.isMiddleUnreadItem()) {
+                if (isLastItemNull) {
+                    listIterator.remove();
+                }
+                isLastItemNull = true;
+            } else {
+                isLastItemNull = false;
+            }
+        }
     }
 
     @Override

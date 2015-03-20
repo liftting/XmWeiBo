@@ -29,7 +29,7 @@ import wm.xmwei.bean.UserBingDomain;
 import wm.xmwei.bean.UserDomain;
 import wm.xmwei.core.debug.AppLogger;
 import wm.xmwei.core.lib.support.error.XmWeiboException;
-import wm.xmwei.datadao.netway.OAuthDao;
+import wm.xmwei.datadao.netway.login.NetOAuthDao;
 import wm.xmwei.ui.activity.BaseActivity;
 import wm.xmwei.util.URLHelper;
 import wm.xmwei.util.XmUtils;
@@ -209,7 +209,7 @@ public class OAuthActivity extends BaseActivity {
             long expiresInSeconds = Long.valueOf(params[1]);
 
             try {
-                UserDomain user = new OAuthDao(token).getOAuthUserInfo();
+                UserDomain user = new NetOAuthDao(token).getOAuthUserInfo();
                 UserBingDomain account = new UserBingDomain();
                 account.setAccess_token(token);
                 account.setExpires_time(System.currentTimeMillis() + expiresInSeconds * 1000);

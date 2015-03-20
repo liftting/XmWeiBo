@@ -1,6 +1,8 @@
 package wm.xmwei.ui.fragment.base;
 
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +14,11 @@ import android.widget.ProgressBar;
 
 import wm.xmwei.R;
 import wm.xmwei.bean.base.DataListDomain;
+import wm.xmwei.datadao.DataLoadResult;
 import wm.xmwei.ui.view.pulltorefresh.PullToRefreshBase;
 import wm.xmwei.ui.view.pulltorefresh.PullToRefreshListView;
 import wm.xmwei.ui.view.pulltorefresh.extras.SoundPullEventListener;
+import wm.xmwei.util.XmUtils;
 
 /**
  *
@@ -28,6 +32,12 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
 
     private View mViewEmpty;
 
+    //data load worker manager
+    protected static final int DB_CACHE_LOADER_ID = 0; // db cache manager
+    protected static final int NEW_MSG_LOADER_ID = 1; // go to load the new message manager
+    protected static final int MIDDLE_MSG_LOADER_ID = 2;
+    protected static final int OLD_MSG_LOADER_ID = 3;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +46,12 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        Loader<T> loader = getLoaderManager().getLoader(NEW_MSG_LOADER_ID);
+        if (loader != null) {
+            getLoaderManager().initLoader(NEW_MSG_LOADER_ID, null, dataLoaderCallback);
+        }
+
     }
 
 
@@ -58,6 +74,7 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
         mFooterView = inflater.inflate(R.layout.layer_listview_footer, null);
         getListView().addFooterView(mFooterView);
         dismissFooterView();
+
     }
 
 
@@ -85,7 +102,7 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
             = new PullToRefreshBase.OnRefreshListener<ListView>() {
         @Override
         public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-
+            loadNewData();
         }
     };
 
@@ -147,11 +164,53 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
         }
     }
 
+    // data load  this is create the from 0 load data
+    public void loadNewData() {
+
+        getLoaderManager().destroyLoader(MIDDLE_MSG_LOADER_ID);
+        getLoaderManager().destroyLoader(OLD_MSG_LOADER_ID);
+        dismissFooterView();
+        getLoaderManager().restartLoader(NEW_MSG_LOADER_ID, null, dataLoaderCallback);
+    }
+
+    //数据load，result要封装一下，
+    private LoaderManager.LoaderCallbacks<DataLoadResult<T>> dataLoaderCallback = new LoaderManager.LoaderCallbacks<DataLoadResult<T>>() {
+        @Override
+        public Loader<DataLoadResult<T>> onCreateLoader(int id, Bundle args) {
+            return createNewDataLoader(id, args);
+        }
+
+        @Override
+        public void onLoadFinished(Loader<DataLoadResult<T>> loader, DataLoadResult<T> data) {
+
+            T result = data != null ? data.data : null;
+
+            getPullToRefreshListView().onRefreshComplete();
+            refreshLayout(getDataList());
+            onNewDataLoaderSuccessCallback(result, null);
+        }
+
+        @Override
+        public void onLoaderReset(Loader<DataLoadResult<T>> loader) {
+
+        }
+    };
+
+    private Loader<DataLoadResult<T>> createNewDataLoader(int id, Bundle args) {
+        return onCreateNewDataLoader(id, args);
+    }
+
+    protected Loader<DataLoadResult<T>> onCreateNewDataLoader(int id, Bundle args) {
+        return null;
+    }
+
     protected abstract void createDataListAdapter();
 
     public abstract T getDataList();
 
     protected abstract void onItemClick(AdapterView parent, View view, int position, long id);
+
+    protected abstract void onNewDataLoaderSuccessCallback(T newValue, Bundle loaderArgs);
 
 
 }

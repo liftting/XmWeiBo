@@ -61,6 +61,40 @@ public class DbUserBingTask {
         }
     }
 
+    public static UserBingDomain getUserBing(String id) {
+
+        String sql = "select * from " + UserBingDomainTable.TABLE_NAME + " where " + UserBingDomainTable.UID
+                + " = " + id;
+        Cursor c = getReadableDataBase().rawQuery(sql, null);
+        if (c.moveToNext()) {
+            UserBingDomain account = new UserBingDomain();
+            int colid = c.getColumnIndex(UserBingDomainTable.OAUTH_TOKEN);
+            account.setAccess_token(c.getString(colid));
+
+            colid = c.getColumnIndex(UserBingDomainTable.OAUTH_TOKEN_EXPIRES_TIME);
+            account.setExpires_time(Long.valueOf(c.getString(colid)));
+
+            colid = c.getColumnIndex(UserBingDomainTable.BLACK_MAGIC);
+            account.setBlack_magic(c.getInt(colid) == 1);
+
+            colid = c.getColumnIndex(UserBingDomainTable.NAVIGATION_POSITION);
+            account.setNavigationPosition(c.getInt(colid));
+
+            Gson gson = new Gson();
+            String json = c.getString(c.getColumnIndex(UserBingDomainTable.INFOJSON));
+            try {
+                UserDomain value = gson.fromJson(json, UserDomain.class);
+                account.setInfo(value);
+            } catch (JsonSyntaxException e) {
+                AppLogger.e(e.getMessage());
+            }
+
+            return account;
+        }
+        return null;
+    }
+
+
     public static List<UserBingDomain> getUserBingList() {
         List<UserBingDomain> accountList = new ArrayList<UserBingDomain>();
         String sql = "select * from " + UserBingDomainTable.TABLE_NAME;

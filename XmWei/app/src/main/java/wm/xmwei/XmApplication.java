@@ -6,6 +6,11 @@ import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.Display;
 
+import java.util.List;
+
+import wm.xmwei.bean.UserBingDomain;
+import wm.xmwei.datadao.dbway.DbUserBingTask;
+
 public class XmApplication extends Application {
 
     private static XmApplication mGlobalContext;
@@ -15,13 +20,17 @@ public class XmApplication extends Application {
     private DisplayMetrics displayMetrics = null;
     private Handler handler = new Handler();
 
+
+    //一些用户数据
+    private UserBingDomain mUserBingDomain;
+
     @Override
     public void onCreate() {
         super.onCreate();
         mGlobalContext = this;
     }
 
-    public static XmApplication getInstance(){
+    public static XmApplication getInstance() {
         return mGlobalContext;
     }
 
@@ -61,6 +70,17 @@ public class XmApplication extends Application {
 
     public void setActivity(Activity activity) {
         this.mActivity = activity;
+    }
+
+    public UserBingDomain getUserBingDomain() {
+        if (mUserBingDomain == null) {
+            // load bing data from db
+            List<UserBingDomain> userBingList = DbUserBingTask.getUserBingList();
+            if (userBingList != null && userBingList.size() > 0) {
+                mUserBingDomain = userBingList.get(0);
+            }
+        }
+        return mUserBingDomain;
     }
 
 }

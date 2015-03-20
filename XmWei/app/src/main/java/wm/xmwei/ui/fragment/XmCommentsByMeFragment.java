@@ -8,13 +8,14 @@ import android.widget.AdapterView;
 
 import wm.xmwei.R;
 import wm.xmwei.bean.base.DataListDomain;
+import wm.xmwei.ui.fragment.base.XmBaseFragment;
 import wm.xmwei.ui.fragment.base.XmBaseListFragment;
 
 /**
  *
  *
  */
-public class XmCommentsByMeFragment extends XmBaseListFragment {
+public class XmCommentsByMeFragment extends XmBaseFragment {
 
     public static XmCommentsByMeFragment newInstance(Bundle bundle) {
         XmCommentsByMeFragment fragment = new XmCommentsByMeFragment();
@@ -40,17 +41,22 @@ public class XmCommentsByMeFragment extends XmBaseListFragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    @Override
-    protected void createDataListAdapter() {
-    }
-
-    @Override
-    public DataListDomain getDataList() {
-        return null;
-    }
-
-    @Override
-    protected void onItemClick(AdapterView parent, View view, int position, long id) {
-
-    }
+//    @Override
+//    protected void createDataListAdapter() {
+//    }
+//
+//    @Override
+//    public DataListDomain getDataList() {
+//        return null;
+//    }
+//
+//    @Override
+//    protected void onItemClick(AdapterView parent, View view, int position, long id) {
+//
+//    }
+//
+//    @Override
+//    protected void onNewDataLoaderSuccessCallback(DataListDomain newValue, Bundle loaderArgs) {
+//
+//    }
 }
