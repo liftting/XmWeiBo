@@ -8,7 +8,7 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import wm.xmwei.R;
-import wm.xmwei.bean.DataListDomain;
+import wm.xmwei.bean.base.DataListDomain;
 
 /**
  * this is home item fragment

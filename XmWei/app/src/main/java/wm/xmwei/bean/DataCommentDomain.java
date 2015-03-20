@@ -6,6 +6,8 @@ import android.text.Html;
 import android.text.SpannableString;
 import android.text.TextUtils;
 
+import wm.xmwei.bean.base.DataItemDomain;
+
 /**
  *
  */

@@ -22,9 +22,8 @@ import java.util.List;
 import wm.xmwei.R;
 import wm.xmwei.bean.UserBingDomain;
 import wm.xmwei.bean.UserDomain;
-import wm.xmwei.core.database.datatask.DbUserBingTask;
+import wm.xmwei.datadao.dbway.DbUserBingTask;
 import wm.xmwei.core.image.universalimageloader.XmImageLoader;
-import wm.xmwei.core.image.universalimageloader.core.ImageLoader;
 import wm.xmwei.ui.activity.BaseActivity;
 
 /**

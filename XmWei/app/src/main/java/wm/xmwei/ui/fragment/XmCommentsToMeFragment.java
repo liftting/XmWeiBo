@@ -1,5 +1,6 @@
 package wm.xmwei.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,7 +8,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import wm.xmwei.R;
-import wm.xmwei.bean.DataListDomain;
+import wm.xmwei.bean.DataCommentListDomain;
+import wm.xmwei.bean.base.DataListDomain;
+import wm.xmwei.ui.adapter.data.XmCommentsDataAdapter;
 import wm.xmwei.ui.fragment.base.XmBaseListFragment;
 
 /**
@@ -15,6 +18,8 @@ import wm.xmwei.ui.fragment.base.XmBaseListFragment;
  */
 public class XmCommentsToMeFragment extends XmBaseListFragment {
 
+    private Context mContext;
+    private DataListDomain mCommentsToMeDataList = new DataCommentListDomain();
 
     public static XmCommentsToMeFragment newInstance(Bundle bundle) {
         XmCommentsToMeFragment fragment = new XmCommentsToMeFragment();
@@ -25,28 +30,30 @@ public class XmCommentsToMeFragment extends XmBaseListFragment {
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mContext = getActivity();
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View mainView = inflater.inflate(R.layout.layer_comments_to_me, null);
-        return mainView;
-    }
-
-    @Override
     protected void createDataListAdapter() {
-//        CommentListAdapter adapter = new CommentListAdapter(this,
-//                getList().getItemList(),
-//                getListView(), true, false);
-//        mBaseDataAdapter = adapter;
-//        mPullToRefreshListView.setAdapter(timeLineAdapter);
+        XmCommentsDataAdapter commentsDataAdapter = new XmCommentsDataAdapter(getActivity(),
+                getDataList().getItemList());
+        mBaseDataAdapter = commentsDataAdapter;
+        mPullToRefreshListView.setAdapter(commentsDataAdapter);
     }
 
     @Override
     public DataListDomain getDataList() {
-        return null;
+        //进行数据加载，
+
+        return mCommentsToMeDataList;
     }
 
     @Override

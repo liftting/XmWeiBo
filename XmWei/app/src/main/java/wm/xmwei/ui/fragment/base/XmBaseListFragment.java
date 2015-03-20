@@ -11,7 +11,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import wm.xmwei.R;
-import wm.xmwei.bean.DataListDomain;
+import wm.xmwei.bean.base.DataListDomain;
 import wm.xmwei.ui.view.pulltorefresh.PullToRefreshBase;
 import wm.xmwei.ui.view.pulltorefresh.PullToRefreshListView;
 import wm.xmwei.ui.view.pulltorefresh.extras.SoundPullEventListener;
@@ -69,7 +69,7 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
         mPullToRefreshListView.setOnItemClickListener(listViewOnItemClickListener);
         mPullToRefreshListView.setOnPullEventListener(getPullEventListener());
 //
-//        createDataListAdapter();
+        createDataListAdapter();
 
     }
 

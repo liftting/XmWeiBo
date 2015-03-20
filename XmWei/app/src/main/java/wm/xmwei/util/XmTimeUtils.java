@@ -6,7 +6,7 @@ import java.util.Date;
 
 import wm.xmwei.R;
 import wm.xmwei.XmApplication;
-import wm.xmwei.bean.DataItemDomain;
+import wm.xmwei.bean.base.DataItemDomain;
 
 /**
  *

@@ -7,11 +7,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import wm.xmwei.R;
-import wm.xmwei.bean.DataListDomain;
+import wm.xmwei.bean.base.DataListDomain;
 import wm.xmwei.ui.fragment.base.XmBaseListFragment;
 
 /**
- * Created by wm on 15-3-17.
+ *
+ *
  */
 public class XmCommentsByMeFragment extends XmBaseListFragment {
 
@@ -35,8 +36,12 @@ public class XmCommentsByMeFragment extends XmBaseListFragment {
     }
 
     @Override
-    protected void createDataListAdapter() {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
 
+    @Override
+    protected void createDataListAdapter() {
     }
 
     @Override
