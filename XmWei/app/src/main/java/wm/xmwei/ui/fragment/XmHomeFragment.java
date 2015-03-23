@@ -17,6 +17,7 @@ import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,8 +28,15 @@ import java.util.List;
 
 import wm.xmwei.R;
 import wm.xmwei.XmApplication;
+import wm.xmwei.bean.DataGroupDomain;
+import wm.xmwei.bean.DataGroupListDomain;
+import wm.xmwei.bean.UserBingDomain;
+import wm.xmwei.bean.base.DataListDomain;
+import wm.xmwei.core.lib.support.XmAsyncTask;
+import wm.xmwei.core.net.http.OnDataLoadTaskListener;
 import wm.xmwei.ui.adapter.XmCommentsPagerAdapter;
 import wm.xmwei.ui.adapter.XmHomeFragmentAdapter;
+import wm.xmwei.ui.dataloader.datatask.XmUserGroupTask;
 import wm.xmwei.ui.fragment.base.XmBaseFragment;
 import wm.xmwei.ui.fragment.base.XmHomeBaseFragment;
 import wm.xmwei.ui.view.dynagridview.BaseDynamicGridAdapter;
@@ -39,22 +47,24 @@ import wm.xmwei.ui.view.lib.DragGridView;
 /**
  * this is home fragment
  */
-public class XmHomeFragment extends XmBaseFragment implements View.OnClickListener {
+public class XmHomeFragment extends XmBaseFragment implements View.OnClickListener, OnDataLoadTaskListener<DataGroupListDomain> {
 
     private Context mContext;
     private ViewPager mHomeViewPager;
     private PageSlidingIndicator mHomePageIndicator;
+    private ProgressBar mDataLoadProgress;
 
 
     private TextView mTvConvertItem;
     private RelativeLayout mRlyDragContainer;
     private DynamicGridView mDragGridView;
     private GridItemAdapter mGridItemAdapter;
-    private List<String> mItemDatas = new ArrayList<String>();
 
     private List<Fragment> mHomeChildFragments = new ArrayList<Fragment>();
     private List<String> mTagFragments = new ArrayList<String>();
     private boolean isBuildCategory = false;
+
+    private List<DataGroupDomain> mUserGroupDomain = new ArrayList<DataGroupDomain>();
 
     public static XmHomeFragment newInstance(Bundle bundle) {
 
@@ -76,6 +86,10 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
         super.onActivityCreated(savedInstanceState);
 
         mContext = getActivity();
+        // load the group data
+        createGroupAdapter();
+
+
     }
 
     @Override
@@ -83,8 +97,6 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
         View mainView = inflater.inflate(R.layout.layer_frag_home, null);
 
         initView(mainView);
-
-        buildHomeFragments();
 
         return mainView;
     }
@@ -98,53 +110,51 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
         mDragGridView = (DynamicGridView) mainView.findViewById(R.id.v_drag_gridview);
         mTvConvertItem = (TextView) mainView.findViewById(R.id.tv_home_conver_griditem);
 
+        mDataLoadProgress = (ProgressBar) mainView.findViewById(R.id.pro_content_show);
+
 
         mTvConvertItem.setOnClickListener(this);
     }
 
     private void buildHomeFragments() {
-        mHomeChildFragments.add(createFragment(0));
-        mHomeChildFragments.add(createFragment(1));
-        mHomeChildFragments.add(createFragment(2));
-        mHomeChildFragments.add(createFragment(3));
 
-        mTagFragments.add(createTag(0));
-        mTagFragments.add(createTag(1));
-        mTagFragments.add(createTag(2));
-        mTagFragments.add(createTag(3));
+        for (DataGroupDomain groupDomain : mUserGroupDomain) {
+            mHomeChildFragments.add(createFragment(groupDomain));
+            mTagFragments.add(createTag(groupDomain));
+        }
 
 
-        String[] title = new String[]{"one", "two", "three", "four"};
-
-        mHomeViewPager.setAdapter(new XmHomeFragmentAdapter(getChildFragmentManager(), mHomeChildFragments, mTagFragments, title));
+        mHomeViewPager.setAdapter(new XmHomeFragmentAdapter(getChildFragmentManager(), mHomeChildFragments, mTagFragments, buildTitleData()));
         mHomePageIndicator.setViewPager(mHomeViewPager);
 
     }
 
-    private String createTag(int type) {
-        return XmHomeBaseFragment.class.getName() + "_" + type;
+    private String[] buildTitleData() {
+
+        String[] titleArray = new String[mUserGroupDomain.size()];
+
+        for (int i = 0; i < mUserGroupDomain.size(); i++) {
+            DataGroupDomain domain = mUserGroupDomain.get(i);
+            titleArray[i] = domain.getName();
+        }
+        return titleArray;
     }
 
-    private XmHomeBaseFragment createFragment(int type) {
+    private String createTag(DataGroupDomain groupDomain) {
+        return XmHomeBaseFragment.class.getName() + "_" + groupDomain.getId();
+    }
+
+    private XmHomeBaseFragment createFragment(DataGroupDomain groupDomain) {
         Bundle oneBundle = new Bundle();
-        oneBundle.putInt("home_fragment_key", type);
+        oneBundle.putParcelable(XmHomeBaseFragment.HOME_FRAGMENT_GROUP_KEY, groupDomain);
         return XmHomeBaseFragment.newInstance(oneBundle);
     }
 
     // 分类数据构建
     private void buildCategoryData() {
 
-        mItemDatas.add("a");
-        mItemDatas.add("b");
-        mItemDatas.add("c");
-        mItemDatas.add("d");
-        mItemDatas.add("e");
-        mItemDatas.add("f");
-        mItemDatas.add("g");
-        mItemDatas.add("h");
 
-
-        mGridItemAdapter = new GridItemAdapter(mContext, mItemDatas, 3);
+        mGridItemAdapter = new GridItemAdapter(mContext, mUserGroupDomain, 3);
 
         mDragGridView.setAdapter(mGridItemAdapter);
         mDragGridView.setOnDragListener(new DynamicGridView.OnDragListener() {
@@ -169,7 +179,7 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String item = (String) parent.getAdapter().getItem(position);
-                mItemDatas.remove(item);
+                mUserGroupDomain.remove(item);
                 mGridItemAdapter.notifyDataSetChanged();
             }
         });
@@ -232,7 +242,8 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
             } else {
                 holder = (CheeseViewHolder) convertView.getTag();
             }
-            holder.build(getItem(position).toString());
+            DataGroupDomain domain = (DataGroupDomain) getItem(position);
+            holder.build(domain.getName());
             return convertView;
         }
 
@@ -257,4 +268,29 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
         }
         return false;
     }
+
+    //构建分组adapter
+    public void createGroupAdapter() {
+
+        UserBingDomain bingUser = XmApplication.getInstance().getUserBingDomain();
+        XmUserGroupTask task = new XmUserGroupTask(bingUser.getAccess_token(), bingUser.getUid());
+        task.setDataLoadTaskListener(this);
+        task.executeOnExecutor(XmAsyncTask.THREAD_POOL_EXECUTOR);
+
+
+    }
+
+    @Override
+    public void dataLoadComplete(DataGroupListDomain data) {
+        if (data != null) {
+            groupDataComplete();
+            mUserGroupDomain = data.getLists();
+            buildHomeFragments();
+        }
+    }
+
+    private void groupDataComplete() {
+        mDataLoadProgress.setVisibility(View.GONE);
+    }
+
 }

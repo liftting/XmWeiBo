@@ -19,6 +19,8 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import wm.xmwei.core.net.http.OnDataLoadTaskListener;
+
 /**
  *
  *
@@ -597,4 +599,12 @@ public abstract class XmAsyncTask<Params, Progress, Result> {
             mData = data;
         }
     }
+
+    // task data load listener
+    protected OnDataLoadTaskListener<Result> mDataLoadTaskListener;
+
+    public void setDataLoadTaskListener(OnDataLoadTaskListener<Result> dataLoadTaskListener){
+        mDataLoadTaskListener = dataLoadTaskListener;
+    }
+
 }

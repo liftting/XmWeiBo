@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import wm.xmwei.R;
+import wm.xmwei.bean.DataGroupDomain;
 import wm.xmwei.bean.base.DataListDomain;
 
 /**
@@ -15,8 +16,10 @@ import wm.xmwei.bean.base.DataListDomain;
  */
 public class XmHomeBaseFragment extends XmBaseListFragment {
 
-    private int mDataType = -1;
+    private DataGroupDomain mDataType;
     private TextView mTvInfo;
+
+    public static final String HOME_FRAGMENT_GROUP_KEY = "home_group_key";
 
     public static XmHomeBaseFragment newInstance(Bundle bundle) {
         XmHomeBaseFragment fragment = new XmHomeBaseFragment();
@@ -31,7 +34,7 @@ public class XmHomeBaseFragment extends XmBaseListFragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
 
-        mDataType = bundle.getInt("home_fragment_key");
+        mDataType = bundle.getParcelable(HOME_FRAGMENT_GROUP_KEY);
 
     }
 
@@ -76,23 +79,6 @@ public class XmHomeBaseFragment extends XmBaseListFragment {
 
     private void initData() {
         String text = "this is not found";
-        switch (mDataType) {
-            case 0:
-                text = "this is the one";
-                break;
-            case 1:
-                text = "this is the two";
-                break;
-            case 2:
-                text = "this is the three";
-                break;
-            case 3:
-                text = "this is the four";
-                break;
-            default:
-                text = "this is the default";
-        }
-
         mTvInfo.setText(text);
     }
 

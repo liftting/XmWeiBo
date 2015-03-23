@@ -28,12 +28,12 @@
             android:layout_width="match_parent"
             android:layout_height="155dp">
 
-            <ImageView
+            <wm.xmwei.core.lib.support.view.CircleImageView
                 android:id="@+id/avatar"
                 android:layout_marginTop="8dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="68dp"
+                android:layout_height="68dp"
                 android:src="#ff2f2f2f" />
 
 

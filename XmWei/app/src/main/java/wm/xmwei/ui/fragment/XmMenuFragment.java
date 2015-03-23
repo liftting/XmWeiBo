@@ -14,7 +14,6 @@ import wm.xmwei.R;
 import wm.xmwei.XmApplication;
 import wm.xmwei.bean.UserBingDomain;
 import wm.xmwei.core.image.universalimageloader.XmImageLoader;
-import wm.xmwei.datadao.dbway.DbUserBingTask;
 import wm.xmwei.ui.fragment.base.XmBaseFragment;
 
 /**

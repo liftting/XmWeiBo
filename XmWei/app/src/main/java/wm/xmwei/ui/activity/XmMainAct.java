@@ -93,16 +93,16 @@ public class XmMainAct extends BaseActivity {
     private void initFragments() {
         Fragment comments = getCommentsFragment();
 
-//        Fragment homeFrag = getHomeFragment();
+        Fragment homeFrag = getHomeFragment();
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         if (!comments.isAdded()) {
             fragmentTransaction
-                    .add(R.id.fly_content_container, comments, XmCommentsFragment.class.getName());
+                    .add(R.id.fly_content_container, homeFrag, XmCommentsFragment.class.getName());
         }
 
 
-        mCurrentShowFragment = (XmBaseFragment) comments;
+        mCurrentShowFragment = (XmBaseFragment) homeFrag;
 
         if (!fragmentTransaction.isEmpty()) {
             fragmentTransaction.commit();
