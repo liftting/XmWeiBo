@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -27,25 +28,34 @@ public abstract class XmBaseDataAdapter<T extends DataItemDomain> extends BaseAd
 
     protected List<T> mDataList;
     private Context mContext;
+    private LayoutInflater mInflater;
+
+    // view type
+    private final int TYPE_NORMAL = 0;
+    private final int TYPE_NORMAL_BIG_PIC = 1;
+    private final int TYPE_MIDDLE = 2;
+    private final int TYPE_SIMPLE = 3;
+    private static int VIEW_TYPE_COUNT = 4;
 
     public XmBaseDataAdapter(Context context, List<T> datas) {
         mContext = context;
         mDataList = datas;
+        mInflater = LayoutInflater.from(mContext);
     }
 
     @Override
     public int getCount() {
-        return 0;
+        return mDataList.size();
     }
 
     @Override
-    public Object getItem(int position) {
-        return null;
+    public T getItem(int position) {
+        return mDataList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return -1;
     }
 
     public List<T> getDataList() {
@@ -53,21 +63,50 @@ public abstract class XmBaseDataAdapter<T extends DataItemDomain> extends BaseAd
     }
 
     @Override
+    public int getViewTypeCount() {
+        return VIEW_TYPE_COUNT;
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
+        int itemViewType = getItemViewType(position);
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.layer_timeline_listview_item_simple, parent, false);
+
+
+//            View view = null;
+//            switch (itemViewType) {
+//                case TYPE_SIMPLE:
+//                    view = buildSimpleView();
+//                    break;
+//                case TYPE_NORMAL:
+//
+//                    if (view == null) {
+//                        view = buildNormalView();
+//                    }
+//                    break;
+//                default:
+//                    view = buildNormalView();
+//                    break;
+//            }
+            convertView = buildNormalView();
             holder = new ViewHolder();
             convertView.setTag(holder);
+            buildHolder(holder, convertView);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
-        buildHolder(holder, convertView);
-
         createViewData(holder, position);
 
         return convertView;
+    }
+
+    private View buildSimpleView() {
+        return mInflater.inflate(R.layout.layer_timeline_listview_item_simple, null);
+    }
+
+    private View buildNormalView() {
+        return mInflater.inflate(R.layout.layer_timeline_listview_item_normal, null);
     }
 
     private ViewHolder buildHolder(ViewHolder holder, View convertView) {
@@ -84,13 +123,22 @@ public abstract class XmBaseDataAdapter<T extends DataItemDomain> extends BaseAd
 
         holder.repost_content_pic = (IXmDrawable) convertView
                 .findViewById(R.id.repost_content_pic);
+        holder.repost_content_pic_multi = (GridLayout) convertView
+                .findViewById(R.id.repost_content__pic_multi);
 
         holder.content_pic = holder.repost_content_pic;
         holder.content_pic_multi = holder.repost_content_pic_multi;
 
         holder.listview_root = (ViewGroup) convertView.findViewById(R.id.listview_root);
+//        holder.repost_layout = convertView.findViewById(R.id.repost_layout);
         holder.repost_flag = convertView.findViewById(R.id.repost_flag);
+        holder.count_layout = (LinearLayout) convertView.findViewById(R.id.count_layout);
+        holder.repost_count = (TextView) convertView.findViewById(R.id.repost_count);
+        holder.comment_count = (TextView) convertView.findViewById(R.id.comment_count);
+        holder.timeline_gps = (ImageView) convertView.findViewById(R.id.timeline_gps_iv);
+        holder.timeline_pic = (ImageView) convertView.findViewById(R.id.timeline_pic_iv);
         holder.replyIV = (ImageView) convertView.findViewById(R.id.replyIV);
+        holder.source = (TextView) convertView.findViewById(R.id.source);
         return holder;
     }
 
@@ -105,7 +153,14 @@ public abstract class XmBaseDataAdapter<T extends DataItemDomain> extends BaseAd
         IXmDrawable repost_content_pic;
         GridLayout repost_content_pic_multi;
         ViewGroup listview_root;
+        View repost_layout;
         View repost_flag;
+        LinearLayout count_layout;
+        TextView repost_count;
+        TextView comment_count;
+        TextView source;
+        ImageView timeline_gps;
+        ImageView timeline_pic;
         ImageView replyIV;
     }
 

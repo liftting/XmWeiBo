@@ -80,21 +80,21 @@ public class DataCommentListDomain extends DataListDomain<DataCommentDomain, Dat
         this.setTotal_number(newValue.getTotal_number());
 
         //remove duplicate null flag, [x,y,null,null,z....]
-        List<DataCommentDomain> msgList = getItemList();
-        ListIterator<DataCommentDomain> listIterator = msgList.listIterator();
+//        List<DataCommentDomain> msgList = getItemList();
+//        ListIterator<DataCommentDomain> listIterator = msgList.listIterator();
 
-        boolean isLastItemNull = false;
-        while (listIterator.hasNext()) {
-            DataCommentDomain msg = listIterator.next();
-            if (msg == null || msg.isMiddleUnreadItem()) {
-                if (isLastItemNull) {
-                    listIterator.remove();
-                }
-                isLastItemNull = true;
-            } else {
-                isLastItemNull = false;
-            }
-        }
+//        boolean isLastItemNull = false;
+//        while (listIterator.hasNext()) {
+//            DataCommentDomain msg = listIterator.next();
+//            if (msg == null || msg.isMiddleUnreadItem()) {
+//                if (isLastItemNull) {
+//                    listIterator.remove();
+//                }
+//                isLastItemNull = true;
+//            } else {
+//                isLastItemNull = false;
+//            }
+//        }
     }
 
     @Override

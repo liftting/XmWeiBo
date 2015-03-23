@@ -188,6 +188,11 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
             getPullToRefreshListView().onRefreshComplete();
             refreshLayout(getDataList());
             onNewDataLoaderSuccessCallback(result, null);
+
+            getLoaderManager().destroyLoader(loader.getId());
+
+            mBaseDataAdapter.notifyDataSetChanged();
+
         }
 
         @Override
@@ -198,6 +203,10 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
 
     private Loader<DataLoadResult<T>> createNewDataLoader(int id, Bundle args) {
         return onCreateNewDataLoader(id, args);
+    }
+
+    public BaseAdapter getAdapter(){
+        return mBaseDataAdapter;
     }
 
     protected Loader<DataLoadResult<T>> onCreateNewDataLoader(int id, Bundle args) {

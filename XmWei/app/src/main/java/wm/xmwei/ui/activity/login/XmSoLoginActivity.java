@@ -1,5 +1,6 @@
 package wm.xmwei.ui.activity.login;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -150,6 +151,17 @@ public class XmSoLoginActivity extends BaseActivity {
         @Override
         protected OauthDbResult doInBackground(String... params) {
             return createUserData();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // SSO 授权回调
+        // 重要：发起 SSO 登陆的 Activity 必须重写 onActivityResult
+        if (mSsoHandler != null) {
+            mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
         }
     }
 

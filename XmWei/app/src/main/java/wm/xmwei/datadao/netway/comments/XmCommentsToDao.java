@@ -16,6 +16,7 @@ import wm.xmwei.core.lib.support.error.XmWeiboException;
 import wm.xmwei.core.net.http.HttpMethod;
 import wm.xmwei.core.net.http.NetWorker;
 import wm.xmwei.util.URLHelper;
+import wm.xmwei.util.XmTimeUtils;
 
 public class XmCommentsToDao implements ICommentsDao {
 
@@ -52,7 +53,7 @@ public class XmCommentsToDao implements ICommentsDao {
                     iterator.remove();
                 } else {
                     msg.getListViewSpannableString();
-//                    TimeUtility.dealMills(msg);
+                    XmTimeUtils.dealMills(msg);
                 }
             }
         }
@@ -81,16 +82,17 @@ public class XmCommentsToDao implements ICommentsDao {
         this.filter_by_author = filter_by_author;
     }
 
-/**
- * 根据微博ID返回某条微博的评论列表
- * @param id 需要查询的微博ID。
- * @param since_id 若指定此参数，则返回ID比since_id大的评论（即比since_id时间晚的评论），默认为0。
- * @param max_id 若指定此参数，则返回ID小于或等于max_id的评论，默认为0。
- * @param count 单页返回的记录条数，默认为50
- * @param page 返回结果的页码，默认为1。
- * @param filter_by_author 作者筛选类型，0：全部、1：我关注的人、2：陌生人，默认为0。
- * @param listener
- */
+    /**
+     * 根据微博ID返回某条微博的评论列表
+     *
+     * @param id 需要查询的微博ID。
+     * @param since_id 若指定此参数，则返回ID比since_id大的评论（即比since_id时间晚的评论），默认为0。
+     * @param max_id 若指定此参数，则返回ID小于或等于max_id的评论，默认为0。
+     * @param count 单页返回的记录条数，默认为50
+     * @param page 返回结果的页码，默认为1。
+     * @param filter_by_author 作者筛选类型，0：全部、1：我关注的人、2：陌生人，默认为0。
+     * @param listener
+     */
 
     protected String access_token;
     private String since_id = "0";

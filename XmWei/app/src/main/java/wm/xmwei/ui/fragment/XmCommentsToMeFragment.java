@@ -93,9 +93,6 @@ public class XmCommentsToMeFragment extends XmBaseListFragment<DataCommentListDo
     @Override
     protected void onNewDataLoaderSuccessCallback(DataCommentListDomain newValue, Bundle loaderArgs) {
         getDataList().addNewData(newValue);
-
-        mBaseDataAdapter.notifyDataSetChanged();
-
     }
 
 
