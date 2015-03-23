@@ -1,6 +1,7 @@
 package wm.xmwei.ui.fragment.base;
 
 import android.os.Bundle;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import wm.xmwei.R;
 import wm.xmwei.bean.DataGroupDomain;
 import wm.xmwei.bean.base.DataListDomain;
+import wm.xmwei.datadao.DataLoadResult;
 
 /**
  * this is home item fragment
@@ -41,6 +43,8 @@ public class XmHomeBaseFragment extends XmBaseListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        //load data
+
 
 
     }
@@ -66,6 +70,12 @@ public class XmHomeBaseFragment extends XmBaseListFragment {
     @Override
     protected void onItemClick(AdapterView parent, View view, int position, long id) {
 
+    }
+
+    @Override
+    protected Loader<DataLoadResult> onCreateNewDataLoader(int id, Bundle args) {
+        // create data loader
+        return super.onCreateNewDataLoader(id, args);
     }
 
     @Override
