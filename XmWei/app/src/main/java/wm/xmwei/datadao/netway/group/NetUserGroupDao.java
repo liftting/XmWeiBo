@@ -26,7 +26,7 @@ public class NetUserGroupDao {
 
         Map<String, String> map = new HashMap<String, String>();
         map.put("access_token", access_token);
-        map.put("source", URLHelper.APP_KEY);
+//        map.put("source", URLHelper.APP_KEY);
 
         String jsonData = NetWorker.getInstance().executeNormalTask(HttpMethod.Get, url, map);
         Gson gson = new Gson();
