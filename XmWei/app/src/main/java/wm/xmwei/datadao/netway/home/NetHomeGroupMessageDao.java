@@ -2,7 +2,6 @@ package wm.xmwei.datadao.netway.home;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.sina.weibo.sdk.exception.WeiboException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +17,7 @@ import wm.xmwei.util.URLHelper;
  *
  *
  */
-public class NetHomeGroupMessageDao extends NetHomeBaseMessageDao {
+public class NetHomeGroupMessageDao extends NetHomeDefaultMessageDao {
 
     protected String getUrl() {
         return URLHelper.FRIENDSGROUP_TIMELINE;

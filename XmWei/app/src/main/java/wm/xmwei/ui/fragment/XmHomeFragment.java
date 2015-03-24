@@ -1,49 +1,31 @@
 package wm.xmwei.ui.fragment;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import wm.xmwei.R;
-import wm.xmwei.XmApplication;
 import wm.xmwei.bean.DataGroupDomain;
 import wm.xmwei.bean.DataGroupListDomain;
-import wm.xmwei.bean.UserBingDomain;
-import wm.xmwei.bean.base.DataListDomain;
-import wm.xmwei.core.lib.support.XmAsyncTask;
 import wm.xmwei.core.net.http.OnDataLoadTaskListener;
-import wm.xmwei.ui.adapter.XmCommentsPagerAdapter;
 import wm.xmwei.ui.adapter.XmHomeFragmentAdapter;
-import wm.xmwei.ui.dataloader.datatask.XmUserGroupTask;
 import wm.xmwei.ui.fragment.base.XmBaseContainerFragment;
-import wm.xmwei.ui.fragment.base.XmBaseFragment;
-import wm.xmwei.ui.fragment.base.XmHomeBaseFragment;
 import wm.xmwei.ui.view.dynagridview.BaseDynamicGridAdapter;
 import wm.xmwei.ui.view.dynagridview.DynamicGridView;
 import wm.xmwei.ui.view.indicator.PageSlidingIndicator;
-import wm.xmwei.ui.view.lib.DragGridView;
 
 /**
  * this is home fragment
@@ -66,6 +48,11 @@ public class XmHomeFragment extends XmBaseContainerFragment implements View.OnCl
     private boolean isBuildCategory = false;
 
     private List<DataGroupDomain> mUserGroupDomain = new ArrayList<DataGroupDomain>();
+
+    // add other group id
+    public final static String ALL_GROUP_ID = "0"; // all group
+    public final static String BILATERAL_GROUP_ID = "1"; // 互相关注的
+    private String currentGroupId = ALL_GROUP_ID;
 
     public static XmHomeFragment newInstance(Bundle bundle) {
 
@@ -298,8 +285,8 @@ public class XmHomeFragment extends XmBaseContainerFragment implements View.OnCl
     }
 
     private void createTestDomain() {
-        mUserGroupDomain.add(createGroupDomain("12", "12", "默认"));
-        mUserGroupDomain.add(createGroupDomain("13", "13", "我的好友"));
+        mUserGroupDomain.add(createGroupDomain(ALL_GROUP_ID, "0", "所有人"));
+        mUserGroupDomain.add(createGroupDomain(BILATERAL_GROUP_ID, "1", "互相的"));
 
     }
 
