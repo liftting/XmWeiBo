@@ -166,9 +166,9 @@ public class XmHomeFragment extends XmBaseContainerFragment implements View.OnCl
         mDragGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String item = (String) parent.getAdapter().getItem(position);
-                mUserGroupDomain.remove(item);
-                mGridItemAdapter.notifyDataSetChanged();
+//                String item = (String) parent.getAdapter().getItem(position);
+//                mUserGroupDomain.remove(item);
+//                mGridItemAdapter.notifyDataSetChanged();
             }
         });
     }
