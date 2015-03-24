@@ -1,25 +1,21 @@
 package wm.xmwei.ui.activity;
 
-import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
-import android.widget.ListView;
 
 import wm.xmwei.R;
 import wm.xmwei.XmApplication;
 import wm.xmwei.bean.UserBingDomain;
 import wm.xmwei.core.data.Constants;
+import wm.xmwei.ui.activity.base.XmBaseActivity;
 import wm.xmwei.ui.fragment.XmCommentsFragment;
 import wm.xmwei.ui.fragment.XmHomeFragment;
 import wm.xmwei.ui.fragment.base.XmBaseFragment;
@@ -27,7 +23,7 @@ import wm.xmwei.ui.view.ldrawer.ActionBarDrawerToggle;
 import wm.xmwei.ui.view.ldrawer.DrawerArrowDrawable;
 
 
-public class XmMainAct extends BaseActivity {
+public class XmMainActivity extends XmBaseActivity {
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -40,7 +36,7 @@ public class XmMainAct extends BaseActivity {
     private XmBaseFragment mCurrentShowFragment;
 
     public static Intent newIntent() {
-        return new Intent(XmApplication.getInstance(), XmMainAct.class);
+        return new Intent(XmApplication.getInstance(), XmMainActivity.class);
     }
 
     public static Intent newIntent(UserBingDomain accountBean) {

@@ -5,7 +5,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:gravity="center_vertical|center_horizontal"
-    android:background="@color/darksalmon">
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/textView1"
@@ -13,6 +13,8 @@
         android:layout_height="58dp"
         android:singleLine="true"
         android:ellipsize="middle"
+        android:gravity="center"
         android:textSize="16sp"
-        android:textColor="@color/black"/>
+        android:textColor="@color/darkgray"
+        android:background="@drawable/bg_corner_btn" />
 </LinearLayout>

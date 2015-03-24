@@ -18,7 +18,7 @@ import wm.xmwei.core.net.http.NetWorker;
 import wm.xmwei.util.URLHelper;
 import wm.xmwei.util.XmTimeUtils;
 
-public class XmCommentsToDao implements ICommentsDao {
+public class NetCommentsToUserDao implements ICommentsDao {
 
     @Override
     public DataCommentListDomain getDataListByGson() throws XmWeiboException {
@@ -69,7 +69,7 @@ public class XmCommentsToDao implements ICommentsDao {
         this.max_id = max_id;
     }
 
-    public XmCommentsToDao setCount(String count) {
+    public NetCommentsToUserDao setCount(String count) {
         this.count = count;
         return this;
     }
@@ -102,7 +102,7 @@ public class XmCommentsToDao implements ICommentsDao {
     private String filter_by_author = "0";
     private String filter_by_source = "";
 
-    public XmCommentsToDao(String access_token) {
+    public NetCommentsToUserDao(String access_token) {
         this.access_token = access_token;
         this.count = "20";
     }

@@ -25,13 +25,13 @@ import wm.xmwei.bean.UserBingDomain;
 import wm.xmwei.bean.UserDomain;
 import wm.xmwei.datadao.dbway.DbUserBingTask;
 import wm.xmwei.core.image.universalimageloader.XmImageLoader;
-import wm.xmwei.ui.activity.BaseActivity;
-import wm.xmwei.ui.activity.XmMainAct;
+import wm.xmwei.ui.activity.XmMainActivity;
+import wm.xmwei.ui.activity.base.XmBaseActivity;
 
 /**
  * this is show user bing info activity
  */
-public class XmUserBingActivity extends BaseActivity implements View.OnClickListener,
+public class XmUserBingActivity extends XmBaseActivity implements View.OnClickListener,
         LoaderManager.LoaderCallbacks<List<UserBingDomain>>, AdapterView.OnItemClickListener {
 
     private Button mBtnUserBing;
@@ -92,7 +92,7 @@ public class XmUserBingActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = XmMainAct.newIntent(mBingDataList.get(position));
+        Intent intent = XmMainActivity.newIntent(mBingDataList.get(position));
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();

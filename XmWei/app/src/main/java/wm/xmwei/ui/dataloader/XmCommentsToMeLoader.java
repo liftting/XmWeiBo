@@ -5,10 +5,9 @@ import android.content.Context;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import wm.xmwei.bean.DataCommentDomain;
 import wm.xmwei.bean.DataCommentListDomain;
 import wm.xmwei.core.lib.support.error.XmWeiboException;
-import wm.xmwei.datadao.netway.comments.XmCommentsToDao;
+import wm.xmwei.datadao.netway.comments.NetCommentsToUserDao;
 
 /**
  *
@@ -34,7 +33,7 @@ public class XmCommentsToMeLoader extends AbstractAsyncNetRequestTaskLoader<Data
     @Override
     protected DataCommentListDomain loadData() throws XmWeiboException {
         //真正去异步的加载数据
-        XmCommentsToDao dao = new XmCommentsToDao(token);
+        NetCommentsToUserDao dao = new NetCommentsToUserDao(token);
         dao.setSince_id(sinceId);
         dao.setMax_id(maxId);
         DataCommentListDomain result = null;

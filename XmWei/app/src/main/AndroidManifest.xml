@@ -13,12 +13,12 @@
         android:icon="@drawable/ic_launcher"
         android:theme="@style/AppTheme_Light">
 
-        <activity android:name=".ui.activity.XmSplashAct">
+        <activity android:name=".ui.activity.XmSplashActivity">
 
 
         </activity>
 
-        <activity android:name=".ui.activity.XmMainAct">
+        <activity android:name=".ui.activity.XmMainActivity">
 
 
         </activity>

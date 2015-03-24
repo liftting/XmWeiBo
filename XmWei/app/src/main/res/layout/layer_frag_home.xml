@@ -53,23 +53,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/rly_gridview_container"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:background="@color/white">
 
-        <TextView
-            android:id="@+id/tv_tip_item"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="45dip"
-            android:text="this is text item"
-            android:textSize="16sp"
-            android:gravity="center"
-            android:textColor="@color/black" />
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:id="@+id/ly_drag_title_container">
+
+            <TextView
+                android:id="@+id/tv_tip_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="this is text item"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:textColor="@color/black" />
+        </LinearLayout>
 
         <wm.xmwei.ui.view.dynagridview.DynamicGridView
             android:id="@+id/v_drag_gridview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/tv_tip_item"
-            android:numColumns="3" />
+            android:layout_below="@+id/ly_drag_title_container"
+            android:numColumns="3"
+            android:layout_marginTop="28dp"/>
 
     </RelativeLayout>
 

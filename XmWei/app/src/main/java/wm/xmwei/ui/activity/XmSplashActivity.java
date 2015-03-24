@@ -3,14 +3,13 @@ package wm.xmwei.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ImageView;
 
 import wm.xmwei.R;
 
 
-public class XmSplashAct extends FragmentActivity implements View.OnClickListener {
+public class XmSplashActivity extends FragmentActivity implements View.OnClickListener {
 
     private ImageView mLastImg;
 
@@ -25,7 +24,7 @@ public class XmSplashAct extends FragmentActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(this, XmMainAct.class);
+        Intent intent = new Intent(this, XmMainActivity.class);
         startActivity(intent);
     }
 }

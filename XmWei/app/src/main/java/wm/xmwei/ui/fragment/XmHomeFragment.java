@@ -37,6 +37,7 @@ import wm.xmwei.core.net.http.OnDataLoadTaskListener;
 import wm.xmwei.ui.adapter.XmCommentsPagerAdapter;
 import wm.xmwei.ui.adapter.XmHomeFragmentAdapter;
 import wm.xmwei.ui.dataloader.datatask.XmUserGroupTask;
+import wm.xmwei.ui.fragment.base.XmBaseContainerFragment;
 import wm.xmwei.ui.fragment.base.XmBaseFragment;
 import wm.xmwei.ui.fragment.base.XmHomeBaseFragment;
 import wm.xmwei.ui.view.dynagridview.BaseDynamicGridAdapter;
@@ -47,7 +48,7 @@ import wm.xmwei.ui.view.lib.DragGridView;
 /**
  * this is home fragment
  */
-public class XmHomeFragment extends XmBaseFragment implements View.OnClickListener, OnDataLoadTaskListener<DataGroupListDomain> {
+public class XmHomeFragment extends XmBaseContainerFragment implements View.OnClickListener, OnDataLoadTaskListener<DataGroupListDomain> {
 
     private Context mContext;
     private ViewPager mHomeViewPager;
@@ -272,11 +273,14 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
     //构建分组adapter
     public void createGroupAdapter() {
 
-        UserBingDomain bingUser = XmApplication.getInstance().getUserBingDomain();
-        XmUserGroupTask task = new XmUserGroupTask(bingUser.getAccess_token(), bingUser.getUid());
-        task.setDataLoadTaskListener(this);
-        task.executeOnExecutor(XmAsyncTask.THREAD_POOL_EXECUTOR);
+//        UserBingDomain bingUser = XmApplication.getInstance().getUserBingDomain();
+//        XmUserGroupTask task = new XmUserGroupTask(bingUser.getAccess_token(), bingUser.getUid());
+//        task.setDataLoadTaskListener(this);
+//        task.executeOnExecutor(XmAsyncTask.THREAD_POOL_EXECUTOR);
 
+        createTestDomain();
+        groupDataComplete();
+        buildHomeFragments();
 
     }
 
@@ -291,6 +295,20 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
 
     private void groupDataComplete() {
         mDataLoadProgress.setVisibility(View.GONE);
+    }
+
+    private void createTestDomain() {
+        mUserGroupDomain.add(createGroupDomain("12", "12", "默认"));
+        mUserGroupDomain.add(createGroupDomain("13", "13", "我的好友"));
+
+    }
+
+    private DataGroupDomain createGroupDomain(String id, String idStr, String name) {
+        DataGroupDomain groupDomain = new DataGroupDomain();
+        groupDomain.setId(id);
+        groupDomain.setIdstr(idStr);
+        groupDomain.setName(name);
+        return groupDomain;
     }
 
 }

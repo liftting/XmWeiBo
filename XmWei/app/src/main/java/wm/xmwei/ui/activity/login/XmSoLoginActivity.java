@@ -23,12 +23,12 @@ import wm.xmwei.datadao.dbway.DbUserBingTask;
 import wm.xmwei.core.debug.AppLogger;
 import wm.xmwei.core.lib.support.error.XmWeiboException;
 import wm.xmwei.datadao.netway.login.NetOAuthDao;
-import wm.xmwei.ui.activity.BaseActivity;
+import wm.xmwei.ui.activity.base.XmBaseActivity;
 
 /**
  *
  */
-public class XmSoLoginActivity extends BaseActivity {
+public class XmSoLoginActivity extends XmBaseActivity {
 
     /**
      * 微博 Web 授权类，提供登陆等功能

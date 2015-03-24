@@ -12,6 +12,7 @@ import wm.xmwei.R;
 import wm.xmwei.XmApplication;
 import wm.xmwei.bean.UserBingDomain;
 import wm.xmwei.ui.adapter.XmCommentsPagerAdapter;
+import wm.xmwei.ui.fragment.base.XmBaseContainerFragment;
 import wm.xmwei.ui.fragment.base.XmBaseFragment;
 import wm.xmwei.ui.view.indicator.PageSlidingIndicator;
 import wm.xmwei.ui.view.indicator.PagerSlidingTabIndicator;
@@ -19,7 +20,7 @@ import wm.xmwei.ui.view.indicator.PagerSlidingTabIndicator;
 /**
  * this is commment
  */
-public class XmCommentsFragment extends XmBaseFragment {
+public class XmCommentsFragment extends XmBaseContainerFragment {
 
     private ViewPager mViewPager;
     private PageSlidingIndicator mPageIndicator;

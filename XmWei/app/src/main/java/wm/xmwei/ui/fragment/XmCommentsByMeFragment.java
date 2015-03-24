@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 
 import wm.xmwei.R;
 import wm.xmwei.bean.base.DataListDomain;
+import wm.xmwei.ui.fragment.base.XmBaseContainerFragment;
 import wm.xmwei.ui.fragment.base.XmBaseFragment;
 import wm.xmwei.ui.fragment.base.XmBaseListFragment;
 
@@ -15,7 +16,7 @@ import wm.xmwei.ui.fragment.base.XmBaseListFragment;
  *
  *
  */
-public class XmCommentsByMeFragment extends XmBaseFragment {
+public class XmCommentsByMeFragment extends XmBaseContainerFragment {
 
     public static XmCommentsByMeFragment newInstance(Bundle bundle) {
         XmCommentsByMeFragment fragment = new XmCommentsByMeFragment();

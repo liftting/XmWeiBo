@@ -30,14 +30,14 @@ import wm.xmwei.bean.UserDomain;
 import wm.xmwei.core.debug.AppLogger;
 import wm.xmwei.core.lib.support.error.XmWeiboException;
 import wm.xmwei.datadao.netway.login.NetOAuthDao;
-import wm.xmwei.ui.activity.BaseActivity;
+import wm.xmwei.ui.activity.base.XmBaseActivity;
 import wm.xmwei.util.URLHelper;
 import wm.xmwei.util.XmUtils;
 
 /**
  * 网页的认证
  */
-public class OAuthActivity extends BaseActivity {
+public class OAuthActivity extends XmBaseActivity {
 
     private WebView webView;
     private MenuItem refreshItem;

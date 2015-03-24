@@ -23,7 +23,7 @@ import wm.xmwei.util.XmUtils;
 /**
  *
  */
-public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBaseFragment {
+public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBaseContainerFragment {
 
     protected PullToRefreshListView mPullToRefreshListView;
     private ProgressBar mProgressBar;
@@ -183,6 +183,7 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
         @Override
         public void onLoadFinished(Loader<DataLoadResult<T>> loader, DataLoadResult<T> data) {
 
+            //这里做异常的列表处理
             T result = data != null ? data.data : null;
 
             getPullToRefreshListView().onRefreshComplete();

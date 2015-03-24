@@ -1,4 +1,4 @@
-package wm.xmwei.ui.activity;
+package wm.xmwei.ui.activity.base;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
 
 import wm.xmwei.XmApplication;
 
-public class BaseActivity extends FragmentActivity {
+public class XmBaseActivity extends FragmentActivity {
 
     protected int theme = 0; // 当前的主题样式
 
