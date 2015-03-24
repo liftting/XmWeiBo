@@ -133,23 +133,23 @@
             android:useDefaultMargins="false"
             android:clickable="false">
 
-            <ImageView style="@style/listViewMultiImageView" />
+            <wm.xmwei.core.lib.support.view.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
 
-            <ImageView style="@style/listViewMultiImageView" />
+            <wm.xmwei.core.lib.support.view.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
 
-            <ImageView style="@style/listViewMultiImageView" />
+            <wm.xmwei.core.lib.support.view.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
 
-            <ImageView style="@style/listViewMultiImageView" />
+            <wm.xmwei.core.lib.support.view.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
 
-            <ImageView style="@style/listViewMultiImageView" />
+            <wm.xmwei.core.lib.support.view.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
 
-            <ImageView style="@style/listViewMultiImageView" />
+            <wm.xmwei.core.lib.support.view.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
 
-            <ImageView style="@style/listViewMultiImageView" />
+            <wm.xmwei.core.lib.support.view.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
 
-            <ImageView style="@style/listViewMultiImageView" />
+            <wm.xmwei.core.lib.support.view.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
 
-            <ImageView style="@style/listViewMultiImageView" />
+            <wm.xmwei.core.lib.support.view.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
 
         </GridLayout>
 
@@ -208,23 +208,23 @@
             android:useDefaultMargins="false"
             android:clickable="false">
 
-            <ImageView style="@style/listViewMultiImageView" />
+            <wm.xmwei.core.lib.support.view.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
 
-            <ImageView style="@style/listViewMultiImageView" />
+            <wm.xmwei.core.lib.support.view.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
 
-            <ImageView style="@style/listViewMultiImageView" />
+            <wm.xmwei.core.lib.support.view.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
 
-            <ImageView style="@style/listViewMultiImageView" />
+            <wm.xmwei.core.lib.support.view.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
 
-            <ImageView style="@style/listViewMultiImageView" />
+            <wm.xmwei.core.lib.support.view.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
 
-            <ImageView style="@style/listViewMultiImageView" />
+            <wm.xmwei.core.lib.support.view.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
 
-            <ImageView style="@style/listViewMultiImageView" />
+            <wm.xmwei.core.lib.support.view.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
 
-            <ImageView style="@style/listViewMultiImageView" />
+            <wm.xmwei.core.lib.support.view.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
 
-            <ImageView style="@style/listViewMultiImageView" />
+            <wm.xmwei.core.lib.support.view.MultiPicturesChildImageView style="@style/listViewMultiImageView" />
 
         </GridLayout>
 

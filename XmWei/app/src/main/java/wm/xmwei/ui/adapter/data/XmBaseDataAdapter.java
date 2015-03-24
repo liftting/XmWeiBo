@@ -2,6 +2,7 @@ package wm.xmwei.ui.adapter.data;
 
 import android.content.Context;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,15 @@ import android.widget.TextView;
 import java.util.List;
 
 import wm.xmwei.R;
+import wm.xmwei.bean.DataMessageDomain;
+import wm.xmwei.bean.UserDomain;
 import wm.xmwei.bean.base.DataItemDomain;
+import wm.xmwei.core.image.universalimageloader.XmImageLoader;
+import wm.xmwei.core.image.universalimageloader.core.ImageLoader;
 import wm.xmwei.ui.view.lib.TimeLineAvatarImageView;
 import wm.xmwei.ui.view.lib.TimeTextView;
 import wm.xmwei.ui.view.lib.asyncpicture.IXmDrawable;
+import wm.xmwei.util.XmSettingUtil;
 
 /**
  *
@@ -142,6 +148,18 @@ public abstract class XmBaseDataAdapter<T extends DataItemDomain> extends BaseAd
         return holder;
     }
 
+    protected void buildAvatar(IXmDrawable view, int position, final UserDomain user) {
+        view.setVisibility(View.VISIBLE);
+        view.checkVerified(user);
+        String image_url = user.getProfile_image_url();
+        if (!TextUtils.isEmpty(image_url)) {
+            view.setVisibility(View.VISIBLE);
+            XmImageLoader.getInstance().loadImage(image_url, view.getImageView());
+        } else {
+            view.setVisibility(View.GONE);
+        }
+    }
+
     public static class ViewHolder {
         TextView username;
         TextView content;
@@ -163,6 +181,102 @@ public abstract class XmBaseDataAdapter<T extends DataItemDomain> extends BaseAd
         ImageView timeline_pic;
         ImageView replyIV;
     }
+
+
+    protected void buildMultiPic(final DataMessageDomain msg, final GridLayout gridLayout) {
+        if (XmSettingUtil.isEnablePic()) {
+            gridLayout.setVisibility(View.VISIBLE);
+
+            final int count = msg.getPicCount();
+            for (int i = 0; i < count; i++) {
+                final IXmDrawable pic = (IXmDrawable) gridLayout.getChildAt(i);
+                pic.setVisibility(View.VISIBLE);
+                if (XmSettingUtil.getEnableBigPic()) {
+                    XmImageLoader.getInstance().loadImage(msg.getHighPicUrls().get(i), pic.getImageView());
+                } else {
+                    XmImageLoader.getInstance().loadImage(msg.getThumbnailPicUrls().get(i), pic.getImageView());
+                }
+
+            }
+
+            if (count < 9) {
+                ImageView pic;
+                switch (count) {
+                    case 8:
+                        pic = (ImageView) gridLayout.getChildAt(8);
+                        pic.setVisibility(View.INVISIBLE);
+                        break;
+                    case 7:
+                        for (int i = 8; i > 6; i--) {
+                            pic = (ImageView) gridLayout.getChildAt(i);
+                            pic.setVisibility(View.INVISIBLE);
+                        }
+                        break;
+                    case 6:
+                        for (int i = 8; i > 5; i--) {
+                            pic = (ImageView) gridLayout.getChildAt(i);
+                            pic.setVisibility(View.GONE);
+                        }
+
+                        break;
+                    case 5:
+                        for (int i = 8; i > 5; i--) {
+                            pic = (ImageView) gridLayout.getChildAt(i);
+                            pic.setVisibility(View.GONE);
+                        }
+                        pic = (ImageView) gridLayout.getChildAt(5);
+                        pic.setVisibility(View.INVISIBLE);
+                        break;
+                    case 4:
+                        for (int i = 8; i > 5; i--) {
+                            pic = (ImageView) gridLayout.getChildAt(i);
+                            pic.setVisibility(View.GONE);
+                        }
+                        pic = (ImageView) gridLayout.getChildAt(5);
+                        pic.setVisibility(View.INVISIBLE);
+                        pic = (ImageView) gridLayout.getChildAt(4);
+                        pic.setVisibility(View.INVISIBLE);
+                        break;
+                    case 3:
+                        for (int i = 8; i > 2; i--) {
+                            pic = (ImageView) gridLayout.getChildAt(i);
+                            pic.setVisibility(View.GONE);
+                        }
+                        break;
+                    case 2:
+                        for (int i = 8; i > 2; i--) {
+                            pic = (ImageView) gridLayout.getChildAt(i);
+                            pic.setVisibility(View.GONE);
+                        }
+                        pic = (ImageView) gridLayout.getChildAt(2);
+                        pic.setVisibility(View.INVISIBLE);
+                        break;
+                }
+            }
+        } else {
+            gridLayout.setVisibility(View.GONE);
+        }
+    }
+
+    protected void buildPic(final DataMessageDomain msg, final IXmDrawable view, int position) {
+        if (XmSettingUtil.isEnablePic()) {
+            view.setVisibility(View.VISIBLE);
+
+            buildPic(msg, view);
+        } else {
+            view.setVisibility(View.GONE);
+        }
+    }
+
+    private void buildPic(final DataMessageDomain msg, IXmDrawable view) {
+        view.setVisibility(View.VISIBLE);
+        String picUrl = msg.getThumbnail_pic();
+        if (XmSettingUtil.getEnableBigPic()) {
+            picUrl = msg.getOriginal_pic();
+        }
+        XmImageLoader.getInstance().loadImage(picUrl, view.getImageView());
+    }
+
 
     /**
      * 根据指定位置，来填充adapter的数据

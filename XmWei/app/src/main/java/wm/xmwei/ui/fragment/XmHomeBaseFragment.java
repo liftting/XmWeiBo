@@ -16,6 +16,7 @@ import wm.xmwei.bean.DataMessageListDomain;
 import wm.xmwei.bean.UserBingDomain;
 import wm.xmwei.bean.base.DataListDomain;
 import wm.xmwei.datadao.DataLoadResult;
+import wm.xmwei.ui.adapter.data.XmHomeDataAdapter;
 import wm.xmwei.ui.dataloader.XmHomeMessageLoader;
 import wm.xmwei.ui.fragment.base.XmBaseListFragment;
 
@@ -24,7 +25,6 @@ import wm.xmwei.ui.fragment.base.XmBaseListFragment;
  */
 public class XmHomeBaseFragment extends XmBaseListFragment<DataMessageListDomain> {
 
-    private Context mContext;
     private TextView mTvInfo;
 
     private DataGroupDomain mDataType;
@@ -54,14 +54,15 @@ public class XmHomeBaseFragment extends XmBaseListFragment<DataMessageListDomain
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //load data
-        mContext = getActivity();
-
 
     }
 
     @Override
     protected void createDataListAdapter() {
-
+        XmHomeDataAdapter adapter = new XmHomeDataAdapter(this.getActivity(),
+                getDataList().getItemList());
+        mBaseDataAdapter = adapter;
+        getListView().setAdapter(mBaseDataAdapter);
     }
 
     @Override
@@ -82,7 +83,7 @@ public class XmHomeBaseFragment extends XmBaseListFragment<DataMessageListDomain
         String token = userBingDomain.getAccess_token();
         String sinceId = null;
 
-        XmHomeMessageLoader messageLoader = new XmHomeMessageLoader(mContext, accountId, token, mDataType.getId(), sinceId, null);
+        XmHomeMessageLoader messageLoader = new XmHomeMessageLoader(this.getActivity(), accountId, token, mDataType.getId(), sinceId, null);
         return messageLoader;
     }
 

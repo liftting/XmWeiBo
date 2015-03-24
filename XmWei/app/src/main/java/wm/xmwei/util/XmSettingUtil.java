@@ -31,4 +31,11 @@ public class XmSettingUtil {
     }
 
 
+    public static boolean isEnablePic() {
+        return true;
+    }
+
+    public static boolean getEnableBigPic() {
+        return true;
+    }
 }

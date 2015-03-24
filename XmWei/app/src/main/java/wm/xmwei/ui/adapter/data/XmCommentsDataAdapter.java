@@ -64,19 +64,5 @@ public class XmCommentsDataAdapter extends XmBaseDataAdapter<DataCommentDomain> 
     }
 
 
-    protected void buildAvatar(IXmDrawable view, int position, final UserDomain user) {
-        view.setVisibility(View.VISIBLE);
-        view.checkVerified(user);
-        buildAvatar(view.getImageView(), position, user);
-    }
 
-    protected void buildAvatar(ImageView view, int position, final UserDomain user) {
-        String image_url = user.getProfile_image_url();
-        if (!TextUtils.isEmpty(image_url)) {
-            view.setVisibility(View.VISIBLE);
-            XmImageLoader.getInstance().loadImage(image_url, view);
-        } else {
-            view.setVisibility(View.GONE);
-        }
-    }
 }

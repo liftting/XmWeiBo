@@ -62,7 +62,7 @@ public class XmCommentsToMeFragment extends XmBaseListFragment<DataCommentListDo
         XmCommentsDataAdapter commentsDataAdapter = new XmCommentsDataAdapter(getActivity(),
                 getDataList().getItemList());
         mBaseDataAdapter = commentsDataAdapter;
-        mPullToRefreshListView.setAdapter(mBaseDataAdapter);
+        getListView().setAdapter(mBaseDataAdapter);
     }
 
     @Override
