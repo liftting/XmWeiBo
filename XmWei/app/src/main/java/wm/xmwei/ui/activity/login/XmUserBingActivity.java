@@ -2,6 +2,7 @@ package wm.xmwei.ui.activity.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -23,6 +24,7 @@ import java.util.List;
 import wm.xmwei.R;
 import wm.xmwei.bean.UserBingDomain;
 import wm.xmwei.bean.UserDomain;
+import wm.xmwei.core.lib.support.view.material.ProgressWheel;
 import wm.xmwei.datadao.dbway.DbUserBingTask;
 import wm.xmwei.core.image.universalimageloader.XmImageLoader;
 import wm.xmwei.ui.activity.XmMainActivity;
@@ -42,6 +44,8 @@ public class XmUserBingActivity extends XmBaseActivity implements View.OnClickLi
 
     private final int LOADER_ID = 0;
     private final int ADD_ACCOUNT_REQUEST_CODE = 0;
+
+    private ProgressWheel mProgressWheel;
 
 
     @Override

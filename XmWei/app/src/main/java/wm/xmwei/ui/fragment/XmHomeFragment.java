@@ -26,6 +26,7 @@ import wm.xmwei.ui.fragment.base.XmBaseContainerFragment;
 import wm.xmwei.ui.view.dynagridview.BaseDynamicGridAdapter;
 import wm.xmwei.ui.view.dynagridview.DynamicGridView;
 import wm.xmwei.ui.view.indicator.PageSlidingIndicator;
+import wm.xmwei.ui.view.indicator.XmTwoPageSlidingIndicator;
 
 /**
  * this is home fragment
@@ -34,7 +35,7 @@ public class XmHomeFragment extends XmBaseContainerFragment implements View.OnCl
 
     private Context mContext;
     private ViewPager mHomeViewPager;
-    private PageSlidingIndicator mHomePageIndicator;
+    private XmTwoPageSlidingIndicator mHomePageIndicator;
     private ProgressBar mDataLoadProgress;
 
 
@@ -92,7 +93,7 @@ public class XmHomeFragment extends XmBaseContainerFragment implements View.OnCl
     private void initView(View mainView) {
 
         mHomeViewPager = (ViewPager) mainView.findViewById(R.id.v_home_pager);
-        mHomePageIndicator = (PageSlidingIndicator) mainView.findViewById(R.id.v_home_indicator);
+        mHomePageIndicator = (XmTwoPageSlidingIndicator) mainView.findViewById(R.id.v_home_indicator);
 
         mRlyDragContainer = (RelativeLayout) mainView.findViewById(R.id.rly_gridview_container);
         mDragGridView = (DynamicGridView) mainView.findViewById(R.id.v_drag_gridview);

@@ -74,7 +74,7 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
         getListView().setHeaderDividersEnabled(false);
         getListView().setScrollingCacheEnabled(false);
 
-        mFooterView = inflater.inflate(R.layout.layer_listview_footer, null);
+        mFooterView = inflater.inflate(R.layout.layer_data_load_footer, null);
         getListView().addFooterView(mFooterView);
         dismissFooterView();
 
@@ -139,15 +139,8 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
     };
 
     protected void dismissFooterView() {
-        final View progressbar = mFooterView.findViewById(R.id.loading_progressbar);
-        progressbar.animate().scaleX(0).scaleY(0).alpha(0.5f).setDuration(300)
-                .withEndAction(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressbar.setVisibility(View.GONE);
-                    }
-                });
-        mFooterView.findViewById(R.id.laod_failed).setVisibility(View.GONE);
+
+
     }
 
     public SwipeRefreshLayout getSwipeRefreshLayout() {
