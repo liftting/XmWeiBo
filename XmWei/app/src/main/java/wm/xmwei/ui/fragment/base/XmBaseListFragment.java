@@ -3,6 +3,7 @@ package wm.xmwei.ui.fragment.base;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,8 @@ import wm.xmwei.util.XmUtils;
  */
 public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBaseContainerFragment {
 
-    protected PullToRefreshListView mPullToRefreshListView;
+    protected SwipeRefreshLayout mSwipeRefreshLayout;
+    protected ListView mRefreshListView;
     private ProgressBar mProgressBar;
     protected View mFooterView;
     protected BaseAdapter mBaseDataAdapter;
@@ -66,7 +68,8 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
         mViewEmpty = containerView.findViewById(R.id.empty);
         mProgressBar = (ProgressBar) containerView.findViewById(R.id.progressbar);
         mProgressBar.setVisibility(View.GONE);
-        mPullToRefreshListView = (PullToRefreshListView) containerView.findViewById(R.id.listView);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) containerView.findViewById(R.id.listView);
+        mRefreshListView = (ListView) containerView.findViewById(R.id.xm_origin_listview);
 
         getListView().setHeaderDividersEnabled(false);
         getListView().setScrollingCacheEnabled(false);
@@ -80,12 +83,13 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        mPullToRefreshListView.setOnRefreshListener(listViewOnRefreshListener);
-        mPullToRefreshListView.setOnLastItemVisibleListener(listViewOnLastItemVisibleListener);
-        mPullToRefreshListView.setOnScrollListener(listViewOnScrollListener);
-        mPullToRefreshListView.setOnItemClickListener(listViewOnItemClickListener);
-        mPullToRefreshListView.setOnPullEventListener(getPullEventListener());
-//
+        mSwipeRefreshLayout.setOnRefreshListener(listViewOnRefreshListener);
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+
         createDataListAdapter();
 
     }
@@ -98,10 +102,10 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
         }
     };
 
-    private PullToRefreshBase.OnRefreshListener<ListView> listViewOnRefreshListener
-            = new PullToRefreshBase.OnRefreshListener<ListView>() {
+    private SwipeRefreshLayout.OnRefreshListener listViewOnRefreshListener
+            = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
-        public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+        public void onRefresh() {
             loadNewData();
         }
     };
@@ -146,12 +150,12 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
         mFooterView.findViewById(R.id.laod_failed).setVisibility(View.GONE);
     }
 
-    public PullToRefreshListView getPullToRefreshListView() {
-        return mPullToRefreshListView;
+    public SwipeRefreshLayout getSwipeRefreshLayout() {
+        return mSwipeRefreshLayout;
     }
 
     public ListView getListView() {
-        return mPullToRefreshListView.getRefreshableView();
+        return mRefreshListView;
     }
 
     protected void refreshLayout(T bean) {
@@ -186,7 +190,7 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
             //这里做异常的列表处理
             T result = data != null ? data.data : null;
 
-            getPullToRefreshListView().onRefreshComplete();
+            getSwipeRefreshLayout().setRefreshing(false);
             refreshLayout(getDataList());
             onNewDataLoaderSuccessCallback(result, null);
 
@@ -206,7 +210,7 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
         return onCreateNewDataLoader(id, args);
     }
 
-    public BaseAdapter getAdapter(){
+    public BaseAdapter getAdapter() {
         return mBaseDataAdapter;
     }
 

@@ -7,11 +7,16 @@ import android.view.View;
 import android.widget.ImageView;
 
 import wm.xmwei.R;
+import wm.xmwei.core.lib.support.view.swipebacklayout.SwipeBackLayout;
+import wm.xmwei.core.lib.support.view.swipebacklayout.app.SwipeBackActivity;
+import wm.xmwei.ui.activity.login.XmUserBingActivity;
 
 
-public class XmSplashActivity extends FragmentActivity implements View.OnClickListener {
+public class XmSplashActivity extends SwipeBackActivity implements View.OnClickListener {
 
     private ImageView mLastImg;
+
+    private SwipeBackLayout mSwipeBackLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,11 +25,14 @@ public class XmSplashActivity extends FragmentActivity implements View.OnClickLi
         setContentView(R.layout.layer_splash_guide);
         mLastImg = (ImageView) findViewById(R.id.lastView3);
         mLastImg.setOnClickListener(this);
+
+        mSwipeBackLayout = getSwipeBackLayout();
+        mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
     }
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(this, XmMainActivity.class);
+        Intent intent = new Intent(this, XmUserBingActivity.class);
         startActivity(intent);
     }
 }

@@ -41,8 +41,10 @@ public class XmMenuFragment extends XmBaseFragment {
         super.onActivityCreated(savedInstanceState);
         // data load and show
         UserBingDomain bingUser = XmApplication.getInstance().getUserBingDomain();
-        XmImageLoader.getInstance().loadImage(bingUser.getAvatar_url(), mLeftContainer.avatar);
-        mLeftContainer.nickname.setText(bingUser.getUsernick());
+        if (bingUser != null) {
+            XmImageLoader.getInstance().loadImage(bingUser.getAvatar_url(), mLeftContainer.avatar);
+            mLeftContainer.nickname.setText(bingUser.getUsernick());
+        }
 
     }
 
