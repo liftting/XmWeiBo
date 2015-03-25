@@ -136,13 +136,13 @@ public class DataMessageListDomain extends DataListDomain<DataMessageDomain, Dat
         }
     }
 
-//    @Override
-//    public void addOldData(DataMessageListDomain oldValue) {
-//        if (oldValue != null && oldValue.getSize() > 1) {
-//            getItemList().addAll(oldValue.getItemList().subList(1, oldValue.getSize()));
-//            setTotal_number(oldValue.getTotal_number());
-//        }
-//    }
+    @Override
+    public void addOldData(DataMessageListDomain oldValue) {
+        if (oldValue != null && oldValue.getSize() > 1) {
+            getItemList().addAll(oldValue.getItemList().subList(1, oldValue.getSize()));
+            setTotal_number(oldValue.getTotal_number());
+        }
+    }
 
     public void addMiddleData(int position, DataMessageListDomain middleValue, boolean towardsBottom) {
         if (middleValue == null) {

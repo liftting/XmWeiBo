@@ -95,5 +95,10 @@ public class XmCommentsToMeFragment extends XmBaseListFragment<DataCommentListDo
         getDataList().addNewData(newValue);
     }
 
+    @Override
+    protected void onOldDataLoaderSuccessCallback(DataCommentListDomain newValue) {
+
+    }
+
 
 }

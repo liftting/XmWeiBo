@@ -45,4 +45,9 @@ public abstract class DataListDomain<T extends DataItemDomain, K> {
     public abstract void addNewData(K newValue);
 
 
+    public abstract void addOldData(K oldValue);
+
+
+
+
 }

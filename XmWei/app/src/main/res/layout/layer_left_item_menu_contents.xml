@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:rip="http://schemas.android.com/apk/res/wm.xmwei">
 
     <wm.xmwei.core.lib.support.view.material.RippleView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        rip:rv_color="@color/white">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:textSize="16sp"
             android:textColor="@color/black"
             android:gravity="center"
-            android:text="@string/home"/>
+            android:text="@string/home"
+            android:background="@drawable/bg_menu_text_click" />
     </wm.xmwei.core.lib.support.view.material.RippleView>
 
 </merge>

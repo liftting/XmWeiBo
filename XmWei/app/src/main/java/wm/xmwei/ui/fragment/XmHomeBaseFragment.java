@@ -82,9 +82,23 @@ public class XmHomeBaseFragment extends XmBaseListFragment<DataMessageListDomain
         String accountId = userBingDomain.getUid();
         String token = userBingDomain.getAccess_token();
         String sinceId = null;
+        if (getDataList().getItemList().size() > 0) {
+            sinceId = getDataList().getItemList().get(0).getId();
+        }
 
         XmHomeMessageLoader messageLoader = new XmHomeMessageLoader(this.getActivity(), accountId, token, mDataType.getId(), sinceId, null);
         return messageLoader;
+    }
+
+    protected Loader<DataLoadResult<DataMessageListDomain>> onCreateOldDataLoader(int id, Bundle args) {
+        UserBingDomain userBingDomain = XmApplication.getInstance().getUserBingDomain();
+        String accountId = userBingDomain.getUid();
+        String token = userBingDomain.getAccess_token();
+        String maxId = null;
+        if (getDataList().getItemList().size() > 0) {
+            maxId = getDataList().getItemList().get(getDataList().getItemList().size() - 1).getId();
+        }
+        return new XmHomeMessageLoader(getActivity(), accountId, token, mDataType.getId(), null, maxId);
     }
 
     @Override
@@ -92,6 +106,11 @@ public class XmHomeBaseFragment extends XmBaseListFragment<DataMessageListDomain
         // there data has success
         getDataList().addNewData(newValue);
 
+    }
+
+    @Override
+    protected void onOldDataLoaderSuccessCallback(DataMessageListDomain oldValue) {
+        getDataList().addOldData(oldValue);
     }
 
 }

@@ -98,6 +98,14 @@ public class DataCommentListDomain extends DataListDomain<DataCommentDomain, Dat
     }
 
     @Override
+    public void addOldData(DataCommentListDomain oldValue) {
+        if (oldValue != null && oldValue.getSize() > 1) {
+            getItemList().addAll(oldValue.getItemList().subList(1, oldValue.getSize()));
+            setTotal_number(oldValue.getTotal_number());
+        }
+    }
+
+    @Override
     public int getSize() {
         return comments.size();
     }
