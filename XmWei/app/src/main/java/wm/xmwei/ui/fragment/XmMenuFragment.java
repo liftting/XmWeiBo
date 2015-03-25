@@ -57,18 +57,18 @@ public class XmMenuFragment extends XmBaseFragment {
         mLeftContainer.avatar = (ImageView) containView.findViewById(R.id.avatar);
         mLeftContainer.nickname = (TextView) containView.findViewById(R.id.nickname);
 
-        mLeftContainer.home = (LinearLayout) containView.findViewById(R.id.btn_home);
-        mLeftContainer.mention = (LinearLayout) containView.findViewById(R.id.btn_mention);
-        mLeftContainer.comment = (LinearLayout) containView.findViewById(R.id.btn_comment);
-        mLeftContainer.search = (Button) containView.findViewById(R.id.btn_search);
-        mLeftContainer.profile = (Button) containView.findViewById(R.id.btn_profile);
-        mLeftContainer.setting = (Button) containView.findViewById(R.id.btn_setting);
-        mLeftContainer.dm = (Button) containView.findViewById(R.id.btn_dm);
-        mLeftContainer.logout = (Button) containView.findViewById(R.id.btn_logout);
-        mLeftContainer.fav = (Button) containView.findViewById(R.id.btn_favourite);
-        mLeftContainer.homeCount = (TextView) containView.findViewById(R.id.tv_home_count);
-        mLeftContainer.mentionCount = (TextView) containView.findViewById(R.id.tv_mention_count);
-        mLeftContainer.commentCount = (TextView) containView.findViewById(R.id.tv_comment_count);
+//        mLeftContainer.home = (LinearLayout) containView.findViewById(R.id.btn_home);
+//        mLeftContainer.mention = (LinearLayout) containView.findViewById(R.id.btn_mention);
+//        mLeftContainer.comment = (LinearLayout) containView.findViewById(R.id.btn_comment);
+//        mLeftContainer.search = (Button) containView.findViewById(R.id.btn_search);
+//        mLeftContainer.profile = (Button) containView.findViewById(R.id.btn_profile);
+//        mLeftContainer.setting = (Button) containView.findViewById(R.id.btn_setting);
+//        mLeftContainer.dm = (Button) containView.findViewById(R.id.btn_dm);
+//        mLeftContainer.logout = (Button) containView.findViewById(R.id.btn_logout);
+//        mLeftContainer.fav = (Button) containView.findViewById(R.id.btn_favourite);
+//        mLeftContainer.homeCount = (TextView) containView.findViewById(R.id.tv_home_count);
+//        mLeftContainer.mentionCount = (TextView) containView.findViewById(R.id.tv_mention_count);
+//        mLeftContainer.commentCount = (TextView) containView.findViewById(R.id.tv_comment_count);
 
         return containView;
     }

@@ -35,7 +35,7 @@ public class XmHomeFragment extends XmBaseContainerFragment implements View.OnCl
 
     private Context mContext;
     private ViewPager mHomeViewPager;
-    private XmTwoPageSlidingIndicator mHomePageIndicator;
+    private PageSlidingIndicator mHomePageIndicator;
     private ProgressBar mDataLoadProgress;
 
 
@@ -93,7 +93,7 @@ public class XmHomeFragment extends XmBaseContainerFragment implements View.OnCl
     private void initView(View mainView) {
 
         mHomeViewPager = (ViewPager) mainView.findViewById(R.id.v_home_pager);
-        mHomePageIndicator = (XmTwoPageSlidingIndicator) mainView.findViewById(R.id.v_home_indicator);
+        mHomePageIndicator = (PageSlidingIndicator) mainView.findViewById(R.id.v_home_indicator);
 
         mRlyDragContainer = (RelativeLayout) mainView.findViewById(R.id.rly_gridview_container);
         mDragGridView = (DynamicGridView) mainView.findViewById(R.id.v_drag_gridview);

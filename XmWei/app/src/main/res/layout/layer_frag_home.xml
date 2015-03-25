@@ -18,25 +18,16 @@
         android:layout_height="45dip"
         android:id="@+id/rly_indicator_container">
 
-        <!--<wm.xmwei.ui.view.indicator.PageSlidingIndicator-->
-        <!--android:id="@+id/v_home_indicator"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:textColor="#5f5f5f"-->
-        <!--android:textSize="14sp"-->
-        <!--app:indicatorHeight="2dip"-->
-        <!--app:tabPaddingLeftRight="12dp"-->
-        <!--app:isChangeTextSizeBig="true"-->
-        <!--app:underlineColor="@color/actionbar_color" />-->
-
-        <wm.xmwei.ui.view.indicator.XmTwoPageSlidingIndicator
+        <wm.xmwei.ui.view.indicator.PageSlidingIndicator
             android:id="@+id/v_home_indicator"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textColor="#5f5f5f"
             android:textSize="14sp"
-            android:layout_toLeftOf="@+id/tv_home_conver_griditem" />
-
+            app:indicatorHeight="2dip"
+            app:tabPaddingLeftRight="12dp"
+            app:isChangeTextSizeBig="true"
+            app:underlineColor="@color/actionbar_color" />
 
         <TextView
             android:id="@+id/tv_home_conver_griditem"
