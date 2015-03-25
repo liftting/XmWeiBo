@@ -2,6 +2,16 @@
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <wm.xmwei.core.lib.support.view.material.RippleView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="this is ripp"/>
+    </wm.xmwei.core.lib.support.view.material.RippleView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
