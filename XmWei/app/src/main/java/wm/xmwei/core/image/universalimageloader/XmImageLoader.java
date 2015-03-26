@@ -29,8 +29,8 @@ public class XmImageLoader {
         return inst;
     }
 
-    ImageLoader imageLoader;
-    DisplayImageOptions options;
+    private ImageLoader imageLoader;
+    private DisplayImageOptions options;
 
     private static int FADE_IN_DURATION = 50;// 淡入效果的持续时间
 
@@ -67,6 +67,14 @@ public class XmImageLoader {
         if (msgImgUrl == null) return;
         if (msgImgUrl == image.getTag()) return;
         imageLoader.displayImage(msgImgUrl, image, options);
+    }
+
+    public void pause() {
+        imageLoader.pause();
+    }
+
+    public void resume() {
+        imageLoader.resume();
     }
 
 }

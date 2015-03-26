@@ -15,6 +15,8 @@ import android.widget.ProgressBar;
 
 import wm.xmwei.R;
 import wm.xmwei.bean.base.DataListDomain;
+import wm.xmwei.core.image.universalimageloader.XmImageLoader;
+import wm.xmwei.core.lib.support.error.XmWeiboException;
 import wm.xmwei.datadao.DataLoadResult;
 import wm.xmwei.ui.view.pulltorefresh.PullToRefreshBase;
 import wm.xmwei.ui.view.pulltorefresh.PullToRefreshListView;
@@ -40,7 +42,7 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
     protected static final int MIDDLE_MSG_LOADER_ID = 2;
     protected static final int OLD_MSG_LOADER_ID = 3;
 
-    private static final int DATA_LOAD_NEXT_ITEM_NUM = 3;
+    private static final int DATA_LOAD_NEXT_ITEM_NUM = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -118,6 +120,22 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
 
+            switch (scrollState) {
+                case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+                    XmImageLoader.getInstance().pause();
+                    break;
+
+                case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+                    XmImageLoader.getInstance().resume();
+                    break;
+
+                case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+                    XmImageLoader.getInstance().pause();
+                    break;
+                default:
+                    break;
+            }
+
         }
 
         @Override
@@ -160,19 +178,6 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
 
         }
 
-    };
-
-    private AbsListView.OnScrollListener listViewOnScrollListener
-            = new AbsListView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-        }
-
-        @Override
-        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
-                             int totalItemCount) {
-        }
     };
 
     protected void dismissFooterView() {
@@ -250,7 +255,23 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
             //这里做异常的列表处理
             T result = data != null ? data.data : null;
 
-            if (result.getItemList().size() > 0) {
+            if (data == null || result == null) {
+                baseTipLayout.loadDataFail();
+                loadCompleteStatus();
+                return;
+            }
+
+            XmWeiboException ect = data.exception;
+            if (ect != null) {
+                loadCompleteStatus();
+                baseTipLayout.loadError(ect);
+                return;
+            }
+
+            int count = result.getItemList().size();
+            baseTipLayout.loadDataSuccess(count);
+
+            if (count > 0) {
                 mViewEmpty.setVisibility(View.GONE);
             } else {
                 mViewEmpty.setVisibility(View.VISIBLE);
@@ -261,8 +282,6 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
                     getSwipeRefreshLayout().setRefreshing(false);
                     refreshLayout(getDataList());
                     onNewDataLoaderSuccessCallback(result, null);
-
-                    baseTipLayout.setTipInfo("数据加载成功").showTip();
 
                     break;
                 case OLD_MSG_LOADER_ID:
@@ -284,6 +303,10 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
 
         }
     };
+
+    private void loadCompleteStatus() {
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
 
     private Loader<DataLoadResult<T>> createNewDataLoader(int id, Bundle args) {
         return onCreateNewDataLoader(id, args);

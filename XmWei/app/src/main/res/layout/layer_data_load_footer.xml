@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:wheel="http://schemas.android.com/apk/res/wm.xmwei"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:gravity="center">
 
     <wm.xmwei.core.lib.support.view.material.ProgressWheel
         android:id="@+id/progress_wheel"
@@ -16,4 +17,14 @@
         android:layout_marginBottom="6dp"
         android:layout_centerHorizontal="true" />
 
-</RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="数据加载中~"
+        android:textColor="@color/dodgerblue"
+        android:textSize="14sp"
+        android:layout_marginLeft="4dp" />
+
+</LinearLayout>

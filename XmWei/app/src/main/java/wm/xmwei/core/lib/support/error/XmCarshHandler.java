@@ -33,6 +33,7 @@ public class XmCarshHandler implements Thread.UncaughtExceptionHandler {
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
         System.out.println("uncaughtException");
-        AppLogger.e(TAG, ex);
+        AppLogger.e("caught exception:" + ex.getMessage(), ex);
+        System.exit(0);
     }
 }

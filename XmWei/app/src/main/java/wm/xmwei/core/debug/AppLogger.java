@@ -7,7 +7,7 @@ import wm.xmwei.BuildConfig;
  * Wrapper API for sending log output.
  */
 public class AppLogger {
-    protected static final String TAG = "weiciyuan";
+    protected static final String TAG = "xmwei";
 
     private AppLogger() {
     }

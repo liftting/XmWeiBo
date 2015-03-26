@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import wm.xmwei.R;
+import wm.xmwei.core.lib.support.error.XmWeiboException;
 
 /**
  *
@@ -79,6 +80,22 @@ public class XmBaseTipLayout extends RelativeLayout {
 
         mRlyTipView.setAnimation(hideAnimation);
         mRlyTipView.setVisibility(View.GONE);
+    }
+
+    public void loadDataFail() {
+        setTipInfo("数据加载失败").showTip();
+    }
+
+    public void loadDataSuccess(int dataCount) {
+        if (dataCount > 0) {
+            setTipInfo("成功加载" + dataCount + "条动态信息").showTip();
+        } else {
+            setTipInfo("没有新的动态了").showTip();
+        }
+    }
+
+    public void loadError(XmWeiboException e) {
+        setTipInfo("出错了~").showTip();
     }
 
 }
