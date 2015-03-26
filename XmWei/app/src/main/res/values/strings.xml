@@ -51,7 +51,7 @@
     <string name="background_downloading">后台下载中</string>
 
     <!-- listview-->
-    <string name="empty">空</string>
+    <string name="empty">数据没有获取到喔~</string>
 
     <!-- time -->
     <string name="year">年前</string>

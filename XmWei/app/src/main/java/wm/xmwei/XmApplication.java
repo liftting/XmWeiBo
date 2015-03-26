@@ -9,6 +9,7 @@ import android.view.Display;
 import java.util.List;
 
 import wm.xmwei.bean.UserBingDomain;
+import wm.xmwei.core.lib.support.error.XmCarshHandler;
 import wm.xmwei.datadao.dbway.login.DbUserBingTask;
 
 public class XmApplication extends Application {
@@ -28,6 +29,8 @@ public class XmApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mGlobalContext = this;
+
+        XmCarshHandler.getInstance().init(mGlobalContext);
     }
 
     public static XmApplication getInstance() {

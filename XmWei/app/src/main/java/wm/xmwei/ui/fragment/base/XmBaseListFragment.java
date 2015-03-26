@@ -72,13 +72,16 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View containerView = inflater.inflate(R.layout.layer_base_data_listview, container, false);
-        buildLayout(inflater, containerView);
-        return containerView;
+//        View containerView = inflater.inflate(R.layout.layer_base_data_listview, container, false);
+
+        setView(getActivity(), R.layout.layer_base_data_listview);
+
+        buildLayout(inflater, baseTipLayout);
+        return baseTipLayout;
     }
 
     protected void buildLayout(LayoutInflater inflater, View containerView) {
-        mViewEmpty = containerView.findViewById(R.id.empty);
+        mViewEmpty = containerView.findViewById(R.id.rly_empty);
         mProgressBar = (ProgressBar) containerView.findViewById(R.id.progressbar);
         mProgressBar.setVisibility(View.GONE);
         mSwipeRefreshLayout = (SwipeRefreshLayout) containerView.findViewById(R.id.listView);
@@ -91,7 +94,7 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
         getListView().addFooterView(mFooterView);
         dismissFooterView();
 
-        mViewEmpty.setVisibility(View.VISIBLE);
+        mViewEmpty.setVisibility(View.GONE);
 
     }
 
@@ -249,6 +252,8 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
 
             if (result.getItemList().size() > 0) {
                 mViewEmpty.setVisibility(View.GONE);
+            } else {
+                mViewEmpty.setVisibility(View.VISIBLE);
             }
 
             switch (loader.getId()) {
@@ -256,6 +261,9 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
                     getSwipeRefreshLayout().setRefreshing(false);
                     refreshLayout(getDataList());
                     onNewDataLoaderSuccessCallback(result, null);
+
+                    baseTipLayout.setTipInfo("数据加载成功").showTip();
+
                     break;
                 case OLD_MSG_LOADER_ID:
                     refreshLayout(getDataList());
