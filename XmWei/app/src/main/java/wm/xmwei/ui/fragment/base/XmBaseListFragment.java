@@ -49,15 +49,21 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        //判断如果之前的loader存在，要将其废弃掉
         Loader<T> loader = getLoaderManager().getLoader(NEW_MSG_LOADER_ID);
         if (loader != null) {
             getLoaderManager().initLoader(NEW_MSG_LOADER_ID, null, dataLoaderCallback);
         }
-
+        loader = getLoaderManager().getLoader(MIDDLE_MSG_LOADER_ID);
+        if (loader != null) {
+            getLoaderManager().initLoader(MIDDLE_MSG_LOADER_ID, null, dataLoaderCallback);
+        }
         loader = getLoaderManager().getLoader(OLD_MSG_LOADER_ID);
         if (loader != null) {
             getLoaderManager().initLoader(OLD_MSG_LOADER_ID, null, dataLoaderCallback);
         }
+
+        mSwipeRefreshLayout.setOnRefreshListener(listViewOnRefreshListener);
 
     }
 
@@ -80,15 +86,15 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
         getListView().setScrollingCacheEnabled(false);
 
         mFooterView = inflater.inflate(R.layout.layer_data_load_footer, null);
-        getListView().addFooterView(mFooterView);
-        dismissFooterView();
+//        getListView().addFooterView(mFooterView);
+//        dismissFooterView();
 
     }
 
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        mSwipeRefreshLayout.setOnRefreshListener(listViewOnRefreshListener);
+
         mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
@@ -109,9 +115,14 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
+            //
+            if (firstVisibleItem > 0 && totalItemCount > 0 && firstVisibleItem + visibleItemCount >= totalItemCount - 3) {
+                // show load next data
+                loadNextData();
+            }
         }
     };
+
 
     private PullToRefreshBase.OnLastItemVisibleListener listViewOnLastItemVisibleListener
             = new PullToRefreshBase.OnLastItemVisibleListener() {
@@ -190,25 +201,41 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
     // data load  this is create the from 0 load data
     public void loadNewData() {
 
+        if (getLoaderManager().getLoader(NEW_MSG_LOADER_ID) != null) {
+            return;
+        }
+
         getLoaderManager().destroyLoader(MIDDLE_MSG_LOADER_ID);
         getLoaderManager().destroyLoader(OLD_MSG_LOADER_ID);
         dismissFooterView();
         getLoaderManager().restartLoader(NEW_MSG_LOADER_ID, null, dataLoaderCallback);
     }
 
+    private void loadNextData() {
+        if (getLoaderManager().getLoader(OLD_MSG_LOADER_ID) != null) {
+            return;
+        }
+        getLoaderManager().destroyLoader(NEW_MSG_LOADER_ID);
+        mSwipeRefreshLayout.setRefreshing(false);
+        getLoaderManager().destroyLoader(MIDDLE_MSG_LOADER_ID);
+        getLoaderManager().restartLoader(OLD_MSG_LOADER_ID, null, dataLoaderCallback);
+    }
+
     //数据load，result要封装一下，
     private LoaderManager.LoaderCallbacks<DataLoadResult<T>> dataLoaderCallback = new LoaderManager.LoaderCallbacks<DataLoadResult<T>>() {
         @Override
         public Loader<DataLoadResult<T>> onCreateLoader(int id, Bundle args) {
+            Loader<DataLoadResult<T>> loader = null;
             switch (id) {
                 case NEW_MSG_LOADER_ID:
-                    createNewDataLoader(id, args);
+                    loader = createNewDataLoader(id, args);
                     break;
                 case OLD_MSG_LOADER_ID:
-                    showFooterView();
-                    return createOldDataLoader(id, args);
+                    showFooterView(); // 只有可以创建加载时，才去现实footerView
+                    loader = createOldDataLoader(id, args);
+                    break;
             }
-            return null;
+            return loader;
         }
 
         @Override
@@ -271,8 +298,6 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
     protected abstract void onNewDataLoaderSuccessCallback(T newValue, Bundle loaderArgs);
 
     protected abstract void onOldDataLoaderSuccessCallback(T newValue);
-
-
 
 
 }
