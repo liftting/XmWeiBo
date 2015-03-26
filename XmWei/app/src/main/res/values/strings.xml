@@ -9,7 +9,7 @@
 
 
     <!--drawer menu-->
-    <string name="home">首页</string>
+    <string name="home">首  页</string>
     <string name="profile">个人资料</string>
     <string name="logout">注销</string>
     <string name="detail">正文</string>
@@ -129,9 +129,9 @@
     <string name="is_following_me">正在关注</string>
 
     <!--main category -->
-    <string name="mentions">提及</string>
-    <string name="comments">评论</string>
-    <string name="discover">探索</string>
+    <string name="mentions">提  及</string>
+    <string name="comments">评  论</string>
+    <string name="discover">查  找</string>
     <string name="me">个人</string>
     <string name="repost">转发</string>
     <string name="mail">私信</string>
@@ -325,7 +325,7 @@
     <string name="group_name_must_less_than_ten_chinese_words">分组名限制在10个汉字内</string>
 
     <!--fav-->
-    <string name="favourite">收藏</string>
+    <string name="favourite">收  藏</string>
     <string name="un_favourite">取消收藏</string>
     <string name="fav_number">收藏数</string>
     <string name="fav_successfully">收藏成功</string>
@@ -401,7 +401,7 @@
     <string name="find_weibo_account_link">发现可以打开的超链接</string>
 
     <!---Setting  -->
-    <string name="setting">设置</string>
+    <string name="setting">设  置</string>
     <string name="pref_normal_title">常规</string>
     <string name="pref_sound_title">音效</string>
     <string name="pref_auto_refresh_title">首页自动刷新</string>
@@ -569,5 +569,8 @@
     <string name="retweeted_your_weibo">转发了你的微博</string>
     <string name="next_message">下一条</string>
     <string name="first_message">第一条</string>
+
+    <string name="design_idea">理  念</string>
+    <string name="login_register_tip">登录/注册</string>
 
 </resources>

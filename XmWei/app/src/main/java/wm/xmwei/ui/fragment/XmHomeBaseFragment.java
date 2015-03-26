@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sina.weibo.sdk.utils.Utility;
 import wm.xmwei.R;
 import wm.xmwei.XmApplication;
 import wm.xmwei.bean.DataGroupDomain;
@@ -64,10 +65,14 @@ public class XmHomeBaseFragment extends XmBaseListFragment<DataMessageListDomain
         int currentState = getCurrentState(savedInstanceState);
         switch (currentState) {
             case FIRST_TIME_START:
+            case ACTIVITY_DESTROY_AND_CREATE:
                 if (getDataList().getSize() == 0) {
                     // load data from db
                     DbLoadDataAsyncTask dbTask = new DbLoadDataAsyncTask(XmApplication.getInstance().getUserBingDomain().getUid());
                     dbTask.executeOnIO();
+                } else {
+                    getAdapter().notifyDataSetChanged();
+                    refreshLayout(getDataList());
                 }
                 break;
         }
@@ -90,6 +95,12 @@ public class XmHomeBaseFragment extends XmBaseListFragment<DataMessageListDomain
 
     @Override
     protected void onItemClick(AdapterView parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();    //To change body of overridden methods use File | Settings | File Templates.
 
     }
 
@@ -147,7 +158,7 @@ public class XmHomeBaseFragment extends XmBaseListFragment<DataMessageListDomain
             getDataList().replaceData(recentData);
 //            putToGroupDataMemoryCache(recentData.groupId, recentData.msgList);
 //            positionCache.put(recentData.groupId, recentData.position);
-            mCurrentGroupId = Constants.ALL_GROUP_ID;
+//            mCurrentGroupId = Constants.ALL_GROUP_ID;
         }
         getAdapter().notifyDataSetChanged();
         refreshLayout(getDataList());
@@ -171,7 +182,7 @@ public class XmHomeBaseFragment extends XmBaseListFragment<DataMessageListDomain
         @Override
         protected List<DataMessageListDomain> doInBackground(Void... params) {
             List<DataMessageListDomain> recentList = new ArrayList<DataMessageListDomain>();
-            recentList.add(DbHomeDefaultMessageTask.getRecentGroupData(mBingUserId));
+            recentList.add(DbHomeDefaultMessageTask.getCurrentGroupData(mBingUserId, mCurrentGroupId));
             return recentList;
         }
 

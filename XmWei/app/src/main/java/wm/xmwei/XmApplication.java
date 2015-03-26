@@ -86,4 +86,10 @@ public class XmApplication extends Application {
         return mUserBingDomain;
     }
 
+    public String getCurrentAccountId() {
+        UserBingDomain domain = getUserBingDomain();
+        if (domain == null) return null;
+        return domain.getUid();
+    }
+
 }

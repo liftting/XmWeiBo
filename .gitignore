@@ -24,3 +24,6 @@ proguard/
 
 # Log Files
 *.log
+XmWei/.idea*
+XmWei/XmWei.iml
+XmWei/build.gradle

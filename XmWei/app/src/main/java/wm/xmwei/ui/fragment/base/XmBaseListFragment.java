@@ -258,6 +258,7 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
             if (data == null || result == null) {
                 baseTipLayout.loadDataFail();
                 loadCompleteStatus();
+                getLoaderManager().destroyLoader(loader.getId());
                 return;
             }
 
@@ -265,6 +266,7 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
             if (ect != null) {
                 loadCompleteStatus();
                 baseTipLayout.loadError(ect);
+                getLoaderManager().destroyLoader(loader.getId());
                 return;
             }
 
