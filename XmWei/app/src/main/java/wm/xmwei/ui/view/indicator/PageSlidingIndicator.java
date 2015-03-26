@@ -445,12 +445,12 @@ public class PageSlidingIndicator extends HorizontalScrollView {
     private void setTabTextColor(int position, boolean isSelect) {
         TextView selectView = ((TextView)tabsContainer.getChildAt(position));
         if (isSelect) {
-            selectView.setTextColor(getResources().getColor(R.color.v_title_bg));
+            selectView.setTextColor(getResources().getColor(R.color.dodgerblue));
             if(textChangeSizeOnScroll) {
                 selectView.setTextSize(TypedValue.COMPLEX_UNIT_PX, tabSelectedTextSize);
             }
         } else {
-            selectView.setTextColor(getResources().getColor(R.color.v_title_black_color));
+            selectView.setTextColor(getResources().getColor(R.color.darkgrey));
             if(textChangeSizeOnScroll) {
                 selectView.setTextSize(TypedValue.COMPLEX_UNIT_PX, tabTextSize);
             }

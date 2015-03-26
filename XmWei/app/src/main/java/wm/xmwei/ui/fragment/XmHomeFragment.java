@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -40,7 +41,7 @@ public class XmHomeFragment extends XmBaseContainerFragment implements View.OnCl
     private ProgressBar mDataLoadProgress;
 
 
-    private TextView mTvConvertItem;
+    private ImageView mTvConvertItem;
     private RelativeLayout mRlyDragContainer;
     private DynamicGridView mDragGridView;
     private GridItemAdapter mGridItemAdapter;
@@ -96,7 +97,7 @@ public class XmHomeFragment extends XmBaseContainerFragment implements View.OnCl
 
         mRlyDragContainer = (RelativeLayout) mainView.findViewById(R.id.rly_gridview_container);
         mDragGridView = (DynamicGridView) mainView.findViewById(R.id.v_drag_gridview);
-        mTvConvertItem = (TextView) mainView.findViewById(R.id.tv_home_conver_griditem);
+        mTvConvertItem = (ImageView) mainView.findViewById(R.id.tv_home_conver_griditem);
 
         mDataLoadProgress = (ProgressBar) mainView.findViewById(R.id.pro_content_show);
 

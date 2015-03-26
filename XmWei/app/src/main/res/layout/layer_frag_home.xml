@@ -22,23 +22,21 @@
             android:id="@+id/v_home_indicator"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textColor="#5f5f5f"
+            android:textColor="@color/darkgrey"
             android:textSize="14sp"
             app:indicatorHeight="2dip"
             app:tabPaddingLeftRight="12dp"
             app:isChangeTextSizeBig="true"
-            app:underlineColor="@color/actionbar_color" />
+            app:underlineColor="@color/dodgerblue" />
 
-        <TextView
+        <ImageView
             android:id="@+id/tv_home_conver_griditem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="点击"
             android:layout_alignParentRight="true"
-            android:textColor="@color/palevioletred"
-            android:textSize="16sp"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ic_narrow_down" />
 
     </RelativeLayout>
 
