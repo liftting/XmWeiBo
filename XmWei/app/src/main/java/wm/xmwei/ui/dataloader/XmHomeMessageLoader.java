@@ -9,6 +9,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import wm.xmwei.bean.DataMessageListDomain;
+import wm.xmwei.core.data.Constants;
 import wm.xmwei.core.lib.support.error.XmWeiboException;
 import wm.xmwei.datadao.netway.home.NetHomeBilateralMessageDao;
 import wm.xmwei.datadao.netway.home.NetHomeDefaultMessageDao;
@@ -75,9 +76,9 @@ public class XmHomeMessageLoader extends AbstractAsyncNetRequestTaskLoader<DataM
     private DataMessageListDomain get(String token, String groupId, String sinceId, String maxId)
             throws XmWeiboException {
         NetHomeDefaultMessageDao dao;
-        if (currentGroupId.equals(XmHomeFragment.BILATERAL_GROUP_ID)) {
+        if (currentGroupId.equals(Constants.BILATERAL_GROUP_ID)) {
             dao = new NetHomeBilateralMessageDao(token);
-        } else if (currentGroupId.equals(XmHomeFragment.ALL_GROUP_ID)) {
+        } else if (currentGroupId.equals(Constants.ALL_GROUP_ID)) {
             dao = new NetHomeDefaultMessageDao(token);
         } else {
             dao = new NetHomeGroupMessageDao(token, currentGroupId); //

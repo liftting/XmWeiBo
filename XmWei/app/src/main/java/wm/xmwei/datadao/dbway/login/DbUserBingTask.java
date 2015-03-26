@@ -1,4 +1,4 @@
-package wm.xmwei.datadao.dbway;
+package wm.xmwei.datadao.dbway.login;
 
 import android.content.ContentValues;
 import android.database.Cursor;

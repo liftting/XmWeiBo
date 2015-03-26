@@ -40,6 +40,8 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
     protected static final int MIDDLE_MSG_LOADER_ID = 2;
     protected static final int OLD_MSG_LOADER_ID = 3;
 
+    private static final int DATA_LOAD_NEXT_ITEM_NUM = 3;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,8 +88,10 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
         getListView().setScrollingCacheEnabled(false);
 
         mFooterView = inflater.inflate(R.layout.layer_data_load_footer, null);
-//        getListView().addFooterView(mFooterView);
-//        dismissFooterView();
+        getListView().addFooterView(mFooterView);
+        dismissFooterView();
+
+        mViewEmpty.setVisibility(View.VISIBLE);
 
     }
 
@@ -116,7 +120,7 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
             //
-            if (firstVisibleItem > 0 && totalItemCount > 0 && firstVisibleItem + visibleItemCount >= totalItemCount - 3) {
+            if (firstVisibleItem > 0 && totalItemCount > 0 && firstVisibleItem + visibleItemCount >= totalItemCount - DATA_LOAD_NEXT_ITEM_NUM) {
                 // show load next data
                 loadNextData();
             }
@@ -242,6 +246,10 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
         public void onLoadFinished(Loader<DataLoadResult<T>> loader, DataLoadResult<T> data) {
             //这里做异常的列表处理
             T result = data != null ? data.data : null;
+
+            if (result.getItemList().size() > 0) {
+                mViewEmpty.setVisibility(View.GONE);
+            }
 
             switch (loader.getId()) {
                 case NEW_MSG_LOADER_ID:

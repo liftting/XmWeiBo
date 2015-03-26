@@ -19,7 +19,7 @@ import wm.xmwei.R;
 import wm.xmwei.bean.UserBingDomain;
 import wm.xmwei.bean.UserDomain;
 import wm.xmwei.core.data.Constants;
-import wm.xmwei.datadao.dbway.DbUserBingTask;
+import wm.xmwei.datadao.dbway.login.DbUserBingTask;
 import wm.xmwei.core.debug.AppLogger;
 import wm.xmwei.core.lib.support.error.XmWeiboException;
 import wm.xmwei.datadao.netway.login.NetOAuthDao;

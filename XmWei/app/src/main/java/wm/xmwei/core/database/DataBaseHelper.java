@@ -36,6 +36,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL(DbConstants.CREATE_BING_TABLE_SQL);
 
         db.execSQL(DbConstants.CREATE_ATUSERS_TABLE_SQL);
+
+        db.execSQL(DbConstants.CREATE_GROUP_TABLE_SQL);
+
+        db.execSQL(DbConstants.CREATE_HOME_TABLE_SQL);
+        db.execSQL(DbConstants.CREATE_HOME_DATA_TABLE_SQL);
+
+        db.execSQL(DbConstants.CREATE_HOME_OTHER_GROUP_TABLE_SQL);
+        db.execSQL(DbConstants.CREATE_HOME_OTHER_GROUP_DATA_TABLE_SQL);
     }
 
     @Override

@@ -2,7 +2,6 @@ package wm.xmwei.ui.activity.login;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -25,7 +24,7 @@ import wm.xmwei.R;
 import wm.xmwei.bean.UserBingDomain;
 import wm.xmwei.bean.UserDomain;
 import wm.xmwei.core.lib.support.view.material.ProgressWheel;
-import wm.xmwei.datadao.dbway.DbUserBingTask;
+import wm.xmwei.datadao.dbway.login.DbUserBingTask;
 import wm.xmwei.core.image.universalimageloader.XmImageLoader;
 import wm.xmwei.ui.activity.XmMainActivity;
 import wm.xmwei.ui.activity.base.XmBaseActivity;

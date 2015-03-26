@@ -59,4 +59,8 @@ public interface Constants {
 
 
     public static final String USER_BING_EXTRA = "account_extra";
+
+    // add other group id
+    public final static String ALL_GROUP_ID = "0"; // all group
+    public final static String BILATERAL_GROUP_ID = "1"; // 互相关注的
 }

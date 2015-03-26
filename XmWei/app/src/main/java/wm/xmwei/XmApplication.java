@@ -9,7 +9,7 @@ import android.view.Display;
 import java.util.List;
 
 import wm.xmwei.bean.UserBingDomain;
-import wm.xmwei.datadao.dbway.DbUserBingTask;
+import wm.xmwei.datadao.dbway.login.DbUserBingTask;
 
 public class XmApplication extends Application {
 

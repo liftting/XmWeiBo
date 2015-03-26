@@ -20,6 +20,7 @@ import java.util.List;
 import wm.xmwei.R;
 import wm.xmwei.bean.DataGroupDomain;
 import wm.xmwei.bean.DataGroupListDomain;
+import wm.xmwei.core.data.Constants;
 import wm.xmwei.core.net.http.OnDataLoadTaskListener;
 import wm.xmwei.ui.adapter.XmHomeFragmentAdapter;
 import wm.xmwei.ui.fragment.base.XmBaseContainerFragment;
@@ -50,10 +51,8 @@ public class XmHomeFragment extends XmBaseContainerFragment implements View.OnCl
 
     private List<DataGroupDomain> mUserGroupDomain = new ArrayList<DataGroupDomain>();
 
-    // add other group id
-    public final static String ALL_GROUP_ID = "0"; // all group
-    public final static String BILATERAL_GROUP_ID = "1"; // 互相关注的
-    private String currentGroupId = ALL_GROUP_ID;
+
+    private String currentGroupId = Constants.ALL_GROUP_ID;
 
     public static XmHomeFragment newInstance(Bundle bundle) {
 
@@ -286,8 +285,8 @@ public class XmHomeFragment extends XmBaseContainerFragment implements View.OnCl
     }
 
     private void createTestDomain() {
-        mUserGroupDomain.add(createGroupDomain(ALL_GROUP_ID, "0", "所有人"));
-        mUserGroupDomain.add(createGroupDomain(BILATERAL_GROUP_ID, "1", "互相的"));
+        mUserGroupDomain.add(createGroupDomain(Constants.ALL_GROUP_ID, "0", "所有人"));
+        mUserGroupDomain.add(createGroupDomain(Constants.BILATERAL_GROUP_ID, "1", "互相的"));
 
     }
 
