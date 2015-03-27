@@ -134,10 +134,9 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
         }
 
 
-        // update the three data sort
-        mHomeFragmentAdapter = new XmHomeFragmentAdapter(getChildFragmentManager(), mHomeChildFragments, mTagFragments, buildTitleData());
-        mHomeViewPager.setAdapter(mHomeFragmentAdapter);
+        initDataAdapter();
         mHomePageIndicator.setViewPager(mHomeViewPager);
+
         mHomePageIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i2) {
@@ -156,6 +155,12 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
             }
         });
 
+    }
+
+    private void initDataAdapter(){
+        // update the three data sort
+        mHomeFragmentAdapter = new XmHomeFragmentAdapter(getChildFragmentManager(), mHomeChildFragments, mTagFragments, buildTitleData());
+        mHomeViewPager.setAdapter(mHomeFragmentAdapter);
     }
 
     private String[] buildTitleData() {
@@ -257,7 +262,7 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
         refreshFragment();
         refreshFragmentTag();
 
-        mHomeFragmentAdapter.updateTitle(mHomeChildFragments, mTagFragments, buildTitleData());
+        initDataAdapter();
 
         List<DataGroupDomain> newDatas = mGridItemAdapter.getItems();
         int updatePosition = mCurrentPagePosition;
