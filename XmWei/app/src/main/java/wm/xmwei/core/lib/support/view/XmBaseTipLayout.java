@@ -23,22 +23,19 @@ public class XmBaseTipLayout extends RelativeLayout {
     private TextView mTvTip;
     private RelativeLayout mRlyTipView;
 
-    public XmBaseTipLayout(Context context, int contextLayoutId, View contextView) {
+    public XmBaseTipLayout(Context context) {
         super(context);
 
         mContext = context;
-        initView(context, contextLayoutId, contextView);
+        initView(context);
     }
 
-    private void initView(Context context, int contextLayoutId, View contextView) {
+    private void initView(Context context) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
         // this is tipView
         View tipView = inflater.inflate(R.layout.layer_base_tip, null);
-
-        View childView = contextView == null ? inflater.inflate(contextLayoutId, null) : contextView;
-        this.addView(childView, params);
 
         LayoutParams tipParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         this.addView(tipView, tipParams);
@@ -77,9 +74,25 @@ public class XmBaseTipLayout extends RelativeLayout {
         TranslateAnimation hideAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, -1.0f,
                 Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, 0f);
         hideAnimation.setDuration(400);
+        hideAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mRlyTipView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
 
         mRlyTipView.setAnimation(hideAnimation);
-        mRlyTipView.setVisibility(View.GONE);
+
     }
 
     public void loadDataFail() {

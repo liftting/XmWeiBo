@@ -1,66 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
-            android:id="@+id/ly_menu_container_top"
-            android:visibility="visible"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_height="wrap_content"
-            android:background="@color/dodgerblue"
-            android:paddingLeft="18dp">
+        android:id="@+id/ly_menu_container_top"
+        android:visibility="visible"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_height="wrap_content"
+        android:background="@color/dodgerblue"
+        android:paddingLeft="18dp">
 
         <wm.xmwei.core.lib.support.view.CircleImageView
-                android:id="@+id/avatar"
-                android:layout_marginTop="8dp"
-                android:layout_width="68dp"
-                android:layout_height="68dp"
-                android:src="#ff2f2f2f"
-                android:layout_gravity="center"
-                android:background="@drawable/ic_default_avatar_lite"/>
+            android:id="@+id/avatar"
+            android:layout_marginTop="8dp"
+            android:layout_width="68dp"
+            android:layout_height="68dp"
+            android:src="#ff2f2f2f"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_default_avatar_lite" />
 
 
         <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="38dp"
-                android:layout_marginBottom="10dp">
-            <TextView
-                    android:id="@+id/nickname"
-                    android:textStyle="bold"
-                    android:singleLine="true"
-                    android:textColor="@color/white"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="@string/login_register_tip"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="38dp"
+            android:layout_marginBottom="10dp">
 
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_alignParentRight="true"
-                      android:background="@drawable/abc_spinner_mtrl_am_alpha"
-                    />
+            <TextView
+                android:id="@+id/nickname"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/login_register_tip" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/ic_narrow_down" />
 
         </RelativeLayout>
 
     </LinearLayout>
 
     <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@+id/ly_menu_container_top"
-            android:background="@color/white">
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/ly_menu_container_top"
+        android:background="@color/white">
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <include layout="@layout/layer_left_item_menu_contents"/>
+            <include layout="@layout/layer_left_item_menu_contents" />
 
         </LinearLayout>
     </ScrollView>

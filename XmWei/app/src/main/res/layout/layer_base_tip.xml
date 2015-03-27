@@ -4,9 +4,7 @@
     android:id="@+id/rly_tip_container"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:visibility="gone"
-    android:paddingTop="18dp"
-    android:paddingLeft="18dp">
+    android:visibility="gone">
 
     <TextView
         android:id="@+id/tv_tip_info_view"

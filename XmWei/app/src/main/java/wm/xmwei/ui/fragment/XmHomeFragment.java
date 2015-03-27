@@ -24,7 +24,7 @@ import wm.xmwei.bean.DataGroupListDomain;
 import wm.xmwei.core.data.Constants;
 import wm.xmwei.core.net.http.OnDataLoadTaskListener;
 import wm.xmwei.ui.adapter.XmHomeFragmentAdapter;
-import wm.xmwei.ui.fragment.base.XmBaseContainerFragment;
+import wm.xmwei.ui.fragment.base.XmBaseFragment;
 import wm.xmwei.ui.view.dynagridview.BaseDynamicGridAdapter;
 import wm.xmwei.ui.view.dynagridview.DynamicGridView;
 import wm.xmwei.ui.view.indicator.PageSlidingIndicator;
@@ -33,7 +33,7 @@ import wm.xmwei.ui.view.indicator.XmTwoPageSlidingIndicator;
 /**
  * this is home fragment
  */
-public class XmHomeFragment extends XmBaseContainerFragment implements View.OnClickListener, OnDataLoadTaskListener<DataGroupListDomain> {
+public class XmHomeFragment extends XmBaseFragment implements View.OnClickListener, OnDataLoadTaskListener<DataGroupListDomain> {
 
     private Context mContext;
     private ViewPager mHomeViewPager;

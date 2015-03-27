@@ -10,13 +10,16 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import wm.xmwei.R;
 import wm.xmwei.bean.base.DataListDomain;
 import wm.xmwei.core.image.universalimageloader.XmImageLoader;
 import wm.xmwei.core.lib.support.error.XmWeiboException;
+import wm.xmwei.core.lib.support.view.XmBaseTipLayout;
 import wm.xmwei.datadao.DataLoadResult;
 import wm.xmwei.ui.view.pulltorefresh.PullToRefreshBase;
 import wm.xmwei.ui.view.pulltorefresh.PullToRefreshListView;
@@ -26,13 +29,16 @@ import wm.xmwei.util.XmUtils;
 /**
  *
  */
-public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBaseContainerFragment {
+public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBaseFragment {
 
     protected SwipeRefreshLayout mSwipeRefreshLayout;
     protected ListView mRefreshListView;
     private ProgressBar mProgressBar;
     protected View mFooterView;
     protected BaseAdapter mBaseDataAdapter;
+    private XmBaseTipLayout mBaseTipLayout;
+
+    private RelativeLayout mRlyTipContainer;
 
     private View mViewEmpty;
 
@@ -74,12 +80,15 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View containerView = inflater.inflate(R.layout.layer_base_data_listview, container, false);
+        View containerView = inflater.inflate(R.layout.layer_base_data_listview, container, false);
 
-        setView(getActivity(), R.layout.layer_base_data_listview);
 
-        buildLayout(inflater, baseTipLayout);
-        return baseTipLayout;
+        mRlyTipContainer = (RelativeLayout) containerView.findViewById(R.id.rly_tip_message_list_container);
+        mBaseTipLayout = new XmBaseTipLayout(getActivity());
+        mRlyTipContainer.addView(mBaseTipLayout, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        buildLayout(inflater, containerView);
+        return containerView;
     }
 
     protected void buildLayout(LayoutInflater inflater, View containerView) {
@@ -165,21 +174,6 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
         }
     };
 
-    private SoundPullEventListener<ListView> getPullEventListener() {
-        SoundPullEventListener<ListView> listener = new SoundPullEventListener<ListView>(
-                getActivity());
-        return listener;
-    }
-
-    private AdapterView.OnItemClickListener listViewOnItemClickListener
-            = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-        }
-
-    };
-
     protected void dismissFooterView() {
         if (mFooterView.getVisibility() == View.VISIBLE) {
             mFooterView.setVisibility(View.GONE);
@@ -256,7 +250,7 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
             T result = data != null ? data.data : null;
 
             if (data == null || result == null) {
-                baseTipLayout.loadDataFail();
+                mBaseTipLayout.loadDataFail();
                 loadCompleteStatus();
                 getLoaderManager().destroyLoader(loader.getId());
                 return;
@@ -265,13 +259,13 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
             XmWeiboException ect = data.exception;
             if (ect != null) {
                 loadCompleteStatus();
-                baseTipLayout.loadError(ect);
+                mBaseTipLayout.loadError(ect);
                 getLoaderManager().destroyLoader(loader.getId());
                 return;
             }
 
             int count = result.getItemList().size();
-            baseTipLayout.loadDataSuccess(count);
+            mBaseTipLayout.loadDataSuccess(count);
 
             if (count > 0) {
                 mViewEmpty.setVisibility(View.GONE);
