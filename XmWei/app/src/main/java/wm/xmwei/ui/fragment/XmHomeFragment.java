@@ -16,7 +16,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import wm.xmwei.R;
 import wm.xmwei.bean.DataGroupDomain;
@@ -41,19 +43,28 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
     private ProgressBar mDataLoadProgress;
 
 
-    private ImageView mTvConvertItem;
+    private ImageView mTvConvertItemDown;
+    private ImageView mTvConvertItemUp;
     private RelativeLayout mRlyDragContainer;
     private DynamicGridView mDragGridView;
     private GridItemAdapter mGridItemAdapter;
+    private TextView mTvDragFinish;
+
 
     private List<Fragment> mHomeChildFragments = new ArrayList<Fragment>();
     private List<String> mTagFragments = new ArrayList<String>();
+    private String[] mTitleArray;
+    private XmHomeFragmentAdapter mHomeFragmentAdapter;
     private boolean isBuildCategory = false;
+
+    private Map<String, Fragment> mChildFragMap = new HashMap<String, Fragment>();
+    private Map<String, String> mGroupTagMap = new HashMap<String, String>();
 
     private List<DataGroupDomain> mUserGroupDomain = new ArrayList<DataGroupDomain>();
 
+    private int mCurrentPagePosition = 0;
 
-    private String currentGroupId = Constants.ALL_GROUP_ID;
+    private String currentPageGroupId = Constants.ALL_GROUP_ID;
 
     public static XmHomeFragment newInstance(Bundle bundle) {
 
@@ -97,24 +108,53 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
 
         mRlyDragContainer = (RelativeLayout) mainView.findViewById(R.id.rly_gridview_container);
         mDragGridView = (DynamicGridView) mainView.findViewById(R.id.v_drag_gridview);
-        mTvConvertItem = (ImageView) mainView.findViewById(R.id.tv_home_conver_griditem);
+        mTvConvertItemDown = (ImageView) mainView.findViewById(R.id.tv_home_conver_griditem_down);
+        mTvConvertItemUp = (ImageView) mainView.findViewById(R.id.tv_home_conver_griditem_up);
+        mTvDragFinish = (TextView) mainView.findViewById(R.id.tv_home_conver_griditem_finish);
 
         mDataLoadProgress = (ProgressBar) mainView.findViewById(R.id.pro_content_show);
 
 
-        mTvConvertItem.setOnClickListener(this);
+        mTvConvertItemDown.setOnClickListener(this);
+        mTvConvertItemUp.setOnClickListener(this);
+        mTvDragFinish.setOnClickListener(this);
     }
 
     private void buildHomeFragments() {
 
         for (DataGroupDomain groupDomain : mUserGroupDomain) {
-            mHomeChildFragments.add(createFragment(groupDomain));
-            mTagFragments.add(createTag(groupDomain));
+            Fragment currentFrag = createFragment(groupDomain);
+            mHomeChildFragments.add(currentFrag);
+            mChildFragMap.put(groupDomain.getId(), currentFrag);
+
+
+            String tag = createTag(groupDomain);
+            mTagFragments.add(tag);
+            mGroupTagMap.put(groupDomain.getId(), tag);
         }
 
 
-        mHomeViewPager.setAdapter(new XmHomeFragmentAdapter(getChildFragmentManager(), mHomeChildFragments, mTagFragments, buildTitleData()));
+        // update the three data sort
+        mHomeFragmentAdapter = new XmHomeFragmentAdapter(getChildFragmentManager(), mHomeChildFragments, mTagFragments, buildTitleData());
+        mHomeViewPager.setAdapter(mHomeFragmentAdapter);
         mHomePageIndicator.setViewPager(mHomeViewPager);
+        mHomePageIndicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i2) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                mCurrentPagePosition = i;
+                currentPageGroupId = mUserGroupDomain.get(i).getId();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
 
     }
 
@@ -149,7 +189,7 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
         mDragGridView.setOnDragListener(new DynamicGridView.OnDragListener() {
             @Override
             public void onDragStarted(int position) {
-
+                setDragTopStatus(true);
             }
 
             @Override
@@ -170,31 +210,90 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
 //                String item = (String) parent.getAdapter().getItem(position);
 //                mUserGroupDomain.remove(item);
 //                mGridItemAdapter.notifyDataSetChanged();
+
+                // enter this tab viewpager
+
+
             }
         });
     }
 
     @Override
     public void onClick(View v) {
-//        try {
-//            PackageInfo packageInfo = mContext.getPackageManager()
-//                    .getPackageInfo("wm.xmwei", PackageManager.GET_SIGNATURES);
-//
-//            for (Signature signature : packageInfo.signatures) {
-//                System.out.print(signature.toCharsString());
-//            }
-//
-//        } catch (PackageManager.NameNotFoundException e) {
-//            e.printStackTrace();
-//        }
-        if (!isBuildCategory) {
-            buildCategoryData();
-            isBuildCategory = true;
+
+        switch (v.getId()) {
+            case R.id.tv_home_conver_griditem_down:
+
+                if (!isBuildCategory) {
+                    buildCategoryData();
+                    isBuildCategory = true;
+                }
+
+                showDragContainerView();
+
+                break;
+            case R.id.tv_home_conver_griditem_up:
+
+                hideDragContainerView();
+
+                handleDataSort();
+
+                break;
+
+            case R.id.tv_home_conver_griditem_finish:
+                // 结束
+                setDragTopStatus(false);
+                if (mDragGridView.isEditMode()) {
+                    mDragGridView.stopEditMode();
+                }
+
+                break;
         }
-        if (mRlyDragContainer.getVisibility() == View.GONE) {
-            showDragContainerView();
+    }
+
+    //当用户调整了数据顺序时， 刷新viewpager
+    private void handleDataSort() {
+
+        refreshFragment();
+        refreshFragmentTag();
+
+        mHomeFragmentAdapter.updateTitle(mHomeChildFragments, mTagFragments, buildTitleData());
+
+        List<DataGroupDomain> newDatas = mGridItemAdapter.getItems();
+        int updatePosition = mCurrentPagePosition;
+        for (int i = 0; i < newDatas.size(); i++) {
+            if (newDatas.get(i).getId().equals(currentPageGroupId)) {
+                updatePosition = i;
+                break;
+            }
+        }
+
+        mHomeViewPager.setCurrentItem(updatePosition);
+        mHomePageIndicator.notifyDataSetChanged();
+
+    }
+
+    private void refreshFragment() {
+        mHomeChildFragments = new ArrayList<Fragment>();
+        for (DataGroupDomain groupDomain : mGridItemAdapter.getItems()) {
+            mHomeChildFragments.add(mChildFragMap.get(groupDomain.getId()));
+        }
+    }
+
+    private void refreshFragmentTag() {
+        mTagFragments = new ArrayList<String>();
+        for (DataGroupDomain groupDomain : mGridItemAdapter.getItems()) {
+            mTagFragments.add(mGroupTagMap.get(groupDomain.getId()));
+        }
+    }
+
+    private void setDragTopStatus(boolean isDragBegin) {
+        if (isDragBegin) {
+            mTvDragFinish.setVisibility(View.VISIBLE);
+            mTvConvertItemUp.setVisibility(View.GONE);
         } else {
-            hideDragContainerView();
+            mTvDragFinish.setVisibility(View.GONE);
+            mTvConvertItemUp.setVisibility(View.VISIBLE);
         }
     }
 
@@ -216,8 +315,9 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
     }
 
 
-    public class GridItemAdapter extends BaseDynamicGridAdapter {
-        public GridItemAdapter(Context context, List<?> items, int columnCount) {
+    public class GridItemAdapter extends BaseDynamicGridAdapter<DataGroupDomain> {
+
+        public GridItemAdapter(Context context, List<DataGroupDomain> items, int columnCount) {
             super(context, items, columnCount);
         }
 
@@ -247,6 +347,7 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
                 titleText.setText(title);
             }
         }
+
     }
 
     @Override

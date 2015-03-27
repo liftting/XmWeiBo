@@ -41,4 +41,11 @@ public class XmHomeFragmentAdapter extends XmFragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return mTitle[position];
     }
+
+    public void updateTitle(List<Fragment> fragList, List<String> tags, String[] title) {
+        mTitle = title;
+        mFragmentList = fragList;
+        mTagList = tags;
+
+    }
 }

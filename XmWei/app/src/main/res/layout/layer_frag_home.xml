@@ -16,7 +16,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="45dip"
-        android:id="@+id/rly_indicator_container">
+        android:id="@+id/rly_indicator_container"
+        android:background="@color/gray_white">
 
         <wm.xmwei.ui.view.indicator.PageSlidingIndicator
             android:id="@+id/v_home_indicator"
@@ -30,12 +31,13 @@
             app:underlineColor="@color/dodgerblue" />
 
         <ImageView
-            android:id="@+id/tv_home_conver_griditem"
+            android:id="@+id/tv_home_conver_griditem_down"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
+            android:padding="18dp"
             android:background="@drawable/ic_narrow_down" />
 
     </RelativeLayout>
@@ -52,23 +54,52 @@
         android:layout_height="match_parent"
         android:id="@+id/rly_gridview_container"
         android:visibility="gone"
-        android:background="@color/white">
+        android:background="@color/gray_white">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="@color/white"
             android:id="@+id/ly_drag_title_container">
 
             <TextView
                 android:id="@+id/tv_tip_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="this is text item"
-                android:textSize="16sp"
+                android:text="分组编辑"
+                android:textSize="14sp"
                 android:gravity="center"
-                android:textColor="@color/black" />
-        </LinearLayout>
+                android:textColor="@color/black"
+                android:layout_centerInParent="true" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+
+                <ImageView
+                    android:id="@+id/tv_home_conver_griditem_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:padding="18dp"
+                    android:background="@drawable/ic_narrow_up" />
+
+                <TextView
+                    android:id="@+id/tv_home_conver_griditem_finish"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="完成"
+                    android:textSize="14sp"
+                    android:textColor="@color/dodgerblue"
+                    android:visibility="gone" />
+
+            </FrameLayout>
+
+        </RelativeLayout>
 
         <wm.xmwei.ui.view.dynagridview.DynamicGridView
             android:id="@+id/v_drag_gridview"

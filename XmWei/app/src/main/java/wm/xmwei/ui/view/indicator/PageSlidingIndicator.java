@@ -645,4 +645,5 @@ public class PageSlidingIndicator extends HorizontalScrollView {
             }
         };
     }
+
 }
