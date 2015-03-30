@@ -1,5 +1,6 @@
 package wm.xmwei.ui.adapter.data;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -34,8 +35,8 @@ public class XmHomeDataAdapter extends XmBaseDataAdapter<DataMessageDomain> {
     //    private TopTipBar topTipBar;
     private Handler handler = new Handler();
 
-    public XmHomeDataAdapter(Context context, List<DataMessageDomain> beanList) {
-        super(context, beanList);
+    public XmHomeDataAdapter(Activity activity, List<DataMessageDomain> beanList) {
+        super(activity, beanList);
     }
 
 //    public XmHomeDataAdapter(Context context, List<DataMessageDomain> bean, ListView listView,

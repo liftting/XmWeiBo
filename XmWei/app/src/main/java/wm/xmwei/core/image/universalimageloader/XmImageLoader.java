@@ -12,6 +12,8 @@ import wm.xmwei.core.image.universalimageloader.core.ImageLoader;
 import wm.xmwei.core.image.universalimageloader.core.ImageLoaderConfiguration;
 import wm.xmwei.core.image.universalimageloader.core.assist.QueueProcessingType;
 import wm.xmwei.core.image.universalimageloader.core.display.FadeInBitmapDisplayer;
+import wm.xmwei.core.image.universalimageloader.core.listener.ImageLoadingListener;
+import wm.xmwei.core.image.universalimageloader.core.listener.ImageLoadingProgressListener;
 
 /**
  *
@@ -65,8 +67,31 @@ public class XmImageLoader {
 
     public void loadImage(String msgImgUrl, ImageView image) {
         if (msgImgUrl == null) return;
-        if (msgImgUrl == image.getTag()) return;
         imageLoader.displayImage(msgImgUrl, image, options);
+    }
+
+    public void loadImage(String msgImgUrl, ImageView imageView, ImageLoadingListener loadingListener) {
+        if (msgImgUrl == null) return;
+
+        imageLoader.displayImage(msgImgUrl, imageView, options, loadingListener);
+    }
+
+    public void loadImage(String msgImgUrl, ImageView imageView, ImageLoadingListener loadingListener, ImageLoadingProgressListener progressListener) {
+        if (msgImgUrl == null) return;
+
+        imageLoader.displayImage(msgImgUrl, imageView, options, loadingListener, progressListener);
+    }
+
+
+    public void loadImage(String msgImgUrl, ImageLoadingListener loadingListener, ImageLoadingProgressListener progressListener) {
+        if (msgImgUrl == null) return;
+
+        imageLoader.loadImage(msgImgUrl, null, options, loadingListener, progressListener);
+    }
+
+    public void loadImage(String imageUrl, ImageLoadingListener loadingListener) {
+        if (imageUrl == null) return;
+        imageLoader.loadImage(imageUrl, options, loadingListener);
     }
 
     public void pause() {

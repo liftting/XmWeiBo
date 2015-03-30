@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sina.weibo.sdk.utils.Utility;
+
 import wm.xmwei.R;
 import wm.xmwei.XmApplication;
 import wm.xmwei.bean.DataGroupDomain;

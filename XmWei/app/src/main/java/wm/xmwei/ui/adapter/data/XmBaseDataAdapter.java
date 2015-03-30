@@ -1,6 +1,9 @@
 package wm.xmwei.ui.adapter.data;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -12,16 +15,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import wm.xmwei.R;
+import wm.xmwei.XmApplication;
 import wm.xmwei.bean.DataMessageDomain;
 import wm.xmwei.bean.UserDomain;
 import wm.xmwei.bean.base.DataItemDomain;
 import wm.xmwei.core.image.universalimageloader.XmImageLoader;
 import wm.xmwei.core.image.universalimageloader.core.ImageLoader;
+import wm.xmwei.ui.activity.galleryview.XmPhotoViewScanActivity;
 import wm.xmwei.ui.view.lib.TimeLineAvatarImageView;
 import wm.xmwei.ui.view.lib.TimeTextView;
+import wm.xmwei.ui.view.lib.XmPhotoViewData;
 import wm.xmwei.ui.view.lib.asyncpicture.IXmDrawable;
 import wm.xmwei.util.XmSettingUtil;
 
@@ -33,7 +40,7 @@ import wm.xmwei.util.XmSettingUtil;
 public abstract class XmBaseDataAdapter<T extends DataItemDomain> extends BaseAdapter {
 
     protected List<T> mDataList;
-    private Context mContext;
+    private Activity mContext;
     private LayoutInflater mInflater;
 
     // view type
@@ -43,8 +50,8 @@ public abstract class XmBaseDataAdapter<T extends DataItemDomain> extends BaseAd
     private final int TYPE_SIMPLE = 3;
     private static int VIEW_TYPE_COUNT = 4;
 
-    public XmBaseDataAdapter(Context context, List<T> datas) {
-        mContext = context;
+    public XmBaseDataAdapter(Activity activity, List<T> datas) {
+        mContext = activity;
         mDataList = datas;
         mInflater = LayoutInflater.from(mContext);
     }
@@ -191,6 +198,33 @@ public abstract class XmBaseDataAdapter<T extends DataItemDomain> extends BaseAd
             for (int i = 0; i < count; i++) {
                 final IXmDrawable pic = (IXmDrawable) gridLayout.getChildAt(i);
                 pic.setVisibility(View.VISIBLE);
+
+
+                final int selectPos = i;
+                pic.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // add onclick
+
+                        ArrayList<XmPhotoViewData> animationRectArrayList
+                                = new ArrayList<XmPhotoViewData>();
+                        for (int i = 0; i < count; i++) {
+                            final IXmDrawable pic = (IXmDrawable) gridLayout
+                                    .getChildAt(i);
+                            ImageView imageView = (ImageView) pic;
+                            if (imageView.getVisibility() == View.VISIBLE) {
+                                XmPhotoViewData rect = XmPhotoViewData.buildFromImageView(imageView);
+                                animationRectArrayList.add(rect);
+                            }
+                        }
+
+                        Intent intent = XmPhotoViewScanActivity
+                                .newIntent(msg, animationRectArrayList, selectPos);
+                        getActivity().startActivity(intent);
+
+                    }
+                });
+
                 if (XmSettingUtil.getEnableBigPic()) {
                     XmImageLoader.getInstance().loadImage(msg.getHighPicUrls().get(i), pic.getImageView());
                 } else {
@@ -277,6 +311,9 @@ public abstract class XmBaseDataAdapter<T extends DataItemDomain> extends BaseAd
         XmImageLoader.getInstance().loadImage(picUrl, view.getImageView());
     }
 
+    private Activity getActivity() {
+        return mContext;
+    }
 
     /**
      * 根据指定位置，来填充adapter的数据

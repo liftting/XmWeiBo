@@ -29,6 +29,7 @@ public class DataUtils {
     public static SpannableString convertNormalStringToSpannableString(String txt) {
         //hack to fix android imagespan bug,see http://stackoverflow.com/questions/3253148/imagespan-is-cut-off-incorrectly-aligned
         //if string only contains emotion tags,add a empty char to the end
+        if (TextUtils.isEmpty(txt)) return new SpannableString(""); // build the empty text
         String hackTxt;
         if (txt.startsWith("[") && txt.endsWith("]")) {
             hackTxt = txt + " ";

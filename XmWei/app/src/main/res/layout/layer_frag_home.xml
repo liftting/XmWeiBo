@@ -35,7 +35,8 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:padding="18dp"
-            android:id="@+id/rly_home_conver_griditem_down">
+            android:id="@+id/rly_home_conver_griditem_down"
+            android:background="@color/white">
 
             <ImageView
                 android:id="@+id/tv_home_conver_griditem_down"
@@ -81,7 +82,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:paddingLeft="8dp">
+                android:paddingLeft="8dp"
+                android:background="@color/white">
 
                 <RelativeLayout
                     android:layout_width="wrap_content"

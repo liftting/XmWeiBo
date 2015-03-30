@@ -1,5 +1,6 @@
 package wm.xmwei.util;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -111,6 +112,7 @@ public class XmUtils {
 
     /**
      * 流关闭，统一处理
+     *
      * @param closeable 流实现了接口
      */
     public static void closeSilently(Closeable closeable) {
@@ -154,6 +156,12 @@ public class XmUtils {
             }
         }
         return params;
+    }
+
+    // 判断设备方向
+    public static boolean isDevicePort() {
+        return XmApplication.getInstance().getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_PORTRAIT;
     }
 
 }

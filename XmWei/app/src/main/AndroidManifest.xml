@@ -42,6 +42,13 @@
 
         </activity>
 
+        <activity
+            android:name=".ui.activity.galleryview.XmPhotoViewScanActivity"
+            android:theme="@style/GalleryTheme">
+
+
+        </activity>
+
 
     </application>
 

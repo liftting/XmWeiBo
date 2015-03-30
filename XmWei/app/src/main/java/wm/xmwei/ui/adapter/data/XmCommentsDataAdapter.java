@@ -1,7 +1,9 @@
 package wm.xmwei.ui.adapter.data;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,8 +22,8 @@ import wm.xmwei.ui.view.lib.asyncpicture.IXmDrawable;
  */
 public class XmCommentsDataAdapter extends XmBaseDataAdapter<DataCommentDomain> {
 
-    public XmCommentsDataAdapter(Context context, List<DataCommentDomain> datas) {
-        super(context, datas);
+    public XmCommentsDataAdapter(Activity activity, List<DataCommentDomain> datas) {
+        super(activity, datas);
     }
 
     @Override

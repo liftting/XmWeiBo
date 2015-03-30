@@ -38,4 +38,9 @@ public class XmSettingUtil {
     public static boolean getEnableBigPic() {
         return true;
     }
+
+    // is allow to click the image close the gallery
+    public static boolean allowClickToCloseGallery() {
+        return true;
+    }
 }
