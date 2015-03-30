@@ -22,6 +22,7 @@ import wm.xmwei.XmApplication;
 import wm.xmwei.bean.DataMessageDomain;
 import wm.xmwei.core.lib.support.animation.ZoomOutPageTransformer;
 import wm.xmwei.ui.fragment.photogallery.XmPhotoViewFragment;
+import wm.xmwei.ui.view.jazzyviewpager.JazzyViewPager;
 import wm.xmwei.ui.view.lib.XmPhotoViewData;
 
 /**
@@ -34,7 +35,7 @@ public class XmPhotoViewScanActivity extends FragmentActivity {
     private ArrayList<String> mLargeUrls = new ArrayList<String>();
     private List<String> mOriginUrls = new ArrayList<String>();
 
-    private ViewPager pager;
+    private JazzyViewPager pager;
     private int initPosition;
 
     private HashMap<Integer, XmPhotoViewFragment> fragmentMap
@@ -64,7 +65,8 @@ public class XmPhotoViewScanActivity extends FragmentActivity {
             mLargeUrls.add(mOriginUrls.get(i).replace("thumbnail", "large"));
         }
 
-        pager = (ViewPager) findViewById(R.id.pager);
+        pager = (JazzyViewPager) findViewById(R.id.pager);
+        pager.setTransitionEffect(JazzyViewPager.TransitionEffect.ZoomIn);
 
         pager.setAdapter(new ImagePagerAdapter(getSupportFragmentManager()));
         pager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
@@ -88,7 +90,8 @@ public class XmPhotoViewScanActivity extends FragmentActivity {
         });
         pager.setCurrentItem(getIntent().getIntExtra("position", 0));
         pager.setOffscreenPageLimit(1);
-        pager.setPageTransformer(true, new ZoomOutPageTransformer());
+//        pager.setPageTransformer(true, new ZoomOutPageTransformer());
+
 
     }
 
