@@ -23,6 +23,7 @@ import java.util.Map;
 import wm.xmwei.R;
 import wm.xmwei.bean.DataGroupDomain;
 import wm.xmwei.bean.DataGroupListDomain;
+import wm.xmwei.bean.DataMessageDomain;
 import wm.xmwei.core.data.Constants;
 import wm.xmwei.core.net.http.OnDataLoadTaskListener;
 import wm.xmwei.ui.adapter.XmHomeFragmentAdapter;
@@ -157,18 +158,23 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
 
     }
 
-    private void initDataAdapter(){
+    private void initDataAdapter() {
         // update the three data sort
         mHomeFragmentAdapter = new XmHomeFragmentAdapter(getChildFragmentManager(), mHomeChildFragments, mTagFragments, buildTitleData());
         mHomeViewPager.setAdapter(mHomeFragmentAdapter);
     }
 
     private String[] buildTitleData() {
+        List<DataGroupDomain> dataGroupDomainList = null;
+        if (mGridItemAdapter == null || mGridItemAdapter.getItems() == null) {
+            dataGroupDomainList = mUserGroupDomain;
+        } else {
+            dataGroupDomainList = mGridItemAdapter.getItems();
+        }
+        String[] titleArray = new String[dataGroupDomainList.size()];
 
-        String[] titleArray = new String[mUserGroupDomain.size()];
-
-        for (int i = 0; i < mUserGroupDomain.size(); i++) {
-            DataGroupDomain domain = mUserGroupDomain.get(i);
+        for (int i = 0; i < dataGroupDomainList.size(); i++) {
+            DataGroupDomain domain = dataGroupDomainList.get(i);
             titleArray[i] = domain.getName();
         }
         return titleArray;

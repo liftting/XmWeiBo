@@ -191,9 +191,7 @@ public class PageSlidingIndicator extends HorizontalScrollView {
                 addIconTab(i, ((IconTabProvider) pager.getAdapter()).getPageIconResId(i));
             } else {
                 addTextTab(i,
-                        pager.getAdapter().
-                                getPageTitle(i).
-                                toString());
+                        pager.getAdapter().getPageTitle(i).toString());
             }
 
         }
