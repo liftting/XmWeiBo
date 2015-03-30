@@ -30,15 +30,21 @@
             app:isChangeTextSizeBig="true"
             app:underlineColor="@color/dodgerblue" />
 
-        <ImageView
-            android:id="@+id/tv_home_conver_griditem_down"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
             android:padding="18dp"
-            android:background="@drawable/ic_narrow_down" />
+            android:id="@+id/rly_home_conver_griditem_down">
+
+            <ImageView
+                android:id="@+id/tv_home_conver_griditem_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_centerInParent="true"
+                android:background="@drawable/ic_narrow_down" />
+        </RelativeLayout>
 
     </RelativeLayout>
 
@@ -75,17 +81,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp">
+                android:paddingLeft="8dp">
 
-                <ImageView
-                    android:id="@+id/tv_home_conver_griditem_up"
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
                     android:padding="18dp"
-                    android:background="@drawable/ic_narrow_up" />
+                    android:id="@+id/rly_home_conver_griditem_up">
+
+                    <ImageView
+                        android:id="@+id/tv_home_conver_griditem_up"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/ic_narrow_up" />
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/tv_home_conver_griditem_finish"

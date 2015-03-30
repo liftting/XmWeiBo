@@ -1,25 +1,41 @@
 package wm.xmwei.ui.adapter;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import java.util.List;
+
+import wm.xmwei.bean.DataGroupDomain;
+import wm.xmwei.ui.fragment.XmHomeBaseFragment;
 
 /**
  * Created by wm on 15-3-17.
  */
 public class XmHomeFragmentAdapter extends XmFragmentPagerAdapter {
 
-    private List<Fragment> mFragmentList;
     private List<String> mTagList;
     private String[] mTitle;
+    private int dataSize;
+    private List<DataGroupDomain> mGroupList;
 
-    public XmHomeFragmentAdapter(FragmentManager fm, List<Fragment> dataList, List<String> tagList, String[] title) {
+    public XmHomeFragmentAdapter(FragmentManager fm, List<String> tagList, List<DataGroupDomain> groupDomainList) {
         super(fm);
 
         mTagList = tagList;
-        mFragmentList = dataList;
-        mTitle = title;
+        mGroupList = groupDomainList;
+        dataSize = groupDomainList.size();
+
+        buildTitle();
+    }
+
+    private void buildTitle() {
+        mTitle = new String[mGroupList.size()];
+
+        for (int i = 0; i < mGroupList.size(); i++) {
+            DataGroupDomain domain = mGroupList.get(i);
+            mTitle[i] = domain.getName();
+        }
     }
 
     @Override
@@ -29,12 +45,13 @@ public class XmHomeFragmentAdapter extends XmFragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return mFragmentList.get(position);
+        //在base adapter会判断是否需要重新构建fragment还是，findTag 之前的进行复用
+        return createFragment(mGroupList.get(position));
     }
 
     @Override
     public int getCount() {
-        return mFragmentList.size();
+        return dataSize;
     }
 
     @Override
@@ -42,10 +59,10 @@ public class XmHomeFragmentAdapter extends XmFragmentPagerAdapter {
         return mTitle[position];
     }
 
-    public void updateTitle(List<Fragment> fragList, List<String> tags, String[] title) {
-        mTitle = title;
-        mFragmentList = fragList;
-        mTagList = tags;
-
+    private XmHomeBaseFragment createFragment(DataGroupDomain groupDomain) {
+        Bundle oneBundle = new Bundle();
+        oneBundle.putParcelable(XmHomeBaseFragment.HOME_FRAGMENT_GROUP_KEY, groupDomain);
+        return XmHomeBaseFragment.newInstance(oneBundle);
     }
+
 }

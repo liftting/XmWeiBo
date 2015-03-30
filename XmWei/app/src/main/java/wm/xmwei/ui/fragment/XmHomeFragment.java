@@ -44,21 +44,21 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
     private ProgressBar mDataLoadProgress;
 
 
-    private ImageView mTvConvertItemDown;
-    private ImageView mTvConvertItemUp;
     private RelativeLayout mRlyDragContainer;
     private DynamicGridView mDragGridView;
     private GridItemAdapter mGridItemAdapter;
     private TextView mTvDragFinish;
+    private boolean isDragFinish = false;
+
+    private RelativeLayout mRlyConvertItemDown;
+    private RelativeLayout mRlyConvertItemUp;
 
 
-    private List<Fragment> mHomeChildFragments = new ArrayList<Fragment>();
     private List<String> mTagFragments = new ArrayList<String>();
     private String[] mTitleArray;
     private XmHomeFragmentAdapter mHomeFragmentAdapter;
     private boolean isBuildCategory = false;
 
-    private Map<String, Fragment> mChildFragMap = new HashMap<String, Fragment>();
     private Map<String, String> mGroupTagMap = new HashMap<String, String>();
 
     private List<DataGroupDomain> mUserGroupDomain = new ArrayList<DataGroupDomain>();
@@ -109,25 +109,21 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
 
         mRlyDragContainer = (RelativeLayout) mainView.findViewById(R.id.rly_gridview_container);
         mDragGridView = (DynamicGridView) mainView.findViewById(R.id.v_drag_gridview);
-        mTvConvertItemDown = (ImageView) mainView.findViewById(R.id.tv_home_conver_griditem_down);
-        mTvConvertItemUp = (ImageView) mainView.findViewById(R.id.tv_home_conver_griditem_up);
+        mRlyConvertItemDown = (RelativeLayout) mainView.findViewById(R.id.rly_home_conver_griditem_down);
+        mRlyConvertItemUp = (RelativeLayout) mainView.findViewById(R.id.rly_home_conver_griditem_up);
         mTvDragFinish = (TextView) mainView.findViewById(R.id.tv_home_conver_griditem_finish);
 
         mDataLoadProgress = (ProgressBar) mainView.findViewById(R.id.pro_content_show);
 
 
-        mTvConvertItemDown.setOnClickListener(this);
-        mTvConvertItemUp.setOnClickListener(this);
+        mRlyConvertItemDown.setOnClickListener(this);
+        mRlyConvertItemUp.setOnClickListener(this);
         mTvDragFinish.setOnClickListener(this);
     }
 
     private void buildHomeFragments() {
 
         for (DataGroupDomain groupDomain : mUserGroupDomain) {
-            Fragment currentFrag = createFragment(groupDomain);
-            mHomeChildFragments.add(currentFrag);
-            mChildFragMap.put(groupDomain.getId(), currentFrag);
-
 
             String tag = createTag(groupDomain);
             mTagFragments.add(tag);
@@ -160,39 +156,18 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
 
     private void initDataAdapter() {
         // update the three data sort
-        mHomeFragmentAdapter = new XmHomeFragmentAdapter(getChildFragmentManager(), mHomeChildFragments, mTagFragments, buildTitleData());
+
+        mHomeFragmentAdapter = new XmHomeFragmentAdapter(getChildFragmentManager(), mTagFragments, mGridItemAdapter.getItems());
         mHomeViewPager.setAdapter(mHomeFragmentAdapter);
-    }
-
-    private String[] buildTitleData() {
-        List<DataGroupDomain> dataGroupDomainList = null;
-        if (mGridItemAdapter == null || mGridItemAdapter.getItems() == null) {
-            dataGroupDomainList = mUserGroupDomain;
-        } else {
-            dataGroupDomainList = mGridItemAdapter.getItems();
-        }
-        String[] titleArray = new String[dataGroupDomainList.size()];
-
-        for (int i = 0; i < dataGroupDomainList.size(); i++) {
-            DataGroupDomain domain = dataGroupDomainList.get(i);
-            titleArray[i] = domain.getName();
-        }
-        return titleArray;
     }
 
     private String createTag(DataGroupDomain groupDomain) {
         return XmHomeBaseFragment.class.getName() + "_" + groupDomain.getId();
     }
 
-    private XmHomeBaseFragment createFragment(DataGroupDomain groupDomain) {
-        Bundle oneBundle = new Bundle();
-        oneBundle.putParcelable(XmHomeBaseFragment.HOME_FRAGMENT_GROUP_KEY, groupDomain);
-        return XmHomeBaseFragment.newInstance(oneBundle);
-    }
 
     // 分类数据构建
     private void buildCategoryData() {
-
 
         mGridItemAdapter = new GridItemAdapter(mContext, mUserGroupDomain, 3);
 
@@ -233,26 +208,24 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.tv_home_conver_griditem_down:
-
-                if (!isBuildCategory) {
-                    buildCategoryData();
-                    isBuildCategory = true;
-                }
+            case R.id.rly_home_conver_griditem_down:
 
                 showDragContainerView();
 
                 break;
-            case R.id.tv_home_conver_griditem_up:
+            case R.id.rly_home_conver_griditem_up:
 
                 hideDragContainerView();
-
-                handleDataSort();
+                if (isDragFinish) {
+                    handleDataSort();
+                    isDragFinish = false;
+                }
 
                 break;
 
             case R.id.tv_home_conver_griditem_finish:
                 // 结束
+                isDragFinish = true;
                 setDragTopStatus(false);
                 if (mDragGridView.isEditMode()) {
                     mDragGridView.stopEditMode();
@@ -265,7 +238,6 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
     //当用户调整了数据顺序时， 刷新viewpager
     private void handleDataSort() {
 
-        refreshFragment();
         refreshFragmentTag();
 
         initDataAdapter();
@@ -284,13 +256,6 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
 
     }
 
-    private void refreshFragment() {
-        mHomeChildFragments = new ArrayList<Fragment>();
-        for (DataGroupDomain groupDomain : mGridItemAdapter.getItems()) {
-            mHomeChildFragments.add(mChildFragMap.get(groupDomain.getId()));
-        }
-    }
-
     private void refreshFragmentTag() {
         mTagFragments = new ArrayList<String>();
         for (DataGroupDomain groupDomain : mGridItemAdapter.getItems()) {
@@ -301,10 +266,10 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
     private void setDragTopStatus(boolean isDragBegin) {
         if (isDragBegin) {
             mTvDragFinish.setVisibility(View.VISIBLE);
-            mTvConvertItemUp.setVisibility(View.GONE);
+            mRlyConvertItemUp.setVisibility(View.GONE);
         } else {
             mTvDragFinish.setVisibility(View.GONE);
-            mTvConvertItemUp.setVisibility(View.VISIBLE);
+            mRlyConvertItemUp.setVisibility(View.VISIBLE);
         }
     }
 
@@ -380,6 +345,9 @@ public class XmHomeFragment extends XmBaseFragment implements View.OnClickListen
 
         createTestDomain();
         groupDataComplete();
+
+        buildCategoryData();
+
         buildHomeFragments();
 
     }
