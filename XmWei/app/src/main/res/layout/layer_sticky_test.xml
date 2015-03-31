@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wm.xmwei.core.lib.support.view.StickyScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:whatever="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    whatever:stuckShadowDrawable="@drawable/sticky_shadow_default"
+    android:id="@+id/ScrollView">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:tag="sticky"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:text="comment"
+                android:textColor="@color/white"
+                android:layout_weight="1"
+                android:gravity="center" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:text="comment"
+                android:textColor="@color/white"
+                android:layout_weight="1"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/v_message_scan_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</wm.xmwei.core.lib.support.view.StickyScrollView>

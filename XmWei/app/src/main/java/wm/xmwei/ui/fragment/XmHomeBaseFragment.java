@@ -1,6 +1,7 @@
 package wm.xmwei.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import wm.xmwei.core.data.Constants;
 import wm.xmwei.core.lib.support.XmAsyncTask;
 import wm.xmwei.datadao.DataLoadResult;
 import wm.xmwei.datadao.dbway.home.DbHomeDefaultMessageTask;
+import wm.xmwei.ui.activity.XmMessageScanActivity;
 import wm.xmwei.ui.adapter.data.XmHomeDataAdapter;
 import wm.xmwei.ui.dataloader.XmHomeMessageLoader;
 import wm.xmwei.ui.fragment.base.XmBaseListFragment;
@@ -96,7 +98,8 @@ public class XmHomeBaseFragment extends XmBaseListFragment<DataMessageListDomain
 
     @Override
     protected void onListViewItemClick(AdapterView parent, View view, int position, long id) {
-
+        Intent intent = XmMessageScanActivity.newIntent();
+        startActivity(intent);
     }
 
     @Override

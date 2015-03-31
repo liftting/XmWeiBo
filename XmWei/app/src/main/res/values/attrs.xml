@@ -18,4 +18,10 @@
         <flag name="fromRight" value="0x08" />
     </attr>
 
+    <declare-styleable name="StickyScrollView">
+        <attr name="stuckShadowHeight" format="dimension" />
+        <attr name="stuckShadowDrawable" format="reference" />
+    </declare-styleable>
+
+
 </resources>
