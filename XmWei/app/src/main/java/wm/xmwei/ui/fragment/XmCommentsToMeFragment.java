@@ -86,7 +86,7 @@ public class XmCommentsToMeFragment extends XmBaseListFragment<DataCommentListDo
     }
 
     @Override
-    protected void onItemClick(AdapterView parent, View view, int position, long id) {
+    protected void onListViewItemClick(AdapterView parent, View view, int position, long id) {
 
     }
 

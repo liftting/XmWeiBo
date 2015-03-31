@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import wm.xmwei.R;
+import wm.xmwei.bean.base.DataItemDomain;
 import wm.xmwei.bean.base.DataListDomain;
 import wm.xmwei.core.image.universalimageloader.XmImageLoader;
 import wm.xmwei.core.lib.support.error.XmWeiboException;
@@ -74,6 +75,7 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
         }
 
         mSwipeRefreshLayout.setOnRefreshListener(listViewOnRefreshListener);
+        mRefreshListView.setOnItemClickListener(mItemClickListener);
 
     }
 
@@ -300,6 +302,35 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
         }
     };
 
+    private AdapterView.OnItemClickListener mItemClickListener
+            = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            int headerViewsCount = getListView().getHeaderViewsCount();
+            if (isPositionBetweenHeaderViewAndFooterView(position)) {
+                int indexInDataSource = position - headerViewsCount;
+                DataItemDomain dataItemDomain = getDataList().getItem(indexInDataSource);
+
+
+                onListViewItemClick(parent, view, indexInDataSource, id);
+            } else if (isLastItem(position)) {
+                loadNextData();
+            }
+        }
+
+        boolean isLastItem(int position) {
+            //click the last footer view load more
+            return position - 1 >= getDataList().getSize();
+        }
+
+        boolean isPositionBetweenHeaderViewAndFooterView(int position) {
+            return position - getListView().getHeaderViewsCount() < getDataList().getSize()
+                    && position - getListView().getHeaderViewsCount() >= 0;
+        }
+
+    };
+
     private void loadCompleteStatus() {
         mSwipeRefreshLayout.setRefreshing(false);
     }
@@ -328,7 +359,7 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
 
     public abstract T getDataList();
 
-    protected abstract void onItemClick(AdapterView parent, View view, int position, long id);
+    protected abstract void onListViewItemClick(AdapterView parent, View view, int position, long id);
 
     protected abstract void onNewDataLoaderSuccessCallback(T newValue, Bundle loaderArgs);
 
