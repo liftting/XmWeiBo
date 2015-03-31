@@ -206,6 +206,7 @@ public abstract class XmBaseDataAdapter<T extends DataItemDomain> extends BaseAd
                     public void onClick(View v) {
                         // add onclick
 
+                        // 这里在构造时，因为有些图片没有显示完整，所以点击后这里的
                         ArrayList<XmPhotoViewData> animationRectArrayList
                                 = new ArrayList<XmPhotoViewData>();
                         for (int i = 0; i < count; i++) {

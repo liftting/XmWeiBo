@@ -6,7 +6,7 @@ import android.view.View;
 /**
  */
 public class ZoomOutPageTransformer implements ViewPager.PageTransformer {
-    private static float MIN_SCALE = 0.85f;
+    private static float MIN_SCALE = 0.5f;
     private static float MIN_ALPHA = 0.5f;
 
     public void transformPage(View view, float position) {
@@ -22,19 +22,20 @@ public class ZoomOutPageTransformer implements ViewPager.PageTransformer {
             float vertMargin = pageHeight * (1 - scaleFactor) / 2;
             float horzMargin = pageWidth * (1 - scaleFactor) / 2;
             if (position < 0) {
-                view.setTranslationX(horzMargin - vertMargin / 2);
+                // 这里左侧出去时，不用缩放操作
+//                view.setTranslationX(horzMargin - vertMargin / 2);
             } else {
-                view.setTranslationX(-horzMargin + vertMargin / 2);
+                // 这里是右侧page进入时，才进行缩放操作
+//                view.setTranslationX(-horzMargin + vertMargin / 2);
+                // Scale the page down (between MIN_SCALE and 1)
+                view.setScaleX(scaleFactor);
+                view.setScaleY(scaleFactor);
             }
 
-            // Scale the page down (between MIN_SCALE and 1)
-            view.setScaleX(scaleFactor);
-            view.setScaleY(scaleFactor);
-
             // Fade the page relative to its size.
-            view.setAlpha(MIN_ALPHA +
-                    (scaleFactor - MIN_SCALE) /
-                            (1 - MIN_SCALE) * (1 - MIN_ALPHA));
+//            view.setAlpha(MIN_ALPHA +
+//                    (scaleFactor - MIN_SCALE) /
+//                            (1 - MIN_SCALE) * (1 - MIN_ALPHA));
         } else { // (1,+Infinity]
             // This page is way off-screen to the right.
             view.setAlpha(0);

@@ -1,9 +1,11 @@
 package wm.xmwei.util;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.view.View;
 import android.widget.ImageView;
 
 /**
@@ -62,6 +64,11 @@ public class XmAnimationUtil {
         } else {
             return null;
         }
+    }
+
+    public static View getAppContentView(Activity activity) {
+        final View appView = activity.findViewById(android.R.id.content);
+        return appView;
     }
 
 }

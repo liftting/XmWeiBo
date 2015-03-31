@@ -1,7 +1,12 @@
 package wm.xmwei.ui.activity.galleryview;
 
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,6 +29,7 @@ import wm.xmwei.core.lib.support.animation.ZoomOutPageTransformer;
 import wm.xmwei.ui.fragment.photogallery.XmPhotoViewFragment;
 import wm.xmwei.ui.view.jazzyviewpager.JazzyViewPager;
 import wm.xmwei.ui.view.lib.XmPhotoViewData;
+import wm.xmwei.util.XmAnimationUtil;
 
 /**
  */
@@ -35,13 +41,17 @@ public class XmPhotoViewScanActivity extends FragmentActivity {
     private ArrayList<String> mLargeUrls = new ArrayList<String>();
     private List<String> mOriginUrls = new ArrayList<String>();
 
-    private JazzyViewPager pager;
+    private ViewPager pager;
     private int initPosition;
 
     private HashMap<Integer, XmPhotoViewFragment> fragmentMap
             = new HashMap<Integer, XmPhotoViewFragment>();
 
     private boolean alreadyAnimateIn = false;
+
+
+    private ColorDrawable backgroundColor;
+    private View background;
 
     public static Intent newIntent(DataMessageDomain msg, ArrayList<XmPhotoViewData> rectList,
                                    int initPosition) {
@@ -65,8 +75,8 @@ public class XmPhotoViewScanActivity extends FragmentActivity {
             mLargeUrls.add(mOriginUrls.get(i).replace("thumbnail", "large"));
         }
 
-        pager = (JazzyViewPager) findViewById(R.id.pager);
-        pager.setTransitionEffect(JazzyViewPager.TransitionEffect.ZoomIn);
+        pager = (ViewPager) findViewById(R.id.pager);
+//        pager.setTransitionEffect(JazzyViewPager.TransitionEffect.ZoomIn);
 
         pager.setAdapter(new ImagePagerAdapter(getSupportFragmentManager()));
         pager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
@@ -89,9 +99,11 @@ public class XmPhotoViewScanActivity extends FragmentActivity {
             }
         });
         pager.setCurrentItem(getIntent().getIntExtra("position", 0));
-        pager.setOffscreenPageLimit(1);
-//        pager.setPageTransformer(true, new ZoomOutPageTransformer());
+//        pager.setOffscreenPageLimit(1);
+        pager.setPageTransformer(true, new ZoomOutPageTransformer());
 
+
+        background = XmAnimationUtil.getAppContentView(this);
 
     }
 
@@ -130,6 +142,54 @@ public class XmPhotoViewScanActivity extends FragmentActivity {
         @Override
         public int getCount() {
             return mOriginUrls.size();
+        }
+    }
+
+    public void showBackgroundImmediately() {
+        if (background.getBackground() == null) {
+            backgroundColor = new ColorDrawable(R.color.light_gray_translucent_background);
+            background.setBackground(backgroundColor);
+        }
+    }
+
+    public ObjectAnimator showBackgroundAnimate() {
+        backgroundColor = new ColorDrawable(R.color.light_gray_translucent_background);
+        background.setBackground(backgroundColor);
+        ObjectAnimator bgAnim = ObjectAnimator
+                .ofInt(backgroundColor, "alpha", 0, 255);
+        bgAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                background.setBackground(backgroundColor);
+            }
+        });
+        return bgAnim;
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        XmPhotoViewFragment fragment = fragmentMap.get(pager.getCurrentItem());
+        if (fragment != null && fragment.canAnimateCloseActivity()) {
+            backgroundColor = new ColorDrawable(Color.BLACK);
+            ObjectAnimator bgAnim = ObjectAnimator.ofInt(backgroundColor, "alpha", 0);
+            bgAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    background.setBackground(backgroundColor);
+                }
+            });
+            bgAnim.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    XmPhotoViewScanActivity.super.finish();
+                    overridePendingTransition(-1, -1);
+                }
+            });
+            fragment.animationExit(bgAnim);
+        } else {
+            super.onBackPressed();
         }
     }
 

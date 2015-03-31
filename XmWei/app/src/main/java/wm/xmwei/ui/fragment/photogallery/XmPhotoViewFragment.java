@@ -58,23 +58,13 @@ public class XmPhotoViewFragment extends Fragment {
         mImgOrigin = (ImageView) view.findViewById(R.id.img_gallery_origin_view);
         mRlyImageOrigin = (RelativeLayout) view.findViewById(R.id.rly_gallery_origin_view);
 
-        Bundle bundle = getArguments();
-        largeUrl = bundle.getString("large_url");
-        originUrl = bundle.getString("origin_url");
-        mPhotoData = bundle.getParcelable("rect");
-
-        boolean animateIn = bundle.getBoolean("animationIn");
-        bundle.putBoolean("animationIn", false);
-
+        initData();
 
         // load origin image
         XmImageLoader.getInstance().loadImage(originUrl, mImgOrigin, new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {
-                ViewGroup.LayoutParams params = mRlyImageOrigin.getLayoutParams();
-                params.width = mPhotoData.thumbnailWidth;
-                params.height = mPhotoData.thumbnailHeight;
-                mRlyImageOrigin.setLayoutParams(params);
+
             }
 
             @Override
@@ -84,7 +74,8 @@ public class XmPhotoViewFragment extends Fragment {
 
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-
+//                ViewGroup.LayoutParams params = mRlyImageOrigin.getLayoutParams();
+//
             }
 
             @Override
@@ -125,7 +116,25 @@ public class XmPhotoViewFragment extends Fragment {
         });
 
 
+        XmPhotoViewScanActivity activity = (XmPhotoViewScanActivity) getActivity();
+        activity.showBackgroundImmediately();
+
         return view;
+    }
+
+    private void initData(){
+        Bundle bundle = getArguments();
+        largeUrl = bundle.getString("large_url");
+        originUrl = bundle.getString("origin_url");
+        mPhotoData = bundle.getParcelable("rect");
+
+        boolean animateIn = bundle.getBoolean("animationIn");
+        bundle.putBoolean("animationIn", false);
+
+        RelativeLayout.LayoutParams imgParams = (RelativeLayout.LayoutParams) mImgOrigin.getLayoutParams();
+        imgParams.width = mPhotoData.thumbnailWidth;
+        imgParams.height = mPhotoData.thumbnailHeight;
+        mImgOrigin.setLayoutParams(imgParams);
     }
 
     private void displayPicture(boolean animateIn) {
@@ -134,12 +143,43 @@ public class XmPhotoViewFragment extends Fragment {
         XmPhotoViewData rect = getArguments().getParcelable("rect");
         boolean firstOpenPage = getArguments().getBoolean("firstOpenPage");
 
+        if (firstOpenPage) {
+            if (animateIn) {
+                ObjectAnimator animator = activity.showBackgroundAnimate();
+                animator.start();
+            } else {
+                activity.showBackgroundImmediately();
+            }
+            getArguments().putBoolean("firstOpenPage", false);
+        }
+
+
         Fragment fragment = GeneralPictureFragment.newInstance(largeUrl, rect, animateIn);
 
         getChildFragmentManager().beginTransaction().replace(R.id.child, fragment)
                 .commitAllowingStateLoss();
-
-
     }
+
+    public boolean canAnimateCloseActivity() {
+//        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.child);
+//        if (fragment instanceof GeneralPictureFragment) {
+//            return true;
+//        } else if (fragment instanceof GifPictureFragment) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+        return true;
+    }
+
+
+    public void animationExit(ObjectAnimator backgroundAnimator) {
+        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.child);
+        if (fragment instanceof GeneralPictureFragment) {
+            GeneralPictureFragment child = (GeneralPictureFragment) fragment;
+            child.animationExit(backgroundAnimator);
+        }
+    }
+
 
 }

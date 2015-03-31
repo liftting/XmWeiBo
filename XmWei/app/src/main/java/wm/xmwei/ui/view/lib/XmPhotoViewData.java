@@ -119,6 +119,7 @@ public class XmPhotoViewData implements Parcelable {
             bitmap = ((BitmapDrawable) drawable).getBitmap();
         }
 
+        // 构造时出现了null
         if (bitmap == null) {
             return null;
         }
@@ -136,7 +137,7 @@ public class XmPhotoViewData implements Parcelable {
         rect.imageViewEntireRect = new Rect();
         int[] location = new int[2];
         imageView.getLocationOnScreen(location);
-        rect.imageViewEntireRect.left = location[0];
+        rect.imageViewEntireRect.left = location[0]; // imageView在列表中显示时的坐标矩形
         rect.imageViewEntireRect.top = location[1];
         rect.imageViewEntireRect.right = rect.imageViewEntireRect.left + imageView.getWidth();
         rect.imageViewEntireRect.bottom = rect.imageViewEntireRect.top + imageView.getHeight();

@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
+import com.sina.weibo.sdk.utils.Utility;
+
 import wm.xmwei.R;
 import wm.xmwei.core.image.universalimageloader.XmImageLoader;
 import wm.xmwei.ui.view.lib.XmPhotoViewData;
@@ -20,6 +22,7 @@ import wm.xmwei.ui.view.photoview.PhotoView;
 import wm.xmwei.ui.view.photoview.PhotoViewAttacher;
 import wm.xmwei.util.XmAnimationUtil;
 import wm.xmwei.util.XmSettingUtil;
+import wm.xmwei.util.XmUtils;
 
 
 /**
@@ -149,5 +152,98 @@ public class GeneralPictureFragment extends Fragment {
 
         return view;
     }
+
+    public void animationExit(ObjectAnimator backgroundAnimator) {
+
+        if (Math.abs(photoView.getScale() - 1.0f) > 0.1f) {
+            photoView.setScale(1, true);
+            return;
+        }
+
+        getActivity().overridePendingTransition(0, 0);
+        animateClose(backgroundAnimator);
+    }
+
+    private void animateClose(ObjectAnimator backgroundAnimator) {
+
+        XmPhotoViewData rect = getArguments().getParcelable("rect");
+
+        if (rect == null) {
+            photoView.animate().alpha(0);
+            backgroundAnimator.start();
+            return;
+        }
+
+        final Rect startBounds = rect.scaledBitmapRect;
+        final Rect finalBounds = XmAnimationUtil.getBitmapRectFromImageView(photoView);
+
+        if (finalBounds == null) {
+            photoView.animate().alpha(0);
+            backgroundAnimator.start();
+            return;
+        }
+
+        if (XmUtils.isDevicePort() != rect.isScreenPortrait) {
+            photoView.animate().alpha(0);
+            backgroundAnimator.start();
+            return;
+        }
+
+        float startScale;
+        if ((float) finalBounds.width() / finalBounds.height()
+                > (float) startBounds.width() / startBounds.height()) {
+            startScale = (float) startBounds.height() / finalBounds.height();
+        } else {
+            startScale = (float) startBounds.width() / finalBounds.width();
+        }
+
+        final float startScaleFinal = startScale;
+
+        int deltaTop = startBounds.top - finalBounds.top;
+        int deltaLeft = startBounds.left - finalBounds.left;
+
+        photoView.setPivotY((photoView.getHeight() - finalBounds.height()) / 2);
+        photoView.setPivotX((photoView.getWidth() - finalBounds.width()) / 2);
+
+        photoView.animate().translationX(deltaLeft).translationY(deltaTop)
+                .scaleY(startScaleFinal)
+                .scaleX(startScaleFinal).setDuration(ANIMATION_DURATION)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .withEndAction(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        photoView.animate().alpha(0.0f).setDuration(200).withEndAction(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                    }
+                                }
+                        );
+                    }
+                });
+
+        AnimatorSet animationSet = new AnimatorSet();
+        animationSet.setDuration(ANIMATION_DURATION);
+        animationSet.setInterpolator(new AccelerateDecelerateInterpolator());
+
+        animationSet.playTogether(backgroundAnimator);
+
+        animationSet.playTogether(ObjectAnimator.ofFloat(photoView,
+                "clipBottom", 0, XmPhotoViewData
+                        .getClipBottom(rect, finalBounds)
+        ));
+        animationSet.playTogether(ObjectAnimator.ofFloat(photoView,
+                "clipRight", 0,
+                XmPhotoViewData.getClipRight(rect, finalBounds)));
+        animationSet.playTogether(ObjectAnimator.ofFloat(photoView,
+                "clipTop", 0, XmPhotoViewData.getClipTop(rect, finalBounds)));
+        animationSet.playTogether(ObjectAnimator.ofFloat(photoView,
+                "clipLeft", 0, XmPhotoViewData.getClipLeft(rect, finalBounds)));
+
+        animationSet.start();
+    }
+
 
 }
