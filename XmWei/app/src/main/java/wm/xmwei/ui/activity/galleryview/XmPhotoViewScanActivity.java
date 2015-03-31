@@ -99,7 +99,7 @@ public class XmPhotoViewScanActivity extends FragmentActivity {
             }
         });
         pager.setCurrentItem(getIntent().getIntExtra("position", 0));
-//        pager.setOffscreenPageLimit(1);
+        pager.setOffscreenPageLimit(1);
         pager.setPageTransformer(true, new ZoomOutPageTransformer());
 
 

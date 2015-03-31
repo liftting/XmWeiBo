@@ -81,28 +81,38 @@ public abstract class XmBaseDataAdapter<T extends DataItemDomain> extends BaseAd
     }
 
     @Override
+    public int getItemViewType(int position) {
+
+        if (position >= mDataList.size()) {
+            return -1;
+        }
+
+        if (XmSettingUtil.getEnableBigPic()) {
+            return TYPE_NORMAL_BIG_PIC;
+        } else {
+            return TYPE_NORMAL;
+        }
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         int itemViewType = getItemViewType(position);
         if (convertView == null) {
-
-
-//            View view = null;
-//            switch (itemViewType) {
-//                case TYPE_SIMPLE:
-//                    view = buildSimpleView();
-//                    break;
-//                case TYPE_NORMAL:
-//
-//                    if (view == null) {
-//                        view = buildNormalView();
-//                    }
-//                    break;
-//                default:
-//                    view = buildNormalView();
-//                    break;
-//            }
-            convertView = buildNormalView();
+            switch (itemViewType) {
+                case TYPE_SIMPLE:
+                    convertView = buildSimpleView();
+                    break;
+                case TYPE_NORMAL:
+                    convertView = buildNormalView();
+                    break;
+                case TYPE_NORMAL_BIG_PIC:
+                    convertView = buildBigView();
+                    break;
+                default:
+                    convertView = buildNormalView();
+                    break;
+            }
             holder = new ViewHolder();
             convertView.setTag(holder);
             buildHolder(holder, convertView);
@@ -120,6 +130,10 @@ public abstract class XmBaseDataAdapter<T extends DataItemDomain> extends BaseAd
 
     private View buildNormalView() {
         return mInflater.inflate(R.layout.layer_timeline_listview_item_normal, null);
+    }
+
+    private View buildBigView() {
+        return mInflater.inflate(R.layout.layer_timeline_listview_item_bigpic, null);
     }
 
     private ViewHolder buildHolder(ViewHolder holder, View convertView) {

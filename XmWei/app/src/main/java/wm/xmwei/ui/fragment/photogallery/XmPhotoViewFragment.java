@@ -61,28 +61,7 @@ public class XmPhotoViewFragment extends Fragment {
         initData();
 
         // load origin image
-        XmImageLoader.getInstance().loadImage(originUrl, mImgOrigin, new ImageLoadingListener() {
-            @Override
-            public void onLoadingStarted(String imageUri, View view) {
-
-            }
-
-            @Override
-            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
-            }
-
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-//                ViewGroup.LayoutParams params = mRlyImageOrigin.getLayoutParams();
-//
-            }
-
-            @Override
-            public void onLoadingCancelled(String imageUri, View view) {
-
-            }
-        });
+        XmImageLoader.getInstance().loadImage(originUrl, mImgOrigin);
 
 
         // load the large bitmap
@@ -131,6 +110,7 @@ public class XmPhotoViewFragment extends Fragment {
         boolean animateIn = bundle.getBoolean("animationIn");
         bundle.putBoolean("animationIn", false);
 
+        // mphotoData fail null, beause when image not loaded success
         RelativeLayout.LayoutParams imgParams = (RelativeLayout.LayoutParams) mImgOrigin.getLayoutParams();
         imgParams.width = mPhotoData.thumbnailWidth;
         imgParams.height = mPhotoData.thumbnailHeight;
