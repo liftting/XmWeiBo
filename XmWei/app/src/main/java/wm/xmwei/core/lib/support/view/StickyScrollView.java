@@ -17,7 +17,7 @@ import android.widget.ScrollView;
 import wm.xmwei.R;
 
 /**
- * 
+ *
  * @author Emil Sj�lander - sjolander.emil@gmail.com
  *
  */
@@ -37,7 +37,7 @@ public class StickyScrollView extends ScrollView {
 	 * Flag for views that have aren't fully opaque
 	 */
 	public static final String FLAG_HASTRANSPARANCY = "-hastransparancy";
-	
+
 	/**
 	 * Default height of the shadow peeking out below the stuck view.
 	 */
@@ -81,7 +81,7 @@ public class StickyScrollView extends ScrollView {
 		super(context, attrs, defStyle);
 		setup();
 
-		
+
 
 		TypedArray a = context.obtainStyledAttributes(attrs,
 		        R.styleable.StickyScrollView, defStyle, 0);
@@ -113,12 +113,12 @@ public class StickyScrollView extends ScrollView {
 	public void setShadowHeight(int height) {
 		mShadowHeight = height;
 	}
-	
+
 
 	public void setup(){
 		stickyViews = new ArrayList<View>();
 	}
-	
+
 	private int getLeftForViewRelativeOnlyChild(View v){
 		int left = v.getLeft();
 		while(v.getParent() != getChildAt(0)){
@@ -127,7 +127,7 @@ public class StickyScrollView extends ScrollView {
 		}
 		return left;
 	}
-	
+
 	private int getTopForViewRelativeOnlyChild(View v){
 		int top = v.getTop();
 		while(v.getParent() != getChildAt(0)){
@@ -136,7 +136,7 @@ public class StickyScrollView extends ScrollView {
 		}
 		return top;
 	}
-	
+
 	private int getRightForViewRelativeOnlyChild(View v){
 		int right = v.getRight();
 		while(v.getParent() != getChildAt(0)){
@@ -145,7 +145,7 @@ public class StickyScrollView extends ScrollView {
 		}
 		return right;
 	}
-	
+
 	private int getBottomForViewRelativeOnlyChild(View v){
 		int bottom = v.getBottom();
 		while(v.getParent() != getChildAt(0)){
@@ -242,9 +242,9 @@ public class StickyScrollView extends ScrollView {
 		if(redirectTouchesToStickyView){
 			redirectTouchesToStickyView = currentlyStickingView != null;
 			if(redirectTouchesToStickyView){
-				redirectTouchesToStickyView = 
-					ev.getY()<=(currentlyStickingView.getHeight()+stickyViewTopOffset) && 
-					ev.getX() >= getLeftForViewRelativeOnlyChild(currentlyStickingView) && 
+				redirectTouchesToStickyView =
+					ev.getY()<=(currentlyStickingView.getHeight()+stickyViewTopOffset) &&
+					ev.getX() >= getLeftForViewRelativeOnlyChild(currentlyStickingView) &&
 					ev.getX() <= getRightForViewRelativeOnlyChild(currentlyStickingView);
 			}
 		}else if(currentlyStickingView == null){
@@ -262,23 +262,23 @@ public class StickyScrollView extends ScrollView {
 	public boolean onTouchEvent(MotionEvent ev) {
 		if(redirectTouchesToStickyView){
 			ev.offsetLocation(0, ((getScrollY() + stickyViewTopOffset) - getTopForViewRelativeOnlyChild(currentlyStickingView)));
-		} 
-		
+		}
+
 		if(ev.getAction()==MotionEvent.ACTION_DOWN){
 			hasNotDoneActionDown = false;
 		}
-		
+
 		if(hasNotDoneActionDown){
 			MotionEvent down = MotionEvent.obtain(ev);
 			down.setAction(MotionEvent.ACTION_DOWN);
 			super.onTouchEvent(down);
 			hasNotDoneActionDown = false;
 		}
-		
+
 		if(ev.getAction()==MotionEvent.ACTION_UP || ev.getAction()==MotionEvent.ACTION_CANCEL){
 			hasNotDoneActionDown = true;
 		}
-		
+
 		return super.onTouchEvent(ev);
 	}
 
@@ -286,6 +286,9 @@ public class StickyScrollView extends ScrollView {
 	protected void onScrollChanged(int l, int t, int oldl, int oldt) {
 		super.onScrollChanged(l, t, oldl, oldt);
 		doTheStickyThing();
+
+
+
 	}
 
 	private void doTheStickyThing() {
@@ -342,7 +345,7 @@ public class StickyScrollView extends ScrollView {
 	public void notifyStickyAttributeChanged(){
 		notifyHierarchyChanged();
 	}
-	
+
 	private void notifyHierarchyChanged(){
 		if(currentlyStickingView!=null){
 			stopStickingCurrentlyStickingView();
@@ -371,7 +374,7 @@ public class StickyScrollView extends ScrollView {
 			}
 		}
 	}
-	
+
 	private String getStringTagForView(View v){
 		Object tagObject = v.getTag();
 		return String.valueOf(tagObject);
@@ -398,5 +401,16 @@ public class StickyScrollView extends ScrollView {
 			v.startAnimation(anim);
 		}
 	}
+
+    // add scroll view listener
+
+    private ScrollViewListener scrollViewListener;
+    public interface ScrollViewListener {
+        void onScrollChanged(StickyScrollView scrollView, int x, int y, int oldx, int oldy);
+    }
+
+    public void setScrollViewListener(ScrollViewListener scrollViewListener) {
+        this.scrollViewListener = scrollViewListener;
+    }
 
 }
