@@ -49,7 +49,7 @@
 
         </activity>
 
-        <activity android:name=".ui.activity.XmMessageScanActivity">
+        <activity android:name=".ui.activity.messagescan.XmMessageScanActivity">
 
         </activity>
 

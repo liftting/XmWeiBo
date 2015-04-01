@@ -1,7 +1,6 @@
-package wm.xmwei.ui.activity;
+package wm.xmwei.ui.activity.messagescan;
 
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,33 +8,27 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import wm.xmwei.R;
 import wm.xmwei.XmApplication;
-import wm.xmwei.bean.DataMessageDomain;
 import wm.xmwei.core.lib.support.view.StickyScrollView;
 import wm.xmwei.ui.activity.base.XmBaseActivity;
-import wm.xmwei.util.XmUtils;
+import wm.xmwei.ui.view.observablescrollview.ObservableScrollView;
 
 /**
  * this is handle the operation
  */
-public class XmMessageScanActivity extends XmBaseActivity implements StickyScrollView.ScrollViewListener {
+public class XmMessageScanActivity extends XmBaseActivity {
 
     private ViewPager mPager;
-    private StickyScrollView mScrollView;
+    private ObservableScrollView mScrollView;
 
     private ListView mDataListView;
     private List<String> datas = new ArrayList<String>();
@@ -48,8 +41,7 @@ public class XmMessageScanActivity extends XmBaseActivity implements StickyScrol
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layer_sticky_test);
 
-        mScrollView = (StickyScrollView) findViewById(R.id.v_message_scan_scrollview);
-        mScrollView.setScrollViewListener(this);
+        mScrollView = (ObservableScrollView) findViewById(R.id.v_message_scan_scrollview);
         mPager = (ViewPager) findViewById(R.id.v_message_scan_pager);
         headView = findViewById(R.id.v_head_view);
 
@@ -61,9 +53,6 @@ public class XmMessageScanActivity extends XmBaseActivity implements StickyScrol
         mDataList.add(new TestFragment());
         mPager.setAdapter(new TestFragmentAdapter(getSupportFragmentManager()));
         registerPagerScroll();
-
-        mScrollView.setScrollViewListener(this);
-
     }
 
     public static Intent newIntent() {
@@ -110,16 +99,6 @@ public class XmMessageScanActivity extends XmBaseActivity implements StickyScrol
 //        });
 
     }
-
-    @Override
-    public void onScrollChanged(StickyScrollView scrollView, int x, int y, int oldx, int oldy) {
-        int height = headView.getMeasuredHeight();
-        mScrollView.scrollTo(0,mScrollView.getScrollY());
-        if (mScrollView.getScrollY() >= height) {
-            mPager.getParent().requestDisallowInterceptTouchEvent(true);
-        }
-    }
-
 
     public class ItemAdapter extends BaseAdapter {
 

@@ -1,31 +1,23 @@
 package wm.xmwei.ui.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sina.weibo.sdk.utils.Utility;
-
-import wm.xmwei.R;
 import wm.xmwei.XmApplication;
 import wm.xmwei.bean.DataGroupDomain;
 import wm.xmwei.bean.DataMessageListDomain;
 import wm.xmwei.bean.UserBingDomain;
-import wm.xmwei.bean.base.DataListDomain;
-import wm.xmwei.core.data.Constants;
 import wm.xmwei.core.lib.support.XmAsyncTask;
 import wm.xmwei.datadao.DataLoadResult;
 import wm.xmwei.datadao.dbway.home.DbHomeDefaultMessageTask;
-import wm.xmwei.ui.activity.XmMessageScanActivity;
+import wm.xmwei.ui.activity.messagescan.XmMessageScanActivity;
 import wm.xmwei.ui.adapter.data.XmHomeDataAdapter;
 import wm.xmwei.ui.dataloader.XmHomeMessageLoader;
 import wm.xmwei.ui.fragment.base.XmBaseListFragment;
