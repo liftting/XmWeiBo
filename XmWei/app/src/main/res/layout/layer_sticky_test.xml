@@ -1,58 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wm.xmwei.ui.view.observablescrollview.ObservableScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:whatever="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:id="@+id/v_message_scan_scrollview"
     android:fillViewport="true">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fly_data_content"
+        android:paddingTop="48dp">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/v_message_scan_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:id="@+id/v_head_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/v_head_view"
+        <TextView
+            android:id="@+id/v_toobar_view"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@color/dodgerblue">
+            android:layout_height="@dimen/toolbar_elevation"
+            android:background="@color/dodgerblue"
+            android:text="this is text this is text"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="this is header" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="2"
-            android:background="@color/powderblue">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:text="comment"
-                android:textColor="@color/white"
-                android:layout_weight="1"
-                android:gravity="center" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:text="comment"
-                android:textColor="@color/white"
-                android:layout_weight="1"
-                android:gravity="center" />
-
-        </LinearLayout>
-
-        <android.support.v4.view.ViewPager
+        <wm.xmwei.ui.view.indicator.SlidingTabLayout
+            android:id="@+id/sliding_tabs"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/v_message_scan_pager" />
-
+            android:layout_height="48dp"
+            android:background="@color/white"/>
     </LinearLayout>
 
-</wm.xmwei.ui.view.observablescrollview.ObservableScrollView>
+
+</FrameLayout>

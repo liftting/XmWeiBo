@@ -54,5 +54,7 @@
 
     <!-- dynamic gridview -->
     <dimen name="dgv_overlap_if_switch_straight_line">16dp</dimen>
+
+    <dimen name="toolbar_elevation">200dp</dimen>
     
 </resources>
