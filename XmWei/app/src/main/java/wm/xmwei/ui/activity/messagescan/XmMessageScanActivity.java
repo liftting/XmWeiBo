@@ -65,26 +65,9 @@ public class XmMessageScanActivity extends XmBaseActivity implements ObservableS
         mHeaderView = findViewById(R.id.v_head_view);
         mFlyContent = (FrameLayout) findViewById(R.id.fly_data_content);
 
-        ViewCompat.setElevation(mHeaderView, getResources().getDimension(R.dimen.toolbar_elevation));
+        ViewCompat.setElevation(mHeaderView, getResources().getDimension(R.dimen.toolbar_elevation)); //this is set the headview shadow effect
 
         mToolbarView = findViewById(R.id.v_toobar_view);
-
-
-        // rl_top 顶部显示的view
-        mHeaderView.getViewTreeObserver().addOnGlobalLayoutListener(
-                new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @SuppressWarnings("deprecation")
-                    @Override
-                    public void onGlobalLayout() {
-                        mHeaderView.getViewTreeObserver()
-                                .removeGlobalOnLayoutListener(this);  //就计算一次，
-                        range = mHeaderView.getHeight();
-                        mHeaderView.getLayoutParams().height = range; // 因为xml里面写的是wrapContent
-                        // 所以上面计算出来后，直接将高度重新设置为固定的高度，
-                    }
-                }
-        );
-
 
         mDataList.add(new TestFragment());
         mDataList.add(new TestFragment());
@@ -144,43 +127,43 @@ public class XmMessageScanActivity extends XmBaseActivity implements ObservableS
 
     @Override
     public void onUpOrCancelMotionEvent(ScrollState scrollState) {
-//        mBaseTranslationY = 0;
-//
-//        Fragment fragment = getCurrentFragment();
-//        if (fragment == null) {
-//            return;
-//        }
-//        View view = fragment.getView();
-//        if (view == null) {
-//            return;
-//        }
-//
-//        int toolbarHeight = mToolbarView.getHeight();
-//        final ObservableScrollView scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
-//        if (scrollView == null) {
-//            return;
-//        }
-//        int scrollY = scrollView.getCurrentScrollY();
-//        if (scrollState == ScrollState.DOWN) {
-//            showToolbar();
-//        } else if (scrollState == ScrollState.UP) {
-//            if (toolbarHeight <= scrollY) {
-//                hideToolbar();
-//            } else {
-//                showToolbar();
-//            }
-//        } else {
-//            // Even if onScrollChanged occurs without scrollY changing, toolbar should be adjusted
-//            if (toolbarIsShown() || toolbarIsHidden()) {
-//                // Toolbar is completely moved, so just keep its state
-//                // and propagate it to other pages
-//                propagateToolbarState(toolbarIsShown());
-//            } else {
-//                // Toolbar is moving but doesn't know which to move:
-//                // you can change this to hideToolbar()
-//                showToolbar();
-//            }
-//        }
+        mBaseTranslationY = 0;
+
+        Fragment fragment = getCurrentFragment();
+        if (fragment == null) {
+            return;
+        }
+        View view = fragment.getView();
+        if (view == null) {
+            return;
+        }
+
+        int toolbarHeight = mToolbarView.getHeight();
+        final ObservableScrollView scrollView = (ObservableScrollView) view.findViewById(R.id.scroll);
+        if (scrollView == null) {
+            return;
+        }
+        int scrollY = scrollView.getCurrentScrollY();
+        if (scrollState == ScrollState.DOWN) {
+            showToolbar();
+        } else if (scrollState == ScrollState.UP) {
+            if (toolbarHeight <= scrollY) {
+                hideToolbar();
+            } else {
+                showToolbar();
+            }
+        } else {
+            // Even if onScrollChanged occurs without scrollY changing, toolbar should be adjusted
+            if (toolbarIsShown() || toolbarIsHidden()) {
+                // Toolbar is completely moved, so just keep its state
+                // and propagate it to other pages
+                propagateToolbarState(toolbarIsShown());
+            } else {
+                // Toolbar is moving but doesn't know which to move:
+                // you can change this to hideToolbar()
+                showToolbar();
+            }
+        }
     }
 
     private Fragment getCurrentFragment() {
