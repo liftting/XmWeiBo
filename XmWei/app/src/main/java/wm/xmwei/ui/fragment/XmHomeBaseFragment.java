@@ -15,6 +15,7 @@ import wm.xmwei.bean.DataGroupDomain;
 import wm.xmwei.bean.DataMessageListDomain;
 import wm.xmwei.bean.UserBingDomain;
 import wm.xmwei.core.lib.support.XmAsyncTask;
+import wm.xmwei.core.selftest.XmStickMessageActivity;
 import wm.xmwei.datadao.DataLoadResult;
 import wm.xmwei.datadao.dbway.home.DbHomeDefaultMessageTask;
 import wm.xmwei.ui.activity.messagescan.XmMessageScanActivity;
@@ -91,7 +92,7 @@ public class XmHomeBaseFragment extends XmBaseListFragment<DataMessageListDomain
 
     @Override
     protected void onListViewItemClick(AdapterView parent, View view, int position, long id) {
-        Intent intent = XmMessageScanActivity2.newIntent();
+        Intent intent = XmStickMessageActivity.newIntent();
         startActivity(intent);
     }
 

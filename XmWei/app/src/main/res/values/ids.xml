@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item type="id" name="dgv_wobble_tag"/>
+    <item type="id" name="dgv_wobble_tag" />
+
+
+    <item type="id" name="id_stickynavlayout_topview"></item>
+    <item type="id" name="id_stickynavlayout_indicator"></item>
+    <item type="id" name="id_stickynavlayout_viewpager"></item>
+    <item type="id" name="id_stickynavlayout_innerscrollview"></item>
 </resources>
