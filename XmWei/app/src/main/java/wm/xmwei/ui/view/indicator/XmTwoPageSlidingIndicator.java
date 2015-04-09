@@ -269,6 +269,8 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
 //            scrollTo(newScrollX, 0);
 //        }
 
+        int scrollDis = mSlidingWidth / 2 - mFirstViewWidth / 2;
+
     }
 
     private void onScrollToChild(int position, int offsetDis) {
@@ -325,8 +327,9 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
                 if (scrollX >= (mSlidingWidth / 2 - mFirstViewWidth / 2)) {
                     scrollX = (mSlidingWidth / 2 - mFirstViewWidth / 2);
                 }
-                firstView.scrollTo(scrollX, 0);
-                secondView.scrollTo(scrollX, 0);
+                int hasScroll = firstView.getScrollX();
+                firstView.scrollBy(scrollX - hasScroll, 0);
+                secondView.scrollBy(scrollX - hasScroll, 0);
             }
 
         } else if (mCurrentState == ViewPager.SCROLL_STATE_SETTLING) {
@@ -337,8 +340,9 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
                 if (scrollX >= (mSlidingWidth / 2 - mFirstViewWidth / 2)) {
                     scrollX = (mSlidingWidth / 2 - mFirstViewWidth / 2);
                 }
-                firstView.scrollTo(scrollX, 0);
-                secondView.scrollTo(scrollX, 0);
+                int hasScroll = firstView.getScrollX();
+                firstView.scrollBy(scrollX - hasScroll, 0);
+                secondView.scrollBy(scrollX - hasScroll, 0);
             }
         }
 
