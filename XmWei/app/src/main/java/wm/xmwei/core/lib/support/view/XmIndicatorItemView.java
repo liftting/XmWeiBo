@@ -49,6 +49,11 @@ public class XmIndicatorItemView extends RelativeLayout {
         params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
     }
 
+    public void setToRight() {
+        RelativeLayout.LayoutParams params = (LayoutParams) mRlyContainer.getLayoutParams();
+        params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+    }
+
     public void setToCenter() {
         RelativeLayout.LayoutParams params = (LayoutParams) mRlyContainer.getLayoutParams();
         params.addRule(RelativeLayout.CENTER_IN_PARENT);

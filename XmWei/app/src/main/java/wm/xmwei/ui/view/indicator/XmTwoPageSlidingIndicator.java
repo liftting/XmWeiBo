@@ -70,6 +70,8 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
     private int mFirstViewWidth;
     private int mSecondViewWidth;
 
+    private boolean isScrollToRight = false;
+
 
     public XmTwoPageSlidingIndicator(Context context) {
         this(context, null);
@@ -168,8 +170,15 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
 
     private class PageListener implements ViewPager.OnPageChangeListener {
 
+        /**
+         * @param position             当前页面，及你点击滑动的页面
+         * @param positionOffset       当前页面偏移的百分比
+         * @param positionOffsetPixels 当前页面偏移的像素位置
+         */
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            Log.w(TAG, "TAG:onPageScrolled-position:" + position + "-positionOffset:" + positionOffset + "-positionOffsetPixels:" + positionOffsetPixels);
 
             currentPosition = position;
             currentPositionOffset = positionOffset;
@@ -184,7 +193,7 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
                 right = false;
             }
 
-            onScrollToChild(position, (int) (positionOffset * tabsContainer.getChildAt(position).getWidth()));
+            onScrollToChild(position, positionOffsetPixels);
 
             invalidate();
 
@@ -193,8 +202,19 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
             }
         }
 
+        /**
+         * public static final int SCROLL_STATE_IDLE = 0;
+         * public static final int SCROLL_STATE_DRAGGING = 1;
+         * public static final int SCROLL_STATE_SETTLING = 2;
+         *
+         * @param state 有三种状态（0，1，2）。arg0 ==1的时辰默示正在滑动，arg0==2的时辰默示滑动完毕了，arg0==0的时辰默示什么都没做
+         */
         @Override
         public void onPageScrollStateChanged(int state) {
+
+            Log.w(TAG, "TAG:onPageScrollStateChanged-state:" + state);
+
+            mCurrentState = state;
 
             if (state == ViewPager.SCROLL_STATE_IDLE) {
                 scrollToChild(pager.getCurrentItem(), 0);
@@ -209,7 +229,15 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
         public void onPageSelected(int position) {
             setTextStatus(position);
 
+            Log.w(TAG, "TAG:onPageSelected-position:" + position);
+
             mCurrentFragmentPosition = position;
+
+            if (position == 0) {
+                isScrollToRight = true;
+            } else {
+                isScrollToRight = false;
+            }
 
             if (delegatePageListener != null) {
                 delegatePageListener.onPageSelected(position);
@@ -221,6 +249,9 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
 
     private int mCurrentFragmentPosition;
 
+
+    private int mCurrentState;
+
     /**
      * @param position 要进行滚动操作的page 的position
      * @param offset   滚动的距离值
@@ -231,58 +262,86 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
             return;
         }
 
-        int newScrollX = tabsContainer.getChildAt(position).getLeft() + offset;
-
-        if (newScrollX != lastScrollX) {
-            lastScrollX = newScrollX;
-            scrollTo(newScrollX, 0);
-        }
+//        int newScrollX = tabsContainer.getChildAt(position).getLeft() + offset;
+//
+//        if (newScrollX != lastScrollX) {
+//            lastScrollX = newScrollX;
+//            scrollTo(newScrollX, 0);
+//        }
 
     }
 
-    private void onScrollToChild(int position, int offset) {
+    private void onScrollToChild(int position, int offsetDis) {
+
+//
+//        if (tabCount == 0) {
+//            return;
+//        }
+//
+//        int newScrollX = tabsContainer.getChildAt(position).getLeft() + offset;
+//
+//        Log.w(TAG, "scrolling:" + isScrolling + "-- right:" + right);
+//
+//
+//        int firstScrollX = newScrollX;
+//        int secondScrollX = newScrollX;
+//
+//        int scrollStopDis = mSlidingWidth / 2 - mFirstViewWidth / 2;
+//
+//        Log.w(TAG, "scrollX:" + newScrollX);
+//        Log.w(TAG, "position:" + currentPosition);
+//        Log.w(TAG, "offset:" + offset);
+//
+//        if (right) {
+//            int dis = newScrollX - (mSlidingWidth / 2 + mFirstViewWidth / 2);
+//            if (dis <= 0) dis = 0;
+//            firstView.scrollTo(-dis, 0);
+//            secondView.scrollTo(-dis, 0);
+//
+//        } else {
+//
+//            if (newScrollX <= 0) return;
+//
+//            // right
+//            if (firstScrollX > scrollStopDis) {
+//                firstScrollX = scrollStopDis;
+//            }
+//
+//            if (secondScrollX > scrollStopDis) {
+//                secondScrollX = scrollStopDis;
+//            }
+//
+//            firstView.scrollTo(-firstScrollX, 0);
+//            secondView.scrollTo(-secondScrollX, 0);
+//        }
 
 
-        if (tabCount == 0) {
-            return;
-        }
+        Log.w(TAG, "offsetPis:" + offsetDis);
 
-        int newScrollX = tabsContainer.getChildAt(position).getLeft() + offset;
-
-        Log.w(TAG, "scrolling:" + isScrolling + "-- right:" + right);
-
-
-        int firstScrollX = newScrollX;
-        int secondScrollX = newScrollX;
-
-        int scrollStopDis = mSlidingWidth / 2 - mFirstViewWidth / 2;
-
-        Log.w(TAG, "scrollX:" + newScrollX);
-        Log.w(TAG, "position:" + currentPosition);
-        Log.w(TAG, "offset:" + offset);
-
-        if (right) {
-
-            if(newScrollX <=0) return;
-
-            // right
-            if (firstScrollX > scrollStopDis) {
-                firstScrollX = scrollStopDis;
+        if (mCurrentState == ViewPager.SCROLL_STATE_DRAGGING) {
+            //正在滑动
+            if (right) {
+                int scrollX = offsetDis;
+                if (scrollX >= (mSlidingWidth / 2 - mFirstViewWidth / 2)) {
+                    scrollX = (mSlidingWidth / 2 - mFirstViewWidth / 2);
+                }
+                firstView.scrollTo(scrollX, 0);
+                secondView.scrollTo(scrollX, 0);
             }
 
-            if (secondScrollX > scrollStopDis) {
-                secondScrollX = scrollStopDis;
+        } else if (mCurrentState == ViewPager.SCROLL_STATE_SETTLING) {
+            // 滑动完毕，手指离开了界面，可能下一页，或者前面一页
+
+            if (right) {
+                int scrollX = offsetDis;
+                if (scrollX >= (mSlidingWidth / 2 - mFirstViewWidth / 2)) {
+                    scrollX = (mSlidingWidth / 2 - mFirstViewWidth / 2);
+                }
+                firstView.scrollTo(scrollX, 0);
+                secondView.scrollTo(scrollX, 0);
             }
-
-            firstView.scrollTo(-firstScrollX, 0);
-            secondView.scrollTo(-secondScrollX, 0);
-        } else {
-
-            int dis = newScrollX - (mSlidingWidth / 2 + mFirstViewWidth / 2);
-            if (dis <= 0) dis = 0;
-            firstView.scrollTo(-dis, 0);
-            secondView.scrollTo(-dis, 0);
         }
+
 
     }
 
@@ -400,10 +459,9 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
         tab.setSingleLine();
 
         if (position == 0) {
-
-            currentView.setToLeft();
-        } else {
             currentView.setToCenter();
+        } else {
+            currentView.setToRight();
         }
 
 //        tab.setTextSize(TypedValue.COMPLEX_UNIT_DIP, tabTextSize);
