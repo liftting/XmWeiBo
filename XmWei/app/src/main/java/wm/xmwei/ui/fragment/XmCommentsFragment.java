@@ -15,6 +15,7 @@ import wm.xmwei.ui.adapter.XmCommentsPagerAdapter;
 import wm.xmwei.ui.fragment.base.XmBaseFragment;
 import wm.xmwei.ui.view.indicator.PageSlidingIndicator;
 import wm.xmwei.ui.view.indicator.PagerSlidingTabIndicator;
+import wm.xmwei.ui.view.indicator.XmTwoPageSlidingIndicator;
 
 /**
  * this is commment
@@ -22,7 +23,8 @@ import wm.xmwei.ui.view.indicator.PagerSlidingTabIndicator;
 public class XmCommentsFragment extends XmBaseFragment {
 
     private ViewPager mViewPager;
-    private PageSlidingIndicator mPageIndicator;
+    //    private PageSlidingIndicator mPageIndicator;
+    private XmTwoPageSlidingIndicator mPageIndicator;
 
     private SparseArray<Fragment> mChildFragments = new SparseArray<Fragment>();
 
@@ -59,7 +61,8 @@ public class XmCommentsFragment extends XmBaseFragment {
     }
 
     private void initView(View mainView) {
-        mPageIndicator = (PageSlidingIndicator) mainView.findViewById(R.id.v_comment_indicator);
+//        mPageIndicator = (PageSlidingIndicator) mainView.findViewById(R.id.v_comment_indicator);
+        mPageIndicator = (XmTwoPageSlidingIndicator) mainView.findViewById(R.id.v_comment_indicator);
         mViewPager = (ViewPager) mainView.findViewById(R.id.v_comment_pager);
 
     }

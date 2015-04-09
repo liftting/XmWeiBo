@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.text.Layout;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -31,9 +32,10 @@ import wm.xmwei.core.lib.support.view.XmIndicatorItemView;
  */
 public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
 
-    private RelativeLayout.LayoutParams defaultTabLayoutParams;
+    private static String TAG = "XmTwoPageSlidingIndicator";
 
     private final PageListener pageListener = new PageListener();
+    private final RelativeLayout.LayoutParams defaultLayoutParams;
     public ViewPager.OnPageChangeListener delegatePageListener;
 
     private RelativeLayout tabsContainer;
@@ -50,7 +52,6 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
 
     private int indicatorColor = 0xFF666666;
 
-    private int scrollOffset = 52;
     private int indicatorHeight = 8;
     private int tabPadding = 0;
 
@@ -64,6 +65,10 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
 
     private XmIndicatorItemView firstView;
     private XmIndicatorItemView secondView;
+
+    private int mSlidingWidth;
+    private int mFirstViewWidth;
+    private int mSecondViewWidth;
 
 
     public XmTwoPageSlidingIndicator(Context context) {
@@ -82,7 +87,6 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
 
 
         tabsContainer = new RelativeLayout(context);
-//        tabsContainer.setOrientation(LinearLayout.HORIZONTAL);
         tabsContainer.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         addView(tabsContainer);
 
@@ -95,7 +99,7 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
         rectPaint.setAntiAlias(true);
         rectPaint.setStyle(Paint.Style.FILL);
 
-        defaultTabLayoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        defaultLayoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
     }
 
@@ -103,36 +107,31 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         // 默认如果不等比占用的话，直接默认测量测量即可
+        mSlidingWidth = getMeasuredWidth();
 
-        int myWidth = getMeasuredWidth();
-        int childWidth = 0;
-        for (int i = 0; i < tabCount; i++) {
-            childWidth += tabsContainer.getChildAt(i).getMeasuredWidth();
+        int count = tabsContainer.getChildCount();
+        if (count >= 2) {
+            firstView = (XmIndicatorItemView) tabsContainer.getChildAt(0);
+            secondView = (XmIndicatorItemView) tabsContainer.getChildAt(1);
+
+            mFirstViewWidth = firstView.getTextWidth();
+            mSecondViewWidth = secondView.getTextWidth();
+
         }
 
-        if (!checkedTabWidths && childWidth > 0 && myWidth > 0) {
+    }
 
-            if (childWidth <= myWidth) {
-                for (int i = 0; i < tabCount; i++) {
-                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-                    if (i == 0) {
-                        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-                    } else {
-                        layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-                    }
-
-                    tabsContainer.getChildAt(i).setLayoutParams(layoutParams);
-                }
-            }
-
-            checkedTabWidths = true;
-        }
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
 
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+        scrollToCenter(secondView, true);
 
         if (isInEditMode() || tabCount == 0) {
             return;
@@ -163,6 +162,10 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
 
     }
 
+    private boolean isScrolling;
+    private boolean right, left;
+    private int lastValue = -1;
+
     private class PageListener implements ViewPager.OnPageChangeListener {
 
         @Override
@@ -171,7 +174,17 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
             currentPosition = position;
             currentPositionOffset = positionOffset;
 
-            scrollToChild(position, (int) (positionOffset * tabsContainer.getChildAt(position).getWidth()));
+
+            boolean isGoingToRightPage = position == mCurrentFragmentPosition;
+            if (isGoingToRightPage) {
+                // user is going to the right page
+                right = true;
+            } else {
+                // user is going to the left page
+                right = false;
+            }
+
+            onScrollToChild(position, (int) (positionOffset * tabsContainer.getChildAt(position).getWidth()));
 
             invalidate();
 
@@ -182,6 +195,7 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
 
         @Override
         public void onPageScrollStateChanged(int state) {
+
             if (state == ViewPager.SCROLL_STATE_IDLE) {
                 scrollToChild(pager.getCurrentItem(), 0);
             }
@@ -195,13 +209,22 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
         public void onPageSelected(int position) {
             setTextStatus(position);
 
+            mCurrentFragmentPosition = position;
+
             if (delegatePageListener != null) {
                 delegatePageListener.onPageSelected(position);
             }
+
         }
 
     }
 
+    private int mCurrentFragmentPosition;
+
+    /**
+     * @param position 要进行滚动操作的page 的position
+     * @param offset   滚动的距离值
+     */
     private void scrollToChild(int position, int offset) {
 
         if (tabCount == 0) {
@@ -210,19 +233,87 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
 
         int newScrollX = tabsContainer.getChildAt(position).getLeft() + offset;
 
-        if (position > 0 || offset > 0) {
-            newScrollX -= scrollOffset;
-        }
-
         if (newScrollX != lastScrollX) {
             lastScrollX = newScrollX;
             scrollTo(newScrollX, 0);
         }
 
-        firstView.scrollTo(-newScrollX,0);
-        secondView.scrollTo(-newScrollX,0);
+    }
+
+    private void onScrollToChild(int position, int offset) {
+
+
+        if (tabCount == 0) {
+            return;
+        }
+
+        int newScrollX = tabsContainer.getChildAt(position).getLeft() + offset;
+
+        Log.w(TAG, "scrolling:" + isScrolling + "-- right:" + right);
+
+
+        int firstScrollX = newScrollX;
+        int secondScrollX = newScrollX;
+
+        int scrollStopDis = mSlidingWidth / 2 - mFirstViewWidth / 2;
+
+        Log.w(TAG, "scrollX:" + newScrollX);
+        Log.w(TAG, "position:" + currentPosition);
+        Log.w(TAG, "offset:" + offset);
+
+        if (right) {
+
+            if(newScrollX <=0) return;
+
+            // right
+            if (firstScrollX > scrollStopDis) {
+                firstScrollX = scrollStopDis;
+            }
+
+            if (secondScrollX > scrollStopDis) {
+                secondScrollX = scrollStopDis;
+            }
+
+            firstView.scrollTo(-firstScrollX, 0);
+            secondView.scrollTo(-secondScrollX, 0);
+        } else {
+
+            int dis = newScrollX - (mSlidingWidth / 2 + mFirstViewWidth / 2);
+            if (dis <= 0) dis = 0;
+            firstView.scrollTo(-dis, 0);
+            secondView.scrollTo(-dis, 0);
+        }
 
     }
+
+    private void scrollToCenter(View view, boolean isToLeftScroll) {
+        int viewWidth = view.getMeasuredWidth();
+        int centerWidth = mSlidingWidth / 2;
+        int scrollDis = centerWidth - viewWidth / 2;
+
+        int leftDis = view.getLeft();
+        if ((leftDis + viewWidth / 2 == centerWidth)) {
+            return;
+        }
+
+        scrollDis = isToLeftScroll ? -scrollDis : scrollDis;
+        view.scrollBy(scrollDis, 0);
+
+
+    }
+
+    private void scrollToLeft(View view) {
+        int leftDis = view.getLeft();
+        if (leftDis > 0) {
+            view.scrollBy(leftDis, 0);
+        }
+    }
+
+    private void scrollToRight(View view) {
+        int rightDis = view.getRight();
+        view.scrollBy(-rightDis, 0);
+    }
+
 
     private void setTextStatus(int position) {
         if (position != lastPosition) {
@@ -299,26 +390,26 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
     private void addTextTab(final int position, String title) {
         XmIndicatorItemView currentView = null;
         TextView tab = null;
-        if (position == 0) {
-            firstView = new XmIndicatorItemView(getContext());
-            currentView = firstView;
-            tab = firstView.getTextView();
-        } else {
-            secondView = new XmIndicatorItemView(getContext());
-            currentView = secondView;
-            tab = secondView.getTextView();
-        }
+
+
+        currentView = new XmIndicatorItemView(getContext());
+        tab = currentView.getTextView();
 
         tab.setText(title);
         tab.setFocusable(true);
-        tab.setGravity(Gravity.CENTER);
         tab.setSingleLine();
+
+        if (position == 0) {
+
+            currentView.setToLeft();
+        } else {
+            currentView.setToCenter();
+        }
 
 //        tab.setTextSize(TypedValue.COMPLEX_UNIT_DIP, tabTextSize);
         tab.setTypeface(tabTypeface, tabTypefaceStyle);
         tab.setTextColor(getResources().getColor(R.color.v_title_black_color));
 
-        RelativeLayout.LayoutParams layoutParams = defaultTabLayoutParams;
 
         tab.setOnClickListener(new OnClickListener() {
             @Override
@@ -327,7 +418,8 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
             }
         });
 
-        tabsContainer.addView(currentView, layoutParams);
+        tabsContainer.addView(currentView, defaultLayoutParams);
+
     }
 
     private void setDefaultStatus() {

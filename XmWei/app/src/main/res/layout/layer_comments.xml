@@ -7,7 +7,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
-    <wm.xmwei.ui.view.indicator.PageSlidingIndicator
+    <wm.xmwei.ui.view.indicator.XmTwoPageSlidingIndicator
         android:id="@+id/v_comment_indicator"
         android:layout_width="match_parent"
         android:layout_height="45dip"
