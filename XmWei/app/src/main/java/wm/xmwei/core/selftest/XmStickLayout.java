@@ -137,17 +137,10 @@ public class XmStickLayout extends LinearLayout {
 
         int currentItem = mViewPager.getCurrentItem();
         PagerAdapter a = mViewPager.getAdapter();
-        if (a instanceof FragmentPagerAdapter) {
-            FragmentPagerAdapter fadapter = (FragmentPagerAdapter) a;
-            Fragment item = fadapter.getItem(currentItem);
-            mInnerScrollView = (ListView) (item.getView()
-                    .findViewById(R.id.id_stickynavlayout_innerscrollview));
-        } else if (a instanceof FragmentStatePagerAdapter) {
-            FragmentStatePagerAdapter fsAdapter = (FragmentStatePagerAdapter) a;
-            Fragment item = fsAdapter.getItem(currentItem);
-            mInnerScrollView = (ListView) (item.getView()
-                    .findViewById(R.id.id_stickynavlayout_innerscrollview));
-        }
+        FragmentPagerAdapter fadapter = (FragmentPagerAdapter) a;
+        Fragment item = fadapter.getItem(currentItem);
+        mInnerScrollView = (ScrollView) (item.getView()
+                .findViewById(R.id.id_stickynavlayout_innerscrollview));
 
     }
 

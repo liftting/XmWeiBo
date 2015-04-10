@@ -328,16 +328,19 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
 
         } else if (mCurrentFragmentPosition == 1) {
             // left
-
+            // offsetDis  598 - 0  scrollX
             int scrollX = mSlidingWidth / 2 - offsetDis; // 移动像素
 
-            int dis = mSecondViewWidth / 2;
+            int dis = mSlidingWidth / 2;
 
             if (scrollX <= mSlidingWidth / 2 - mFirstViewWidth / 2) {
-                firstView.scrollTo((mSlidingWidth / 2 - mFirstViewWidth / 2) - scrollX - dis, 0);
-                secondView.scrollTo((mSlidingWidth / 2 - mFirstViewWidth / 2) - scrollX - dis, 0);
-                Log.w(TAG, "leftscroll:firstView has scroll:" + firstView.getScrollX());
-                Log.w(TAG, "leftscroll:offsetDis:" + scrollX);
+                int scrollDis = (mSlidingWidth / 2 - mFirstViewWidth / 2) - scrollX - dis;
+                if (scrollDis >= 0) {
+                    firstView.scrollTo(scrollDis, 0);
+                    secondView.scrollTo(scrollDis, 0);
+                    Log.w(TAG, "leftscroll:firstView has scroll:" + firstView.getScrollX());
+                    Log.w(TAG, "leftscroll:offsetDis:" + scrollX);
+                }
             }
         }
 

@@ -266,7 +266,7 @@
     <string name="following_people_send_to_me">关注的人发给我的</string>
     <string name="mentions_to_me">"@我的评论"</string>
     <string name="following_people_mentions_to_me">"关注的人@我的评论"</string>
-    <string name="my_comment">发出的评论</string>
+    <string name="my_comment">发出评论</string>
     <string name="quick_comment">快速评论</string>
 
     <!-- reposts -->

@@ -20,6 +20,7 @@ import wm.xmwei.datadao.DataLoadResult;
 import wm.xmwei.datadao.dbway.home.DbHomeDefaultMessageTask;
 import wm.xmwei.ui.activity.messagescan.XmMessageScanActivity;
 import wm.xmwei.ui.activity.messagescan.XmMessageScanActivity2;
+import wm.xmwei.ui.activity.messagescan.XmMessageStickScanActivity;
 import wm.xmwei.ui.adapter.data.XmHomeDataAdapter;
 import wm.xmwei.ui.dataloader.XmHomeMessageLoader;
 import wm.xmwei.ui.fragment.base.XmBaseListFragment;
@@ -92,7 +93,7 @@ public class XmHomeBaseFragment extends XmBaseListFragment<DataMessageListDomain
 
     @Override
     protected void onListViewItemClick(AdapterView parent, View view, int position, long id) {
-        Intent intent = XmStickMessageActivity.newIntent();
+        Intent intent = XmMessageStickScanActivity.newIntent();
         startActivity(intent);
     }
 

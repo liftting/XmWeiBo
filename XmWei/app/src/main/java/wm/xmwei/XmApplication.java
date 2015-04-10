@@ -30,7 +30,7 @@ public class XmApplication extends Application {
         super.onCreate();
         mGlobalContext = this;
 
-        XmCarshHandler.getInstance().init(mGlobalContext);
+//        XmCarshHandler.getInstance().init(mGlobalContext);
     }
 
     public static XmApplication getInstance() {

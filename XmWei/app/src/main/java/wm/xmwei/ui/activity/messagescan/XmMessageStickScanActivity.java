@@ -1,21 +1,23 @@
-package wm.xmwei.core.selftest;
+package wm.xmwei.ui.activity.messagescan;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 
 import wm.xmwei.R;
 import wm.xmwei.XmApplication;
+import wm.xmwei.core.lib.support.eventbus.EventBus;
+import wm.xmwei.core.selftest.TabFragment;
+import wm.xmwei.ui.activity.base.XmBaseActivity;
+import wm.xmwei.ui.view.draptopout.DragTopLayout;
 import wm.xmwei.ui.view.indicator.XmTwoPageSlidingIndicator;
 
 /**
- * Created by wm on 15-4-8.
+ * Created by wm on 15-4-10.
  */
-public class XmStickMessageActivity extends FragmentActivity {
+public class XmMessageStickScanActivity extends XmBaseActivity {
 
     private String[] mTitles = new String[]{"评论", "转发"};
     private XmTwoPageSlidingIndicator mIndicator;
@@ -23,10 +25,12 @@ public class XmStickMessageActivity extends FragmentActivity {
     private FragmentPagerAdapter mAdapter;
     private TabFragment[] mFragments = new TabFragment[mTitles.length];
 
+    private DragTopLayout dragLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layer_self_stick_layout_test);
+        setContentView(R.layout.layer_message_scan_staick_main);
 
         initViews();
         initDatas();
@@ -34,7 +38,7 @@ public class XmStickMessageActivity extends FragmentActivity {
 
     public static Intent newIntent() {
         Intent intent = new Intent();
-        intent.setClass(XmApplication.getInstance(), XmStickMessageActivity.class);
+        intent.setClass(XmApplication.getInstance(), XmMessageStickScanActivity.class);
         return intent;
     }
 
@@ -66,8 +70,28 @@ public class XmStickMessageActivity extends FragmentActivity {
     }
 
     private void initViews() {
-        mIndicator = (XmTwoPageSlidingIndicator) findViewById(R.id.id_stickynavlayout_indicator);
-        mViewPager = (ViewPager) findViewById(R.id.id_stickynavlayout_viewpager);
+        mIndicator = (XmTwoPageSlidingIndicator) findViewById(R.id.v_message_stick_indicator);
+        mViewPager = (ViewPager) findViewById(R.id.v_message_stick_pager);
+        dragLayout = (DragTopLayout) findViewById(R.id.v_message_stick_drag_layout);
     }
+
+
+    // Handle scroll event from fragments
+    public void onEvent(Boolean b){
+        dragLayout.setTouchMode(b);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
+
 
 }

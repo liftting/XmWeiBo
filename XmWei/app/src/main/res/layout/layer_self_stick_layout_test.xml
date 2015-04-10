@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <wm.xmwei.core.selftest.XmStickLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/wm.xmwei"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -19,11 +20,17 @@
             android:textStyle="bold" />
     </RelativeLayout>
 
-    <wm.xmwei.core.selftest.XmPagerIndicator
+    <wm.xmwei.ui.view.indicator.XmTwoPageSlidingIndicator
         android:id="@id/id_stickynavlayout_indicator"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#ffffffff" />
+        android:layout_height="45dip"
+        android:textColor="#5f5f5f"
+        android:textSize="14sp"
+        app:shouldExpand="true"
+        app:indicatorHeight="2dip"
+        app:tabPaddingLeftRight="12dp"
+        app:isChangeTextSizeBig="true"
+        app:underlineColor="@color/actionbar_color" />
 
     <android.support.v4.view.ViewPager
         android:id="@id/id_stickynavlayout_viewpager"

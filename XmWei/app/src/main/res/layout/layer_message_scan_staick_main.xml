@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/wm.xmwei"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <wm.xmwei.ui.view.draptopout.DragTopLayout
+        android:background="@color/white"
+        android:id="@+id/v_message_stick_drag_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--top view-->
+        <LinearLayout
+            android:id="@+id/top_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text"
+                android:text="Top View"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/ic_launcher" />
+        </LinearLayout>
+
+        <!--content view-->
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/drag_content_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <wm.xmwei.ui.view.indicator.XmTwoPageSlidingIndicator
+                android:id="@+id/v_message_stick_indicator"
+                android:layout_width="match_parent"
+                android:layout_height="45dip"
+                android:textColor="#5f5f5f"
+                android:textSize="14sp"
+                app:shouldExpand="true"
+                app:indicatorHeight="2dip"
+                app:tabPaddingLeftRight="12dp"
+                app:isChangeTextSizeBig="true"
+                app:underlineColor="@color/actionbar_color" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/v_message_stick_pager"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </android.support.v4.view.ViewPager>
+
+        </LinearLayout>
+    </wm.xmwei.ui.view.draptopout.DragTopLayout>
+
+</RelativeLayout>
