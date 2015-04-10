@@ -45,22 +45,12 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
 
     private int lastPosition = -1;
     private int currentPosition = 0;
-    private float currentPositionOffset = 0f;
 
     private Paint rectPaint;
 
 
-    private int indicatorColor = 0xFF666666;
-
-    private int indicatorHeight = 8;
-    private int tabPadding = 0;
-
-    private int tabTextSize = 14; // this is dp
     private Typeface tabTypeface = null;
     private int tabTypefaceStyle = Typeface.NORMAL;
-
-    private int lastScrollX = 0;
-    private boolean checkedTabWidths = false;
 
 
     private XmIndicatorItemView firstView;
@@ -68,7 +58,6 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
 
     private int mSlidingWidth;
     private int mFirstViewWidth;
-    private int mSecondViewWidth;
 
     private boolean isScrollToRight = false;
 
@@ -117,7 +106,6 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
             secondView = (XmIndicatorItemView) tabsContainer.getChildAt(1);
 
             mFirstViewWidth = firstView.getTextWidth();
-            mSecondViewWidth = secondView.getTextWidth();
 
         }
 
@@ -181,13 +169,11 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
             Log.w(TAG, "TAG:onPageScrolled-position:" + position + "-positionOffset:" + positionOffset + "-positionOffsetPixels:" + positionOffsetPixels);
 
             currentPosition = position;
-            currentPositionOffset = positionOffset;
-
             lastValue = positionOffsetPixels;
 
             onScrollToChild(position, positionOffsetPixels);
 
-            invalidate();
+//            invalidate();
 
             if (delegatePageListener != null) {
                 delegatePageListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
@@ -320,11 +306,16 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
             }
 
             Log.w(TAG, "enter right logic :scrollX-" + scrollX + "-offsetDis-" + offsetDis);
-//            int hasScroll = firstView.getScrollX();
-            firstView.scrollTo(scrollX, 0);
-            secondView.scrollTo(scrollX, 0);
+            int hasScroll = firstView.getScrollX();
+
+            int scrollByDis = scrollX - hasScroll;
+
+            firstView.scrollBy(scrollByDis, 0);
+            secondView.scrollBy(scrollByDis, 0);
 
             Log.w(TAG, "rightscroll:" + offsetDis);
+
+            // 上面的=1 滑动释放状态有两种情况  释放后向左侧滑动，释放后向右侧滑动两种，  释放后向右侧滑动有问题
 
         } else if (mCurrentFragmentPosition == 1) {
             // left
@@ -336,8 +327,13 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
             if (scrollX <= mSlidingWidth / 2 - mFirstViewWidth / 2) {
                 int scrollDis = (mSlidingWidth / 2 - mFirstViewWidth / 2) - scrollX - dis;
                 if (scrollDis >= 0) {
-                    firstView.scrollTo(scrollDis, 0);
-                    secondView.scrollTo(scrollDis, 0);
+
+                    int hasScroll = firstView.getScrollX();
+
+                    int scrollByDis = scrollDis - hasScroll;
+
+                    firstView.scrollBy(scrollByDis, 0);
+                    secondView.scrollBy(scrollByDis, 0);
                     Log.w(TAG, "leftscroll:firstView has scroll:" + firstView.getScrollX());
                     Log.w(TAG, "leftscroll:offsetDis:" + scrollX);
                 }
@@ -427,8 +423,6 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
         }
 
         setDefaultStatus();
-
-        checkedTabWidths = false;
 
         getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
