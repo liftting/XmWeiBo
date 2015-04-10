@@ -320,31 +320,37 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
 
         Log.w(TAG, "offsetPis:" + offsetDis);
 
-        if (mCurrentState == ViewPager.SCROLL_STATE_DRAGGING) {
-            //正在滑动
-            if (right) {
-                int scrollX = offsetDis;
-                if (scrollX >= (mSlidingWidth / 2 - mFirstViewWidth / 2)) {
-                    scrollX = (mSlidingWidth / 2 - mFirstViewWidth / 2);
-                }
-                int hasScroll = firstView.getScrollX();
-                firstView.scrollBy(scrollX - hasScroll, 0);
-                secondView.scrollBy(scrollX - hasScroll, 0);
+        if (offsetDis <= 0) return;
+
+//        if (mCurrentState == ViewPager.SCROLL_STATE_DRAGGING || mCurrentState == ViewPager.SCROLL_STATE_SETTLING) {
+        //正在滑动
+        // 滑动完毕，手指离开了界面，可能下一页，或者前面一页
+        if (mCurrentFragmentPosition == 0) {
+            int scrollX = offsetDis;
+            if (scrollX >= (mSlidingWidth / 2 - mFirstViewWidth / 2)) {
+                scrollX = (mSlidingWidth / 2 - mFirstViewWidth / 2);
+            }
+            int hasScroll = firstView.getScrollX();
+            firstView.scrollBy(scrollX - hasScroll, 0);
+            secondView.scrollBy(scrollX - hasScroll, 0);
+
+            Log.w(TAG, "rightscroll:" + offsetDis);
+
+        } else if (mCurrentFragmentPosition == 1 && mCurrentState == ViewPager.SCROLL_STATE_DRAGGING) {
+            // left
+
+            int scrollX = mSlidingWidth / 2 - offsetDis; // 移动像素
+            if (scrollX <= mSlidingWidth / 2 - mFirstViewWidth / 2) {
+                firstView.scrollTo((mSlidingWidth / 2 - mFirstViewWidth / 2) - scrollX, 0);
+                secondView.scrollTo((mSlidingWidth / 2 - mFirstViewWidth / 2) - scrollX, 0);
+                Log.w(TAG, "leftscroll:firstView has scroll:" + firstView.getScrollX());
+                Log.w(TAG, "leftscroll:offsetDis:" + scrollX);
             }
 
-        } else if (mCurrentState == ViewPager.SCROLL_STATE_SETTLING) {
-            // 滑动完毕，手指离开了界面，可能下一页，或者前面一页
 
-            if (right) {
-                int scrollX = offsetDis;
-                if (scrollX >= (mSlidingWidth / 2 - mFirstViewWidth / 2)) {
-                    scrollX = (mSlidingWidth / 2 - mFirstViewWidth / 2);
-                }
-                int hasScroll = firstView.getScrollX();
-                firstView.scrollBy(scrollX - hasScroll, 0);
-                secondView.scrollBy(scrollX - hasScroll, 0);
-            }
         }
+
+//        }
 
 
     }
