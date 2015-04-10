@@ -96,10 +96,10 @@ public class XmUserBingActivity extends XmBaseActivity implements View.OnClickLi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//        Intent intent = XmMainActivity.newIntent(mBingDataList.get(position));
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Intent intent = XmMainActivity.newIntent(mBingDataList.get(position));
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        Intent intent = new Intent(this, TestAct.class);
+//        Intent intent = new Intent(this, TestAct.class);
         startActivity(intent);
         finish();
     }

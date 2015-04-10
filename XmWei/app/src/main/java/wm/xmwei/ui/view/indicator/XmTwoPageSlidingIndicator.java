@@ -183,15 +183,7 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
             currentPosition = position;
             currentPositionOffset = positionOffset;
 
-
-            boolean isGoingToRightPage = position == mCurrentFragmentPosition;
-            if (isGoingToRightPage) {
-                // user is going to the right page
-                right = true;
-            } else {
-                // user is going to the left page
-                right = false;
-            }
+            lastValue = positionOffsetPixels;
 
             onScrollToChild(position, positionOffsetPixels);
 
@@ -233,11 +225,7 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
 
             mCurrentFragmentPosition = position;
 
-            if (position == 0) {
-                isScrollToRight = true;
-            } else {
-                isScrollToRight = false;
-            }
+            lastValue = -1;
 
             if (delegatePageListener != null) {
                 delegatePageListener.onPageSelected(position);
@@ -325,24 +313,29 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
 //        if (mCurrentState == ViewPager.SCROLL_STATE_DRAGGING || mCurrentState == ViewPager.SCROLL_STATE_SETTLING) {
         //正在滑动
         // 滑动完毕，手指离开了界面，可能下一页，或者前面一页
-        if (mCurrentFragmentPosition == 0) {
+        if (mCurrentFragmentPosition == 0 || (mCurrentFragmentPosition == 1 && mCurrentState == ViewPager.SCROLL_STATE_SETTLING)) {
             int scrollX = offsetDis;
             if (scrollX >= (mSlidingWidth / 2 - mFirstViewWidth / 2)) {
                 scrollX = (mSlidingWidth / 2 - mFirstViewWidth / 2);
             }
-            int hasScroll = firstView.getScrollX();
-            firstView.scrollBy(scrollX - hasScroll, 0);
-            secondView.scrollBy(scrollX - hasScroll, 0);
+
+            Log.w(TAG, "enter right logic :scrollX-" + scrollX + "-offsetDis-" + offsetDis);
+//            int hasScroll = firstView.getScrollX();
+            firstView.scrollTo(scrollX, 0);
+            secondView.scrollTo(scrollX, 0);
 
             Log.w(TAG, "rightscroll:" + offsetDis);
 
-        } else if (mCurrentFragmentPosition == 1 && mCurrentState == ViewPager.SCROLL_STATE_DRAGGING) {
+        } else if (mCurrentFragmentPosition == 1) {
             // left
 
             int scrollX = mSlidingWidth / 2 - offsetDis; // 移动像素
+
+            int dis = mSecondViewWidth / 2;
+
             if (scrollX <= mSlidingWidth / 2 - mFirstViewWidth / 2) {
-                firstView.scrollTo((mSlidingWidth / 2 - mFirstViewWidth / 2) - scrollX, 0);
-                secondView.scrollTo((mSlidingWidth / 2 - mFirstViewWidth / 2) - scrollX, 0);
+                firstView.scrollTo((mSlidingWidth / 2 - mFirstViewWidth / 2) - scrollX - dis, 0);
+                secondView.scrollTo((mSlidingWidth / 2 - mFirstViewWidth / 2) - scrollX - dis, 0);
                 Log.w(TAG, "leftscroll:firstView has scroll:" + firstView.getScrollX());
                 Log.w(TAG, "leftscroll:offsetDis:" + scrollX);
             }
