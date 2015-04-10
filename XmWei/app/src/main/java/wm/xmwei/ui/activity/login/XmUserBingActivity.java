@@ -24,6 +24,7 @@ import wm.xmwei.R;
 import wm.xmwei.bean.UserBingDomain;
 import wm.xmwei.bean.UserDomain;
 import wm.xmwei.core.lib.support.view.material.ProgressWheel;
+import wm.xmwei.core.selftest.TestAct;
 import wm.xmwei.datadao.dbway.login.DbUserBingTask;
 import wm.xmwei.core.image.universalimageloader.XmImageLoader;
 import wm.xmwei.ui.activity.XmMainActivity;
@@ -95,8 +96,10 @@ public class XmUserBingActivity extends XmBaseActivity implements View.OnClickLi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = XmMainActivity.newIntent(mBingDataList.get(position));
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        Intent intent = XmMainActivity.newIntent(mBingDataList.get(position));
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        Intent intent = new Intent(this, TestAct.class);
         startActivity(intent);
         finish();
     }

@@ -171,7 +171,7 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
     private class PageListener implements ViewPager.OnPageChangeListener {
 
         /**
-         * @param position             当前页面，及你点击滑动的页面
+         * @param position             当前可见的第一个页的position, index of the first page currently being displayed
          * @param positionOffset       当前页面偏移的百分比
          * @param positionOffsetPixels 当前页面偏移的像素位置
          */
@@ -346,8 +346,6 @@ public class XmTwoPageSlidingIndicator extends HorizontalScrollView {
                 Log.w(TAG, "leftscroll:firstView has scroll:" + firstView.getScrollX());
                 Log.w(TAG, "leftscroll:offsetDis:" + scrollX);
             }
-
-
         }
 
 //        }
