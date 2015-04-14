@@ -16,6 +16,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import com.sina.weibo.sdk.utils.Utility;
 
 import wm.xmwei.R;
+import wm.xmwei.core.debug.AppLogger;
 import wm.xmwei.core.image.universalimageloader.XmImageLoader;
 import wm.xmwei.ui.view.lib.XmPhotoViewData;
 import wm.xmwei.ui.view.photoview.PhotoView;
@@ -50,6 +51,8 @@ public class GeneralPictureFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.layer_photo_scan_general, container, false);
+
+        AppLogger.w("imagescan:general pictural fragment: enter oncreateview ");
 
         photoView = (PhotoView) view.findViewById(R.id.animation);
 

@@ -70,6 +70,9 @@ public class XmPhotoViewScanActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layer_photoview_list);
 
+        mTvSum = (TextView) findViewById(R.id.sum);
+        mTvPos = (TextView) findViewById(R.id.position);
+
         rectList = getIntent().getParcelableArrayListExtra("rect");
         DataMessageDomain msg = getIntent().getParcelableExtra("msg");
 
@@ -78,7 +81,7 @@ public class XmPhotoViewScanActivity extends FragmentActivity {
             mLargeUrls.add(mOriginUrls.get(i).replace("thumbnail", "large"));
         }
 
-        mTvSum.setText(mOriginUrls.size());
+        mTvSum.setText(String.valueOf(mOriginUrls.size()));
         pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(new ImagePagerAdapter(getSupportFragmentManager()));
         pager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
@@ -102,7 +105,7 @@ public class XmPhotoViewScanActivity extends FragmentActivity {
             }
         });
         pager.setCurrentItem(getIntent().getIntExtra("position", 0));
-        pager.setOffscreenPageLimit(1);
+//        pager.setOffscreenPageLimit(1);
         pager.setPageTransformer(true, new ZoomOutPageTransformer());
 
 
@@ -124,7 +127,7 @@ public class XmPhotoViewScanActivity extends FragmentActivity {
 
                 boolean animateIn = (initPosition == position) && !alreadyAnimateIn;
                 fragment = XmPhotoViewFragment.newInstance(mOriginUrls.get(position), mLargeUrls.get(position),
-                        rectList.get(position), animateIn, initPosition == position);
+                        rectList.get(position), animateIn, initPosition == position, position);
                 alreadyAnimateIn = true;
                 fragmentMap.put(position, fragment);
             }

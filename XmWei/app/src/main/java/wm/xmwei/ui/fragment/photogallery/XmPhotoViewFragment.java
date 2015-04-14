@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import wm.xmwei.R;
 import wm.xmwei.XmApplication;
+import wm.xmwei.core.debug.AppLogger;
 import wm.xmwei.core.image.universalimageloader.XmImageLoader;
 import wm.xmwei.core.image.universalimageloader.core.assist.FailReason;
 import wm.xmwei.core.image.universalimageloader.core.listener.ImageLoadingListener;
@@ -22,6 +24,7 @@ import wm.xmwei.core.image.universalimageloader.core.listener.ImageLoadingProgre
 import wm.xmwei.core.lib.support.view.material.ProgressWheel;
 import wm.xmwei.ui.activity.galleryview.XmPhotoViewScanActivity;
 import wm.xmwei.ui.view.lib.XmPhotoViewData;
+import wm.xmwei.util.XmImageUtil;
 
 /**
  * this is photo container and include different gif or common fragment view
@@ -38,10 +41,12 @@ public class XmPhotoViewFragment extends Fragment {
     private String largeUrl;
     private String originUrl;
 
+    private int imagePosition;
+
     private static int OFFSET_IMAGE_ORIGIN = 100;
 
     public static XmPhotoViewFragment newInstance(String originUrl, String largeUrl, XmPhotoViewData rect,
-                                                  boolean animationIn, boolean firstOpenPage) {
+                                                  boolean animationIn, boolean firstOpenPage, int position) {
         XmPhotoViewFragment fragment = new XmPhotoViewFragment();
         Bundle bundle = new Bundle();
         bundle.putString("origin_url", originUrl);
@@ -49,6 +54,7 @@ public class XmPhotoViewFragment extends Fragment {
         bundle.putParcelable("rect", rect);
         bundle.putBoolean("animationIn", animationIn);
         bundle.putBoolean("firstOpenPage", firstOpenPage);
+        bundle.putInt("image_pos", position);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -62,6 +68,8 @@ public class XmPhotoViewFragment extends Fragment {
         mImgOrigin = (ImageView) view.findViewById(R.id.v_img_origin);
 
         initData();
+
+        AppLogger.w("imagescan:photoView fragment: enter oncreateview-" + imagePosition);
 
 
         // load the large bitmap
@@ -109,6 +117,7 @@ public class XmPhotoViewFragment extends Fragment {
         largeUrl = bundle.getString("large_url");
         originUrl = bundle.getString("origin_url");
         mPhotoData = bundle.getParcelable("rect");
+        imagePosition = bundle.getInt("image_pos");
 
         boolean animateIn = bundle.getBoolean("animationIn");
         bundle.putBoolean("animationIn", false);
@@ -161,11 +170,18 @@ public class XmPhotoViewFragment extends Fragment {
             getArguments().putBoolean("firstOpenPage", false);
         }
 
+        Fragment fragment = getChildFragmentManager().findFragmentByTag("imagePosition-" + imagePosition);
 
-        Fragment fragment = GeneralPictureFragment.newInstance(largeUrl, rect, animateIn);
-
-        getChildFragmentManager().beginTransaction().replace(R.id.child, fragment)
+        if (fragment == null) {
+            if (XmImageUtil.isGifPicture(largeUrl)) {
+                fragment = GeneralPictureFragment.newInstance(largeUrl, rect, animateIn);
+            } else {
+                fragment = GeneralPictureFragment.newInstance(largeUrl, rect, animateIn);
+            }
+        }
+        getChildFragmentManager().beginTransaction().replace(R.id.child, fragment, "imagePosition-" + imagePosition)
                 .commitAllowingStateLoss();
+
     }
 
     public boolean canAnimateCloseActivity() {
