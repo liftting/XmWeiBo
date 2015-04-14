@@ -9,6 +9,7 @@ import android.view.Display;
 import java.util.List;
 
 import wm.xmwei.bean.UserBingDomain;
+import wm.xmwei.core.data.ScreenUtil;
 import wm.xmwei.core.lib.support.error.XmCarshHandler;
 import wm.xmwei.datadao.dbway.login.DbUserBingTask;
 
@@ -30,7 +31,17 @@ public class XmApplication extends Application {
         super.onCreate();
         mGlobalContext = this;
 
-//        XmCarshHandler.getInstance().init(mGlobalContext);
+        doBusyTransaction();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // 后台处理
+                doBackTransaction();
+            }
+        }).start();
+
+        XmCarshHandler.getInstance().init(mGlobalContext);
     }
 
     public static XmApplication getInstance() {
@@ -90,6 +101,14 @@ public class XmApplication extends Application {
         UserBingDomain domain = getUserBingDomain();
         if (domain == null) return null;
         return domain.getUid();
+    }
+
+    public void doBusyTransaction() {
+        ScreenUtil.setContextDisplay(this);
+    }
+
+    public void doBackTransaction() {
+
     }
 
 }

@@ -53,6 +53,9 @@ public class XmPhotoViewScanActivity extends FragmentActivity {
     private ColorDrawable backgroundColor;
     private View background;
 
+    private TextView mTvPos;
+    private TextView mTvSum;
+
     public static Intent newIntent(DataMessageDomain msg, ArrayList<XmPhotoViewData> rectList,
                                    int initPosition) {
         Intent intent = new Intent(XmApplication.getInstance(), XmPhotoViewScanActivity.class);
@@ -75,14 +78,14 @@ public class XmPhotoViewScanActivity extends FragmentActivity {
             mLargeUrls.add(mOriginUrls.get(i).replace("thumbnail", "large"));
         }
 
+        mTvSum.setText(mOriginUrls.size());
         pager = (ViewPager) findViewById(R.id.pager);
-//        pager.setTransitionEffect(JazzyViewPager.TransitionEffect.ZoomIn);
-
         pager.setAdapter(new ImagePagerAdapter(getSupportFragmentManager()));
         pager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
+                mTvPos.setText(String.valueOf(position + 1));
             }
 
             @Override

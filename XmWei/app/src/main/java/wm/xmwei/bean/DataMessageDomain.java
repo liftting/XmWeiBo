@@ -392,11 +392,11 @@ public class DataMessageDomain extends DataItemDomain implements Parcelable {
         return getId().equals(other.getId());
     }
 
-    private ArrayList<String> thumbnaiUrls = new ArrayList<String>();
+    private ArrayList<String> thumbnaiUrls = new ArrayList<String>(); //缩略图，小图
 
-    private ArrayList<String> middleUrls = new ArrayList<String>();
+    private ArrayList<String> middleUrls = new ArrayList<String>(); //中图
 
-    private ArrayList<String> highUrls = new ArrayList<String>();
+    private ArrayList<String> highUrls = new ArrayList<String>(); // 大图
 
     public ArrayList<String> getThumbnailPicUrls() {
         if (thumbnaiUrls.size() > 0) {

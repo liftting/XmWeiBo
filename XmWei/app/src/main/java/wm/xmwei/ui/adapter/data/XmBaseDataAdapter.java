@@ -241,6 +241,7 @@ public abstract class XmBaseDataAdapter<T extends DataItemDomain> extends BaseAd
                 });
 
                 if (XmSettingUtil.getEnableBigPic()) {
+                    //
                     XmImageLoader.getInstance().loadImage(msg.getHighPicUrls().get(i), pic.getImageView());
                 } else {
                     XmImageLoader.getInstance().loadImage(msg.getThumbnailPicUrls().get(i), pic.getImageView());

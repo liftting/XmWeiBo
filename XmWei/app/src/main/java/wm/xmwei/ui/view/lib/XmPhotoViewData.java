@@ -103,10 +103,12 @@ public class XmPhotoViewData implements Parcelable {
     public boolean isScreenPortrait;
 
     public float thumbnailWidthHeightRatio;
+
+
     public int thumbnailWidth;
-    public int thumbnailHeight;
+    public int thumbnailHeight; // imageView的显示的bitmap的高度值，即真实图片的高度
     public int widgetWidth;
-    public int widgetHeight;
+    public int widgetHeight; // imageView 的高度，
 
     public static XmPhotoViewData buildFromImageView(ImageView imageView) {
         XmPhotoViewData rect = new XmPhotoViewData();

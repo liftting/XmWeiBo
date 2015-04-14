@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import wm.xmwei.R;
+import wm.xmwei.XmApplication;
 import wm.xmwei.core.image.universalimageloader.XmImageLoader;
 import wm.xmwei.core.image.universalimageloader.core.assist.FailReason;
 import wm.xmwei.core.image.universalimageloader.core.listener.ImageLoadingListener;
@@ -29,12 +31,14 @@ public class XmPhotoViewFragment extends Fragment {
     private ProgressWheel progressView;
     private TextView wait;
     private TextView error;
-    private ImageView mImgOrigin;
     private RelativeLayout mRlyImageOrigin;
+    private ImageView mImgOrigin;
 
     private XmPhotoViewData mPhotoData;
     private String largeUrl;
     private String originUrl;
+
+    private static int OFFSET_IMAGE_ORIGIN = 100;
 
     public static XmPhotoViewFragment newInstance(String originUrl, String largeUrl, XmPhotoViewData rect,
                                                   boolean animationIn, boolean firstOpenPage) {
@@ -53,15 +57,11 @@ public class XmPhotoViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.layer_gallery_container, container, false);
         progressView = (ProgressWheel) view.findViewById(R.id.loading);
-        wait = (TextView) view.findViewById(R.id.wait);
         error = (TextView) view.findViewById(R.id.error);
-        mImgOrigin = (ImageView) view.findViewById(R.id.img_gallery_origin_view);
         mRlyImageOrigin = (RelativeLayout) view.findViewById(R.id.rly_gallery_origin_view);
+        mImgOrigin = (ImageView) view.findViewById(R.id.v_img_origin);
 
         initData();
-
-        // load origin image
-        XmImageLoader.getInstance().loadImage(originUrl, mImgOrigin);
 
 
         // load the large bitmap
@@ -74,13 +74,16 @@ public class XmPhotoViewFragment extends Fragment {
             @Override
             public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
                 progressView.setVisibility(View.GONE);
+                error.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 progressView.setVisibility(View.GONE);
-                mImgOrigin.setVisibility(View.GONE);
+                error.setVisibility(View.GONE);
+                mImgOrigin.setVisibility(View.INVISIBLE);
                 displayPicture(false);
+
             }
 
             @Override
@@ -101,7 +104,7 @@ public class XmPhotoViewFragment extends Fragment {
         return view;
     }
 
-    private void initData(){
+    private void initData() {
         Bundle bundle = getArguments();
         largeUrl = bundle.getString("large_url");
         originUrl = bundle.getString("origin_url");
@@ -112,9 +115,34 @@ public class XmPhotoViewFragment extends Fragment {
 
         // mphotoData fail null, beause when image not loaded success
         RelativeLayout.LayoutParams imgParams = (RelativeLayout.LayoutParams) mImgOrigin.getLayoutParams();
-        imgParams.width = mPhotoData.thumbnailWidth;
-        imgParams.height = mPhotoData.thumbnailHeight;
+        if (mPhotoData != null && imgParams != null) {
+            updateOriginImageParams(imgParams);
+            XmImageLoader.getInstance().loadImage(originUrl, mImgOrigin);
+
+        } else {
+            // not get data and set visibility gone
+            mImgOrigin.setVisibility(View.GONE);
+        }
+    }
+
+    private void updateOriginImageParams(RelativeLayout.LayoutParams imgParams) {
+        int imageWidth = mPhotoData.thumbnailWidth;
+        int imageHeight = mPhotoData.thumbnailHeight;
+
+        DisplayMetrics displayMetrics = XmApplication.getInstance().getDisplayMetrics();
+        int screenWidth = displayMetrics.widthPixels;
+        int screenHeight = displayMetrics.heightPixels;
+
+        if (imageWidth >= imageHeight) {
+            imgParams.width = screenWidth;
+            imgParams.height = (int) ((imgParams.width / (float) imageWidth) * imageHeight) - OFFSET_IMAGE_ORIGIN;
+        } else {
+            imgParams.height = screenHeight / 2;
+            imgParams.width = (int) ((imgParams.height / (float) imageHeight) * imageWidth);
+        }
+
         mImgOrigin.setLayoutParams(imgParams);
+        mImgOrigin.setVisibility(View.VISIBLE);
     }
 
     private void displayPicture(boolean animateIn) {
