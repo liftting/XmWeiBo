@@ -174,7 +174,7 @@ public class XmPhotoViewFragment extends Fragment {
 
         if (fragment == null) {
             if (XmImageUtil.isGifPicture(largeUrl)) {
-                fragment = GeneralPictureFragment.newInstance(largeUrl, rect, animateIn);
+                fragment = GifPictureFragment.newInstance(largeUrl, rect, animateIn);
             } else {
                 fragment = GeneralPictureFragment.newInstance(largeUrl, rect, animateIn);
             }
