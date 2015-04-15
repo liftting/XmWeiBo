@@ -66,9 +66,9 @@ public class DragTopLayout extends FrameLayout {
 
     public static enum PanelState {
 
-        COLLAPSED(0),
-        EXPANDED(1),
-        SLIDING(2);
+        COLLAPSED(0), // 关闭
+        EXPANDED(1), // 扩展
+        SLIDING(2); // 滑动
 
         private int asInt;
 
