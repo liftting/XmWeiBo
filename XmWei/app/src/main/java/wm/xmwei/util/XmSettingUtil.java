@@ -40,13 +40,16 @@ public class XmSettingUtil {
     }
 
 
-
     // is allow to click the image close the gallery
     public static boolean allowClickToCloseGallery() {
         return true;
     }
 
     public static boolean getEnableBigAvatar() {
+        return true;
+    }
+
+    public static boolean getEnableCommentRepostListAvatar() {
         return true;
     }
 }

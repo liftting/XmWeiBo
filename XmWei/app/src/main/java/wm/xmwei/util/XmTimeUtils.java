@@ -176,9 +176,12 @@ public class XmTimeUtils {
     }
 
     public static void dealMills(DataItemDomain bean) {
-        Date date = new Date(bean.getCreated_at());
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        bean.setMills(calendar.getTimeInMillis());
+        String createTime = bean.getCreated_at();
+        if (createTime != null) {
+            Date date = new Date(createTime);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            bean.setMills(calendar.getTimeInMillis());
+        }
     }
 }

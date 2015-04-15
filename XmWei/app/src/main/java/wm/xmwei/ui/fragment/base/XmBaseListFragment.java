@@ -46,6 +46,7 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
     //data load worker manager
     protected static final int DB_CACHE_LOADER_ID = 0; // db cache manager
     protected static final int NEW_MSG_LOADER_ID = 1; // go to load the new message manager
+    @Deprecated
     protected static final int MIDDLE_MSG_LOADER_ID = 2;
     protected static final int OLD_MSG_LOADER_ID = 3;
 
@@ -124,6 +125,11 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
 
 
         createDataListAdapter();
+
+        if (mBaseDataAdapter != null) {
+            getListView().setAdapter(mBaseDataAdapter);
+        }
+
 
     }
 
@@ -355,6 +361,9 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
         return null;
     }
 
+    /**
+     * create the list data adapter
+     */
     protected abstract void createDataListAdapter();
 
     public abstract T getDataList();
@@ -363,7 +372,7 @@ public abstract class XmBaseListFragment<T extends DataListDomain> extends XmBas
 
     protected abstract void onNewDataLoaderSuccessCallback(T newValue, Bundle loaderArgs);
 
-    protected abstract void onOldDataLoaderSuccessCallback(T newValue);
+    protected abstract void onOldDataLoaderSuccessCallback(T oldValue);
 
 
 }

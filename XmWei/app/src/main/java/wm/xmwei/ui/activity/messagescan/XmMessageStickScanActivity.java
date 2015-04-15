@@ -13,6 +13,7 @@ import wm.xmwei.bean.DataMessageDomain;
 import wm.xmwei.core.lib.support.eventbus.EventBus;
 import wm.xmwei.core.selftest.TabFragment;
 import wm.xmwei.ui.activity.base.XmBaseActivity;
+import wm.xmwei.ui.fragment.messagescan.XmMessageCommentFragment;
 import wm.xmwei.ui.view.draptopout.DragTopLayout;
 import wm.xmwei.ui.view.indicator.XmTwoPageSlidingIndicator;
 import wm.xmwei.ui.view.lib.XmMessageScanHeaderView;
@@ -29,7 +30,7 @@ public class XmMessageStickScanActivity extends XmBaseActivity {
     private XmTwoPageSlidingIndicator mIndicator;
     private ViewPager mViewPager;
     private FragmentPagerAdapter mAdapter;
-    private TabFragment[] mFragments = new TabFragment[mTitles.length];
+    private Fragment[] mFragments = new Fragment[mTitles.length];
 
     private DragTopLayout dragLayout;
 
@@ -72,9 +73,9 @@ public class XmMessageStickScanActivity extends XmBaseActivity {
     }
 
     private void initDatas() {
-        for (int i = 0; i < mTitles.length; i++) {
-            mFragments[i] = (TabFragment) TabFragment.newInstance(mTitles[i]);
-        }
+        mFragments[0] = XmMessageCommentFragment.newInstance(mDataMessageDomain);
+        mFragments[1] = TabFragment.newInstance(mTitles[1]);
+
 
         mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override

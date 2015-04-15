@@ -83,7 +83,6 @@ public class XmHomeBaseFragment extends XmBaseListFragment<DataMessageListDomain
         XmHomeDataAdapter adapter = new XmHomeDataAdapter(this.getActivity(),
                 getDataList().getItemList());
         mBaseDataAdapter = adapter;
-        getListView().setAdapter(mBaseDataAdapter);
     }
 
     @Override
