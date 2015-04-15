@@ -39,8 +39,14 @@ public class XmSettingUtil {
         return false;
     }
 
+
+
     // is allow to click the image close the gallery
     public static boolean allowClickToCloseGallery() {
+        return true;
+    }
+
+    public static boolean getEnableBigAvatar() {
         return true;
     }
 }

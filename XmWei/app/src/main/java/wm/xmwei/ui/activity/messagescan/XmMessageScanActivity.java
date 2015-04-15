@@ -38,6 +38,8 @@ import wm.xmwei.ui.view.observablescrollview.ScrollUtils;
 /**
  * this is handle the operation
  */
+
+@Deprecated
 public class XmMessageScanActivity extends XmBaseActivity implements ObservableScrollViewCallbacks {
 
     private ViewPager mPager;

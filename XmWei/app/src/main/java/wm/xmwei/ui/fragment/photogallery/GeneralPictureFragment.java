@@ -3,6 +3,7 @@ package wm.xmwei.ui.fragment.photogallery;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.sina.weibo.sdk.utils.Utility;
+
+import java.lang.reflect.Field;
 
 import wm.xmwei.R;
 import wm.xmwei.core.debug.AppLogger;
@@ -247,6 +250,5 @@ public class GeneralPictureFragment extends Fragment {
 
         animationSet.start();
     }
-
 
 }

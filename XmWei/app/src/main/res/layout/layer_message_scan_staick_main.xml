@@ -10,35 +10,19 @@
         android:background="@color/white"
         android:id="@+id/v_message_stick_drag_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:dtlCollapseOffset="0px"
+        app:dtlOverDrag="false">
 
         <!--top view-->
-        <LinearLayout
-            android:id="@+id/top_view"
+
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:animateLayoutChanges="true"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:id="@+id/top_view">
 
-            <TextView
-                android:id="@+id/text"
-                android:text="Top View"
-                android:textSize="18sp"
-                android:textColor="@color/white"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="40dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
 
-            <ImageView
-                android:id="@+id/image_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="20dp"
-                android:src="@drawable/ic_launcher" />
-        </LinearLayout>
+        </FrameLayout>
 
         <!--content view-->
         <LinearLayout

@@ -109,7 +109,7 @@
             android:lineSpacingMultiplier="1.2"
             android:clickable="true" />
 
-
+        <!-- 用户发送的内容，包含的只有一张图片时， -->
         <wm.xmwei.ui.view.lib.TimeLineImageView
             android:id="@+id/content_pic"
             android:layout_below="@+id/content"
@@ -120,7 +120,7 @@
             android:padding="2dp"
             android:scaleType="fitCenter"
             android:layout_centerHorizontal="true" />
-
+        <!-- 用户发送的内容为多图的时候，显示列表结构 -->
         <GridLayout
             android:id="@+id/content_pic_multi"
             android:layout_below="@+id/content"
@@ -180,7 +180,7 @@
             android:visibility="gone"
             android:clickable="false" />
 
-
+        <!-- 当有人回复时，显示的图片为一张时 -->
         <wm.xmwei.ui.view.lib.TimeLineImageView
             android:layout_marginTop="5dp"
             android:layout_below="@+id/repost_content"
@@ -194,6 +194,7 @@
             android:scaleType="fitCenter"
             android:layout_centerHorizontal="true" />
 
+        <!-- 当有人回复时，显示的图片有可能是多图的列表 -->
         <GridLayout
             android:id="@+id/repost_content__pic_multi"
             android:layout_below="@+id/repost_content"

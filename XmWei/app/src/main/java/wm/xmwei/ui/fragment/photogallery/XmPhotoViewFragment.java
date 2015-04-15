@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.lang.reflect.Field;
+
 import wm.xmwei.R;
 import wm.xmwei.XmApplication;
 import wm.xmwei.core.debug.AppLogger;
@@ -154,6 +156,11 @@ public class XmPhotoViewFragment extends Fragment {
         mImgOrigin.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * 在调用display时，因为这个是异步的，所以可能activity对象还存在，但是已经被destory了，要注意
+     *
+     * @param animateIn
+     */
     private void displayPicture(boolean animateIn) {
         XmPhotoViewScanActivity activity = (XmPhotoViewScanActivity) getActivity();
 
@@ -170,6 +177,9 @@ public class XmPhotoViewFragment extends Fragment {
             getArguments().putBoolean("firstOpenPage", false);
         }
 
+
+        //在调用getChildFragmentManager() 时，可能Activity has been destroyed
+
         Fragment fragment = getChildFragmentManager().findFragmentByTag("imagePosition-" + imagePosition);
 
         if (fragment == null) {
@@ -179,6 +189,8 @@ public class XmPhotoViewFragment extends Fragment {
                 fragment = GeneralPictureFragment.newInstance(largeUrl, rect, animateIn);
             }
         }
+
+
         getChildFragmentManager().beginTransaction().replace(R.id.child, fragment, "imagePosition-" + imagePosition)
                 .commitAllowingStateLoss();
 
@@ -202,6 +214,21 @@ public class XmPhotoViewFragment extends Fragment {
         if (fragment instanceof GeneralPictureFragment) {
             GeneralPictureFragment child = (GeneralPictureFragment) fragment;
             child.animationExit(backgroundAnimator);
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        try {
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
         }
     }
 

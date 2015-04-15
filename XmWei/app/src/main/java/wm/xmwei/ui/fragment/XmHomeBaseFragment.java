@@ -93,7 +93,8 @@ public class XmHomeBaseFragment extends XmBaseListFragment<DataMessageListDomain
 
     @Override
     protected void onListViewItemClick(AdapterView parent, View view, int position, long id) {
-        Intent intent = XmMessageStickScanActivity.newIntent();
+        Intent intent = XmMessageStickScanActivity.newIntent(getDataList().getItem(position),
+                XmApplication.getInstance().getUserBingDomain().getAccess_token());
         startActivity(intent);
     }
 

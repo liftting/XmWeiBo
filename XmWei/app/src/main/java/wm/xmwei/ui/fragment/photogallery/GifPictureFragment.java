@@ -15,6 +15,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 
 import wm.xmwei.R;
 import wm.xmwei.core.lib.support.view.gif.GifDrawable;
@@ -343,6 +344,5 @@ public class GifPictureFragment extends Fragment {
             animationSet.start();
         }
     }
-
 
 }

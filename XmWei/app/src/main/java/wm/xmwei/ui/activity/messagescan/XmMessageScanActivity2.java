@@ -23,6 +23,7 @@ import wm.xmwei.ui.view.observablescrollview.ScrollUtils;
 
 /**
  */
+@Deprecated
 public class XmMessageScanActivity2 extends XmBaseActivity {
 
     private ViewPager mPager;

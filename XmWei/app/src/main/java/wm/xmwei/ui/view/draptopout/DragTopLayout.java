@@ -293,6 +293,19 @@ public class DragTopLayout extends FrameLayout {
         }
     }
 
+    /**
+     * // 判断child是否是拖动的目标
+     tryCaptureView(View child, int pointerId)
+     // 拖动位置的处理，可以处理拖动过程中的最高位置或者最低位置
+     clampViewPositionVertical(View child, int top, int dy)
+     // 拖动后view位置的改变
+     onViewPositionChanged(View view, int left, int top, int dx, int dy)
+     // 拖动手势释放后的处理
+     onViewReleased(View releasedChild, float xvel, float yvel)
+     // 拖动状态的改变
+     onViewDragStateChanged(int state)
+     */
+
     private ViewDragHelper.Callback callback = new ViewDragHelper.Callback() {
         @Override
         public boolean tryCaptureView(View child, int pointerId) {

@@ -124,6 +124,10 @@ public class TimeLineAvatarImageView extends ImageView implements IXmDrawable {
 
     }
 
+    /**
+     * 检查user级别的
+     * @param user
+     */
     public void checkVerified(UserDomain user) {
         if (user != null && user.isVerified() && !TextUtils.isEmpty(user.getVerified_reason())) {
             if (user.isPersonalV()) {
