@@ -481,6 +481,11 @@ public class DragTopLayout extends FrameLayout {
         }
     }
 
+    /**
+     * 设置是否拦截掉事件
+     * @param shouldIntercept
+     * @return
+     */
     public DragTopLayout setTouchMode(boolean shouldIntercept) {
         this.shouldIntercept = shouldIntercept;
         return this;

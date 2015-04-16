@@ -15,11 +15,7 @@
 
         <activity android:name=".ui.activity.XmSplashActivity">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
 
-            </intent-filter>
         </activity>
 
         <activity android:name=".ui.activity.XmMainActivity">
@@ -28,7 +24,11 @@
         </activity>
 
         <activity android:name=".ui.activity.login.XmUserBingActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
 
+            </intent-filter>
 
         </activity>
 
@@ -69,6 +69,11 @@
         </activity>
 
         <activity android:name=".ui.activity.messagescan.XmMessageStickScanActivity">
+
+
+        </activity>
+
+        <activity android:name=".core.selftest.viewdraghelper.XmViewDragTestAct">
 
 
         </activity>

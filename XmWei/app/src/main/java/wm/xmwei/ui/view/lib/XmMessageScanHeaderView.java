@@ -164,7 +164,7 @@ public class XmMessageScanHeaderView extends LinearLayout {
                 if (XmSettingUtil.getEnableBigPic()) {
                     XmImageLoader.getInstance().loadImage(dataMessageDomain.getHighPicUrls().get(i), pic.getImageView());
                 } else {
-                    XmImageLoader.getInstance().loadImage(dataMessageDomain.getMiddlePicUrls().get(i), pic.getImageView());
+                    XmImageLoader.getInstance().loadImage(dataMessageDomain.getThumbnailPicUrls().get(i), pic.getImageView());
                 }
 
                 final int selectPos = i;
